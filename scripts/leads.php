@@ -1,7 +1,7 @@
 <h2>Leads Mother Fucker!</h2>
 
 <?php
-	if($_POST['submit'] == 'submit'){
+	if(isset($_POST['submit'])){
 		echo "Input submitted mother fucker!";
 	}
 	else{
