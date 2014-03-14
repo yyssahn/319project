@@ -20,7 +20,7 @@
 		</ul>
 		
 				<div class="navbar-header pull-right">
-					<a class="navbar-brand" href="Logout.php">Log out</a>
+					<a class="navbar-brand" href="index.php?content=logout">Logout</a>
 				</div>
 	</div>
 	
