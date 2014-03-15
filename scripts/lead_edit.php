@@ -1,4 +1,6 @@
-<h2>Lead Edit Page Mother Fucker!</h2>
+<div class="page-header">
+	<h2>Lead Edit Page Mother Fucker!</h2>
+</div>
 
 <?php
 	// Database credentials

@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container" style="height:140%">
 	<?php 
 		session_start();
 
 		if(!isset($_SESSION['Input_username'])) {
-			header("Location:Login page.html");
+			header("Location:login_page.html");
 		}
 	
 		include("head.php");
@@ -23,7 +23,7 @@
 	?>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="../bootstrap/js/jquery-1.11.0.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="../bootstrap/js/bootstrap.min.js"></script>
 

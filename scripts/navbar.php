@@ -1,27 +1,26 @@
 <nav class="navbar navbar-inverse" role="navigation">
-	<div class="navbar-header">
-		 <a class="navbar-brand" href="index.php?content=home">Home</a>
-	</div>
-	
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<ul class="nav navbar-nav">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="index.php?content=leads">Leads</a>
-				</div>
+		<ul class="nav nav-pills">
+			<li class="active">
+				<a class="navbar-brand" href="index.php?content=home">Home</a>
+			</li>
+			<li>
+				<a class="navbar-brand" href="index.php?content=leads">Leads</a>
+			</li>
 
+			<li>
+				<a class="navbar-brand" href="index.php?content=notifications">Notifications</a>
+			</li>
 
-				<div class="navbar-header">
-					<a class="navbar-brand" href="index.php?content=notifications">Notifications</a>
-				</div>
-
-				 <div class="navbar-header">
-					<a class="navbar-brand" href="index.php?content=settings">Settings</a>
-				</div>
+			<li>
+				<a class="navbar-brand" href="index.php?content=settings">Settings</a>
+			</li>
+			
+			<div class="navbar-header pull-right">
+				<a class="navbar-brand" href="Logout.php">Log out</a>
+			</div>
 		</ul>
-		
-				<div class="navbar-header pull-right">
-					<a class="navbar-brand" href="Logout.php">Log out</a>
-				</div>
+			
 	</div>
 	
 	<div class="col-md-6">

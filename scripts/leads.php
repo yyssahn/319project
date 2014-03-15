@@ -1,11 +1,13 @@
-<h2>Leads Mother Fucker!</h2>
+<div class="page-header">
+	<h2>Leads Mother Fucker!</h2>
+</div>
 
 <?php
 	if(isset($_POST['submit'])){
 		echo "Input submitted mother fucker!";
 	}
 	else{
-		echo "<p><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></p>";
+		echo "<div class='well'><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></div>";
 		echo "<hr />";
 		// Database credentials
 		$DBServer = "localhost";
@@ -27,10 +29,10 @@
 		else{ 
 			$result_array = $result->fetch_all(MYSQLI_ASSOC);
 ?>
-		<!--Options for narrowing search results-->
+		<!--Categories  for narrowing search results.  Options are populated from database-->
 		<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-			<div class="jumbotron">
-				<div class="row">
+			<div class="well">
+				<div class="row clearfix">
 					<div class="col-md-2">Client Name:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="client" size="5">
@@ -56,7 +58,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row clearfix">
 					<div class="col-md-2">Idea Type:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="type" size="5">
@@ -82,7 +84,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row clearfix">
 					<div class="col-md-2">Organization's Mandate:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="mandate" size="5">
@@ -108,7 +110,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row clearfix">
 					<div class="col-md-2">Main Activities:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="activities" size="5">
@@ -134,7 +136,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row clearfix">
 					<div class="col-md-2">Possible Disciplines:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="disciplines" size="5">
@@ -160,7 +162,7 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row clearfix">
 					<div class="col-md-2">Current Status:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="status" size="5">
@@ -175,7 +177,7 @@
 				</div>
 			</div>	
 			
-			<div class="row">
+			<div class="row clearfix">
 				<div class="col-md-offset-11">
 					<input type="submit" class="btn btn-large btn-primary" name="submit" value="Submit">
 					<input type="hidden" name="submit" value="submit">
