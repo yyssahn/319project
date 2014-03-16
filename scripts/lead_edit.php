@@ -24,7 +24,7 @@
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 	<form action="index.php?content=lead_handler" method="POST">
-		<h4><strong>Client:</strong></h4>
+		<h4><strong>Community Partner:</strong></h4>
 		<hr />
 		<div class="jumbotron">
 			<div class="row">

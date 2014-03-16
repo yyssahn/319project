@@ -2,6 +2,7 @@
 	<?php 
 		session_start();
 
+		// For keeping user logged in
 		if(!isset($_SESSION['Input_username'])) {
 			header("Location:login_page.html");
 		}

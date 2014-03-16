@@ -3570,6 +3570,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav-pills > li > a {
   border-radius: 4px;
+  margin-bottom: 10px;
 }
 .nav-pills > li + li {
   margin-left: 2px;

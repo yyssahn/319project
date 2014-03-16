@@ -3,57 +3,60 @@
 </div>
 
 <?php
+	include('database_helper.php');
 	if(isset($_POST['submit'])){
 		echo "Input submitted mother fucker!";
 	}
 	else{
 		echo "<div class='well'><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></div>";
 		echo "<hr />";
-		// Database credentials
-		$DBServer = "localhost";
-		$DBUser = "root";
-		$DBPass = "";
-		$DBName = "cbel_db";
-		 
+		
 		// Connect to database
-		$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
-		if($conn->connect_error)
-			trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+		$db = new DatabaseHelper();
 		
-		// Query database
+		// Get  category options
 		$sql = "SELECT * FROM CategoryOptions";
-		$result = $conn->query($sql);
+		$s = $db->prepareStatement($sql);
+		$db->executeStatement($s);
+		$categories = $db->getResult();
 		
-		if($result === false)
-			trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR); 
-		else{ 
-			$result_array = $result->fetch_all(MYSQLI_ASSOC);
+		// Get community partners
+		$sql = "SELECT community_partner FROM CommunityPartner";
+		$s = $db->prepareStatement($sql);
+		$db->executeStatement($s);
+		$partners = $db->getResult();
+		
+		// Get  CBEL lead names
+		$sql = "SELECT idea_name FROM CBEL_Lead";
+		$s = $db->prepareStatement($sql);
+		$db->executeStatement($s);
+		$names = $db->getResult();
 ?>
 		<!--Categories  for narrowing search results.  Options are populated from database-->
 		<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
 			<div class="well">
 				<div class="row clearfix">
-					<div class="col-md-2">Client Name:</div>
+					<div class="col-md-2">Community Partner:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="client" size="5">
-							<option value="client1">Client 1</option>
-							<option value="client2">Client 2</option>
-							<option value="client3">Client 3</option>
-							<option value="client4">Client 4</option>
-							<option value="client5">Client 5</option>
-							<option value="client6">Client 6</option>
+							<?php
+								foreach($partners as $row){
+									if($row['community_partner'] != NULL)
+										echo "<option value='{$row['community_partner']}'>".$row['community_partner']."</option>";
+								}
+							?>
 						</select>
 					</div>
 					
 					<div class="col-md-2">Idea Name:</div>
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="name" size="5">
-							<option value="name1">Name 1</option>
-							<option value="name2">Name 2</option>
-							<option value="name3">Name 3</option>
-							<option value="name4">Name 4</option>
-							<option value="name5">Name 5</option>
-							<option value="name6">Name 6</option>
+							<?php
+								foreach($names as $row){
+									if($row['idea_name'] != NULL)
+										echo "<option value='{$row['idea_name']}'>".$row['idea_name']."</option>";
+								}
+							?>
 						</select>
 					</div>
 				</div>
@@ -63,7 +66,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="type" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['idea_type'] != NULL)
 										echo "<option value='{$row['idea_type']}'>".$row['idea_type']."</option>";
 								}
@@ -75,7 +78,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="referral" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['referral'] != NULL)
 										echo "<option value='{$row['referral']}'>".$row['referral']."</option>";
 								}
@@ -89,7 +92,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="mandate" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['mandate'] != NULL)
 										echo "<option value='{$row['mandate']}'>".$row['mandate']."</option>";
 								}
@@ -101,7 +104,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="focus" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['focus'] != NULL)
 										echo "<option value='{$row['focus']}'>".$row['focus']."</option>";
 								}
@@ -115,7 +118,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="activities" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['main_activities'] != NULL)
 										echo "<option value='{$row['main_activities']}'>".$row['main_activities']."</option>";
 								}
@@ -127,7 +130,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="delivery" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['delivery_location'] != NULL)
 										echo "<option value='{$row['delivery_location']}'>".$row['delivery_location']."</option>";
 								}
@@ -141,7 +144,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="disciplines" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['disciplines'] != NULL)
 										echo "<option value='{$row['disciplines']}'>".$row['disciplines']."</option>";
 								}
@@ -153,7 +156,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="timeframe" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['timeframe'] != NULL)
 										echo "<option value='{$row['timeframe']}'>".$row['timeframe']."</option>";
 								}
@@ -167,7 +170,7 @@
 					<div class="col-md-4">
 						<select multiple="multiple" class="form-control" name="status" size="5">
 							<?php
-								foreach($result_array as $row){
+								foreach($categories as $row){
 									if($row['referral'] != NULL)
 										echo "<option value='{$row['status']}'>".$row['status']."</option>";
 								}
@@ -185,8 +188,6 @@
 			</div>
 		</form>
 <?php 
-		$result->free();
-		$conn->close();
-		}
+
 	} 
 ?>
