@@ -1,21 +1,22 @@
 <?php
-	$name = $_POST['lead_name'];
-	print $name;
+	/*
+	include('database_helper.php');
 	
-	$conn = new mysqli('localhost', 'root', '', 'cbel_db');
+	$db = new DatabaseHelper();
 	
-	if(mysqli_connect_errno()) {
-      echo "Connection Failed: " . mysqli_connect_errno();
-      exit();
-   }
-   
-   if($stmt = $conn -> prepare("INSERT INTO CBEL_Lead VALUES(NULL,NULL,'NULL',?,'NULL','NULL','NULL','NULL','NULL','NULL'
-													,'NULL','NULL','NULL')")){
-		$stmt->bind_param("s", $name);
-		$stmt->execute();
-		$stmt->bind_result($result);
-		$stmt->close();
-   }
-   
-   $conn->close();
+	$sql = "INSERT INTO CBEL_Lead(pid, idea_name, description, idea_type, referral, mandate, focus, main_activities, location, 
+															disciplines, timeframe, status, ) 
+										VALUES(2, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	$db->prepareStatement($sql);
+	$db->bindParameters('isssssssssss', $par);
+	
+	foreach($par as $element){
+		
+		$db->executeStatement();
+	}
+	*/
+	
+	
+	foreach($_POST as $key=>$value)
+			print "$key=$value";
 ?> 

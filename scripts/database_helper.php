@@ -36,6 +36,9 @@ class DatabaseHelper{
 			trigger_error($this->conn->error, E_USER_ERROR);
 	}
 	
+	public function bindParameters($params){
+	
+	}
 	/* Execute Statement */
 	public function executeStatement($stmt){
 		$this->stmt ->execute();

@@ -3,25 +3,16 @@
 </div>
 
 <?php
-	// Database credentials
-	$DBServer = "localhost";
-	$DBUser = "root";
-	$DBPass = "";
-	$DBName = "cbel_db";
-	 
+	include('database_helper.php');
+	
 	// Connect to database
-	$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
-	if($conn->connect_error)
-		trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+	$db = new DatabaseHelper();
 	
-	// Query database
+	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";
-	$result = $conn->query($sql);
-	
-	if($result === false)
-		trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $conn->error, E_USER_ERROR); 
-	else{ 
-		$result_array = $result->fetch_all(MYSQLI_ASSOC);
+	$s = $db->prepareStatement($sql);
+	$db->executeStatement($s);
+	$categories = $db->getResult();
 ?>
 	<form action="index.php?content=lead_handler" method="POST">
 		<h4><strong>Community Partner:</strong></h4>
@@ -74,7 +65,7 @@
 					<select class="form-control" name="idea_type" placeholder="Select One">
 						<?php
 							echo "<option>".NULL."</option>";
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['idea_type'] != NULL)
 									echo "<option value='{$row['idea_type']}'>".$row['idea_type']."</option>";
 							}
@@ -86,7 +77,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="referral" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['mandate'] != NULL)
 									echo "<option value='{$row['referral']}'>".$row['referral']."</option>";
 							}
@@ -100,7 +91,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="mandate" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['mandate'] != NULL)
 									echo "<option value='{$row['mandate']}'>".$row['mandate']."</option>";
 							}
@@ -112,7 +103,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="focus" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['focus'] != NULL)
 									echo "<option value='{$row['focus']}'>".$row['focus']."</option>";
 							}
@@ -126,7 +117,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="activities" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['main_activities'] != NULL)
 									echo "<option value='{$row['main_activities']}'>".$row['main_activities']."</option>";
 							}
@@ -138,7 +129,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="delivery" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['delivery_location'] != NULL)
 									echo "<option value='{$row['delivery_location']}'>".$row['delivery_location']."</option>";
 							}
@@ -152,7 +143,7 @@
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="disciplines" size="5">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['disciplines'] != NULL)
 									echo "<option value='{$row['disciplines']}'>".$row['disciplines']."</option>";
 							}
@@ -164,7 +155,7 @@
 				<div class="col-md-4">
 					<select class="form-control" name="timeframe">
 						<?php
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['timeframe'] != NULL)
 									echo "<option value='{$row['timeframe']}'>".$row['timeframe']."</option>";
 							}
@@ -179,7 +170,7 @@
 					<select class="form-control" name="status">
 						<?php
 							echo "<option>".NULL."</option>";
-							foreach($result_array as $row){
+							foreach($categories as $row){
 								if($row['referral'] != NULL)
 									echo "<option value='{$row['status']}'>".$row['status']."</option>";
 							}
@@ -206,10 +197,3 @@
 			</div>
 		</div>
 	</form>
-	
-<?php 
-		$result->free();
-		$conn->close();
-	}
-	
-?>
