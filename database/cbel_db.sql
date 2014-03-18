@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `cbel_db` /*!40100 DEFAULT CHARACTER SET latin1 *
 USE `cbel_db`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: cbel_db
+-- Host: localhost    Database: cbel_db
 -- ------------------------------------------------------
 -- Server version	5.6.16
 
@@ -125,6 +125,11 @@ CREATE TABLE `user` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `firstname` varchar(45) NOT NULL,
+  `lastname` varchar(45) NOT NULL,
+  `phonenumber` varchar(14) NOT NULL,
+  `email` varchar(45) NOT NULL,
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -135,13 +140,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (100,'user1','pass'),(101,'user2','swag');
+INSERT INTO `user` VALUES (100,'user1','pass',0,'','','',''),(101,'user2','swag',0,'','','','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'cbel_db'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -152,4 +153,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-16 22:48:11
+-- Dump completed on 2014-03-18  0:55:34
