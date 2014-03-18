@@ -16,8 +16,8 @@
 		
 		// Get  category options
 		$sql = "SELECT * FROM CategoryOptions";
-		$s = $db->prepareStatement($sql);
-		$db->executeStatement($s);
+		$stmt = $db->prepareStatement($sql);
+		$db->executeStatement($stmt);
 		$categories = $db->getResult();
 		
 		// Get community partners

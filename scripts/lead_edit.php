@@ -73,7 +73,7 @@
 					</select>
 				</div>
 				
-				<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
+				<label for="referral[ ]" class="col-md-2 control-label">Possible Program Referral:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="referral" size="5">
 						<?php
