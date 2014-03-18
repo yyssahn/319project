@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <?php
+
 $phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
 $user = $PWSRD = $CPWSRD = $Fname = $Lname = $Telep = $Email = "";
 $userERR = $PWSRDERR = $CPWSRDERR = $FnameERR = $LnameERR = $TelepERR = $EmailERR = "";
 
+include('database_helper.php');
+
+$dbHelper = new DatabaseHelper();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["Fname"]))
@@ -127,10 +131,20 @@ function mailExists($db, $mail){ //TODO: MAKE IT NO?
 	return ($resultMail->num_rows != 0);
 }
 
-function runQuery($db, $query){
-	$db->query($query);
-	return($db->commit());
+function runInsert($db, $u, $p, $f, $l, $ph, $e){
+	$query = "INSERT INTO user( username, password, firstname, lastname, phonenumber, email) 
+		VALUES(?, ?, ?, ?, ?, ?)";
+	$params = array();
+	array_push($params, $u, $p, $f, $l, $ph, $e);
+	$stmt = $db -> prepareStatement($query);
+
+	$param_types = array();
+	array_push($param_types, 's', 's', 's', 's', 's', 's');
+
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
 }
+
 
 function isValid($pattern, $value){
 	return preg_match($pattern, $value) ? true : false;
@@ -142,7 +156,9 @@ if(array_key_exists("createNewACC" , $_POST)){
 	if(noUserExists($conn , $user) && samePassword($PWSRD, $CPWSRD) && 
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
-		if(runQuery($conn, "insert into customer values ($user, $PWSRD, $Fname,$Lname,$Telep,Email)")){
+
+		runInsert($dbHelper, $user, $PWSRD, $CPWSRD, $Fname, $Lname, $Telep, $Email);
+
 			echo "Congratulations, you have been registered. Sign in plz";
 		$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
 		echo ", $result->num_rows. Should be 1.";
@@ -151,7 +167,7 @@ if(array_key_exists("createNewACC" , $_POST)){
     	header('Refresh: 5; http://localhost/new/project/scripts/login_page.html');    
 
 
-		}
+		
 	}
 	else
 		echo "$user - Already exists - OR passwords dont match";
