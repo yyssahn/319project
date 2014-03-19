@@ -136,6 +136,7 @@ function deleteAccount($db, $uid){
 
 if (array_key_exists("delSubmit", $_GET)){
 	if(deleteAccount($conn, $uid)){
+		echo "string";
 		session_destroy();
 		header('Location: logout.php');
 	}

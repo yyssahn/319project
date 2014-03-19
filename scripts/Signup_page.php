@@ -157,7 +157,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
 
-		runInsert($dbHelper, $user, $PWSRD, $CPWSRD, $Fname, $Lname, $Telep, $Email);
+		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
 
 			echo "Congratulations, you have been registered. Sign in plz";
 		$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
