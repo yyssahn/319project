@@ -1,5 +1,6 @@
 <?php
 // Database credentials
+ob_start();
 $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
@@ -111,9 +112,9 @@ $u = $row[1];
 			</div>
 		</div>
 	</div>
-</form>
+<!--</form>-->
 	<br>
-<form method = "GET">
+<!--form method = "GET" action = "index.php?content=settings"-->
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label"></label>
@@ -134,9 +135,8 @@ function deleteAccount($db, $uid){
 }
 
 
-if (array_key_exists("delSubmit", $_GET)){
+if (array_key_exists("delSubmit", $_POST)){
 	if(deleteAccount($conn, $uid)){
-		echo "string";
 		session_destroy();
 		header('Location: logout.php');
 	}

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-unset($_SESSION['Input_username']);
+session_destroy();
 header("Location: login_page.html");
 
 ?>
