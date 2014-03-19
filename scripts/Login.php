@@ -33,6 +33,7 @@ $row = mysqli_fetch_array($result);
 if($row) {
 	// starts new session
 	$_SESSION['Input_username'] = $Input_username;
+	$_SESSION['User_ID'] = $row[0];
 	header("Location: index.php");
 
 }else {
