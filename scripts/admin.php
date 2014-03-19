@@ -76,7 +76,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                                                         
                                                                             foreach($listOfUsers as $username) {
                                                                                 //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
-                                                                                print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=lead_edit' class='btn btn-large btn-danger'>Delete User</a></div></td></tr>";
+                                                                                print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=admin' class='btn btn-large btn-danger'>Delete User</a></div></td></tr>";
                                                                             }
 									?>
 								</tbody>
@@ -109,7 +109,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                                                         
                                                                             foreach($listOfUsers as $username) {
                                                                                 //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
-                                                                                 print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Promote User</a></div></td></tr>";
+                                                                                 print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=admin' class='btn btn-large btn-success'>Promote User</a></div></td></tr>";
                                                                             }
 									?>
 									</tbody>
