@@ -18,19 +18,19 @@
 		$sql = "SELECT * FROM CategoryOptions";
 		$stmt = $db->prepareStatement($sql);
 		$db->executeStatement($stmt);
-		$categories = $db->getResult();
+		$categories = $db->getResult($db);
 		
 		// Get community partners
 		$sql = "SELECT community_partner FROM CommunityPartner";
 		$s = $db->prepareStatement($sql);
 		$db->executeStatement($s);
-		$partners = $db->getResult();
+		$partners = $db->getResult($db);
 		
 		// Get  CBEL lead names
-		$sql = "SELECT idea_name FROM CBEL_Lead";
+		$sql = "SELECT lead_name FROM CBEL_Lead";
 		$s = $db->prepareStatement($sql);
 		$db->executeStatement($s);
-		$names = $db->getResult();
+		$names = $db->getResult($db);
 ?>
 		<!--Categories  for narrowing search results.  Options are populated from database-->
 		<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -53,8 +53,8 @@
 						<select multiple="multiple" class="form-control" name="name" size="5">
 							<?php
 								foreach($names as $row){
-									if($row['idea_name'] != NULL)
-										echo "<option value='{$row['idea_name']}'>".$row['idea_name']."</option>";
+									if($row['lead_name'] != NULL)
+										echo "<option value='{$row['lead_name']}'>".$row['lead_name']."</option>";
 								}
 							?>
 						</select>

@@ -1,6 +1,8 @@
 <?php
 include('database_helper.php');
 
+$db = new DatabaseHelper();
+
 // Variables for inserting into database
 $referral = $mandate = $focus = $activities = '';
 //=========================================================================================================================
@@ -29,8 +31,6 @@ for(; $i<count($_POST['activities'])-1; $i++){
 }
 $activities .= $_POST['activities'][$i];
 //=========================================================================================================================
-$db = new DatabaseHelper();
-
 // Get pid to be associated with lead
 $sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
 $stmt = $db->prepareStatement($sql);

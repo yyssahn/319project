@@ -12,7 +12,7 @@
 	$sql = "SELECT * FROM CategoryOptions";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
-	$categories = $db->getResult();
+	$categories = $db->getResult($db);
 ?>
 	<form action="index.php?content=lead_handler" method="POST">
 		<h4><strong>Community Partner:</strong></h4>
