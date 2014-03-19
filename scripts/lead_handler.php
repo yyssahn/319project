@@ -43,7 +43,7 @@ $pid_results = $db->getResult($stmt);
 // If community partner exists, use its pid, else insert new community partner and use it's new pid
 if($pid_results == NULL){
 	$sql = "INSERT INTO CommunityPartner(community_partner, contact_name, email, phone) VALUES(?,?,?,?)";
-	$params = array($_POST['partner'], $_POST['contact_name'], $_POST['phone'], $_POST['email']);
+	$params = array($_POST['partner'], $_POST['contact_name'], $_POST['email'], $_POST['phone']);
 	$stmt = $db->prepareStatement($sql);
 	$param_types = array('s', 's', 's', 's');
 	$db->bindArray($stmt, $param_types, $params);
