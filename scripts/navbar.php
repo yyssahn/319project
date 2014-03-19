@@ -17,10 +17,12 @@
 				<a class="navbar-brand" href="index.php?content=settings">Settings</a>
 			</li>
 			
+                        <?php if ($_SESSION['isAdmin']) { ?>
 			<li <?php if($_GET['content'] == 'admin'){ ?> class="active" <?php } ?>>
 				<a class="navbar-brand" href="index.php?content=admin">Admin</a>
 			</li>
-			
+                        <?php } ?>
+                        
 			<div class="navbar-header pull-right">
 				<a class="navbar-brand" href="Logout.php">Log out</a>
 			</div>

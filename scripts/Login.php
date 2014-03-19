@@ -34,6 +34,7 @@ if($row) {
 	// starts new session
 	$_SESSION['Input_username'] = $Input_username;
 	$_SESSION['User_ID'] = $row[0];
+    $_SESSION['isAdmin'] = $row['admin'];
 	header("Location: index.php");
 
 }else {
