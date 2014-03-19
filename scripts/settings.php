@@ -52,8 +52,7 @@ if(array_key_exists("Usubmit", $_POST)){
 	updateInfo($dbhelp, $uid, $f, $l, $p, $e );
 }
 
-
-$result = $conn->query("SELECT * FROM user WHERE (uid = '$uid')");
+$result = $conn->query("SELECT username,firstname,lastname,phonenumber,email FROM user WHERE (uid = '$uid')");
 $row = mysqli_fetch_array($result);
 
 //Get all information about the account.
@@ -61,20 +60,30 @@ $fn = $row['firstname'];
 $ln = $row['lastname'];
 $ph = $row['phonenumber'];
 $e = $row['email'];
-$u = $row[1];
+$u = $row['username'];
 
-$conn->close();
 
 ?>
 
 <div class="page-header">
 	<h2>Settings Mother Fucker!</h2>
 </div>
-<!-- Need to add change password. 
-		Add changing all information that they have.
-		Add Delete Account. -->
+<!-- Need to SHOW PROPER ERROR MESSAGES ! NOT JUST U STUPID! 
+	Need to add checks for phone and email. -->
 <form method = "POST" action = "index.php?content=settings">
 <div class="well">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<label for="partner" class="col-md-3 control-label">Username:</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control" name="partner" placeholder="Enter Text"
+				value="<?php echo htmlspecialchars($u);?>" readonly>					
+			</div>
+		</div>
+	</div>
+
+	<br>
+
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">First Name:</label>
@@ -101,18 +110,6 @@ $conn->close();
 
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
-			<label for="partner" class="col-md-3 control-label">Email:</label>
-			<div class="col-md-8">
-				<input type="text" class="form-control" name="epartner" placeholder="Enter Text"
-				value="<?php echo htmlspecialchars($e);?>">
-			</div>
-		</div>
-	</div>
-	
-	<br>
-	
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Phone:</label>
 			<div class="col-md-8">
 				<input type="text" class="form-control" name="ppartner" placeholder="Enter Text"
@@ -125,21 +122,43 @@ $conn->close();
 	
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
-			<label for="partner" class="col-md-3 control-label">Username:</label>
+			<label for="partner" class="col-md-3 control-label">Email:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text"
-				value="<?php echo htmlspecialchars($u);?>">					
+				<input type="text" class="form-control" name="epartner" placeholder="Enter Text"
+				value="<?php echo htmlspecialchars($e);?>">
 			</div>
 		</div>
 	</div>
 	
+	<br>
+		<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<label for="partner" class="col-md-3 control-label"></label>
+			<div class="col-md-8">
+				<input type="submit" class="btn btn-large btn-primary pull-right" name="Usubmit" 
+				value="Update Information">				
+			</div>
+		</div>
+	</div>
+	<br>
+	
+	<p class="text-center" ><strong>TO CHANGE YOUR PASSWORD ENTER THE FOLLOWING FIELDS</strong></p>
+	
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<label for="partner" class="col-md-3 control-label">Old Password:</label>
+			<div class="col-md-8">
+				<input type="password" class="form-control" name="Opartner" placeholder="Enter Text">					
+			</div>
+		</div>
+	</div>
 	<br>
 	
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Password:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text">					
+				<input type="password" class="form-control" name="Ppartner" placeholder="Enter Text">					
 			</div>
 		</div>
 	</div>
@@ -150,35 +169,86 @@ $conn->close();
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Confirm Password:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text">					
+				<input type="password" class="form-control" name="CPpartner" placeholder="Enter Text">					
 			</div>
 		</div>
 	</div>
 	
 	<br>
-	
+
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label"></label>
 			<div class="col-md-8">
-				<input type="submit" class="btn btn-large btn-primary pull-right" name="Usubmit" value="UPDATE">				
+				<input type="submit" class="btn btn-large btn-primary pull-right" name="Psubmit" 
+				value="Update Password">		
+				<div class="col-md-8 col-md-pull-5">
+				<input type="submit" class="btn btn-large btn-primary pull-left" name="delSubmit" value="Delete Account">			
+			</div>		
 			</div>
 		</div>
 	</div>
-<!--</form>-->
+
 	<br>
-<!--form method = "GET" action = "index.php?content=settings"-->
-	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
-			<label for="partner" class="col-md-3 control-label"></label>
-			<div class="col-md-8">
-				<input type="submit" class="btn btn-large btn-primary pull-right" name="delSubmit" value="Delete Account">			
-			</div>
-		</div>
-	</div>
+
 	</form>
 
 </div>
+
+<?php
+
+function samePassword($pass, $confPass) {
+        return ($pass == $confPass && $pass != NULL);
+}
+
+//Check old pass is correct
+function correctOldPass($c, $id, $old){
+	$result = $c->query("SELECT username FROM user WHERE uid = '$id' AND password = '$old'" );
+	$row = mysqli_fetch_array($result);
+	return ($row != NULL);
+}
+
+//Update password in database
+function updatePass($dbhelp, $uid, $p){
+	$query = "UPDATE user 
+		SET password = ?
+		WHERE (uid = ?)";
+	$params = array();
+	array_push($params, $p, $uid);
+	$stmt = $dbhelp -> prepareStatement($query);
+
+	$param_types = array();
+	array_push($param_types, 's', 'i');
+
+	$dbhelp->bindArray($stmt, $param_types, $params);
+	$dbhelp->executeStatement($stmt);
+}
+
+//Update Password
+if(array_key_exists("Psubmit", $_POST)){
+	$old_pass = $_POST["Opartner"];
+	$new_pass = $_POST["Ppartner"];
+
+	if(samePassword($new_pass, $_POST["CPpartner"])){
+		if(correctOldPass($conn, $uid, $old_pass)){
+			updatePass($dbhelp, $uid, $new_pass);
+			echo "UPDATED SUCCESFULLY!!!!";
+		}
+		else
+			echo "YOU FUCKING STUPID.";
+	}
+	else
+		echo "YOU STUPID.";
+
+}
+
+$conn->close();
+?>
+
+
+
+
+
 
 
 
