@@ -2,7 +2,7 @@
 include('database_helper.php');
 
 // Variables for inserting into database
-$referral = $mandate = $focus = $activities = "";
+$referral = $mandate = $focus = $activities = NULL;
 
 // Take each array form each multi-select box in form and combine selected options into comma separated string
 $i=0;
@@ -29,15 +29,21 @@ for(; $i<count($_POST['activities'])-1; $i++){
 }
 $activities .= $_POST['activities'][$i];
 
-print $referral."<br />";
-print $mandate."<br />";
-print $focus."<br />";
-print $activities."<br />";
 
 $db = new DatabaseHelper();
 
+// Get pid to be associated with lead
+$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
+$params = array($_POST['partner'], $_POST['contact_name']);
+$stmt = $db->prepareStatement($sql);
+$param_types = array('s', 's');
+$db->bindArray($stmt, $param_types, $params);
+$db->executeStatement($stmt);
+$pids = $db->getArrayResult();
+var_dump($pids);
+/*
 // Create query and array of parameters and prepare statement
-$sql = "INSERT INTO CBEL_Lead(pid, idea_name, description, idea_type, referral, mandate, focus, main_activities, location, 
+$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 
 														disciplines, timeframe, status) 
 									VALUES(2, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -53,5 +59,5 @@ for($i=0; $i<11; $i++)
 // Bind parameters and execute statement	
 $db->bindArray($stmt, $param_types, $params);
 $db->executeStatement($stmt);
-
+*/
 ?> 

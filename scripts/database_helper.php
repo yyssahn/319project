@@ -32,6 +32,8 @@ class DatabaseHelper{
 		$this->stmt = $this->conn->prepare($sql);
 		if($this->stmt === false)
 			trigger_error($this->conn->error, E_USER_ERROR);
+			
+		return $this->stmt;
 	}
 	
 	/* Bind parameters.  May be removed */
@@ -67,6 +69,15 @@ class DatabaseHelper{
 		$result = $this->stmt->get_result();
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 		
+		return $result_array;
+	}
+	
+	public function getArrayResult(){
+		$result = $this->stmt->get_result();
+		while($row = $result->fetch_array(MYSQLI_ASSOC)) {
+			array_push($result_array, $row);
+		}
+		var_dump($result_array);
 		return $result_array;
 	}
 }
