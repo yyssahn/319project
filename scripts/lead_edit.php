@@ -73,9 +73,9 @@
 					</select>
 				</div>
 				
-				<label for="referral[ ]" class="col-md-2 control-label">Possible Program Referral:</label>
+				<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="referral" size="5">
+					<select multiple="multiple" class="form-control" name="referral[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['mandate'] != NULL)
@@ -89,7 +89,7 @@
 			<div class="row">
 				<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="mandate" size="5">
+					<select multiple="multiple" class="form-control" name="mandate[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['mandate'] != NULL)
@@ -101,7 +101,7 @@
 				
 				<label for="focus" class="col-md-2 control-label">Focus Area:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="focus" size="5">
+					<select multiple="multiple" class="form-control" name="focus[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['focus'] != NULL)
@@ -115,7 +115,7 @@
 			<div class="row">
 				<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="activities" size="5">
+					<select multiple="multiple" class="form-control" name="activities[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['main_activities'] != NULL)
