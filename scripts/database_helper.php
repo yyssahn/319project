@@ -55,7 +55,7 @@ class DatabaseHelper{
 		for($i=0; $i<count($param_types); $i++)
 			$a_params[] = & $array[$i];
 
-		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referenceing $array)
+		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referencing $array)
 		call_user_func_array(array($this->stmt, 'bind_param'), $a_params);
 	}
 	
