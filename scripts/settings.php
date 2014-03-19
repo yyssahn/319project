@@ -1,6 +1,8 @@
 <?php
+include('database_helper.php');
+$dbhelp = new DatabaseHelper();
+
 // Database credentials
-ob_start();
 $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
@@ -14,15 +16,54 @@ if($conn->connect_errno)
 
 $uid = $_SESSION['User_ID'];
 
+function deleteAccount($db, $uid){
+	return $result = $db -> query("DELETE FROM user WHERE (uid =  '$uid')");
+}
+
+//Updates everything other than the user.
+function updateInfo($db, $uid, $f, $l, $ph, $e){
+	$query = "UPDATE user 
+		SET firstname = ?, lastname = ?, phonenumber = ?, email = ?
+		WHERE (uid = ?)";
+	$params = array();
+	array_push($params, $f, $l, $ph, $e, $uid);
+	$stmt = $db -> prepareStatement($query);
+
+	$param_types = array();
+	array_push($param_types, 's', 's', 's', 's', 'i');
+
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
+}
+
+//Delete account
+if (array_key_exists("delSubmit", $_POST)){
+	if(deleteAccount($conn, $uid)){
+		session_destroy();
+		header('Location: logout.php');
+	}
+}
+
+//Update general info.
+if(array_key_exists("Usubmit", $_POST)){
+	$f = $_POST['fpartner'];	$l = $_POST['lpartner'];
+	$p = $_POST['ppartner'];	$e = $_POST['epartner'];
+
+	updateInfo($dbhelp, $uid, $f, $l, $p, $e );
+}
+
+
 $result = $conn->query("SELECT * FROM user WHERE (uid = '$uid')");
 $row = mysqli_fetch_array($result);
 
-$n = $row['firstname'] . " " . $row['lastname'];
+//Get all information about the account.
+$fn = $row['firstname'];
+$ln = $row['lastname'];
 $ph = $row['phonenumber'];
 $e = $row['email'];
 $u = $row[1];
 
-
+$conn->close();
 
 ?>
 
@@ -36,21 +77,33 @@ $u = $row[1];
 <div class="well">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
-			<label for="partner" class="col-md-3 control-label">Name:</label>
+			<label for="partner" class="col-md-3 control-label">First Name:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text"
-				 value="<?php echo htmlspecialchars($n);?>">
+				<input type="text" class="form-control" name="fpartner" placeholder="Enter Text"
+				 value="<?php echo htmlspecialchars($fn);?>">
 			</div>
 		</div>
 	</div>
 	
 	<br>
+
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<label for="partner" class="col-md-3 control-label">Last Name:</label>
+			<div class="col-md-8">
+				<input type="text" class="form-control" name="lpartner" placeholder="Enter Text"
+				 value="<?php echo htmlspecialchars($ln);?>">
+			</div>
+		</div>
+	</div>
 	
+	<br>
+
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Email:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text"
+				<input type="text" class="form-control" name="epartner" placeholder="Enter Text"
 				value="<?php echo htmlspecialchars($e);?>">
 			</div>
 		</div>
@@ -62,7 +115,7 @@ $u = $row[1];
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Phone:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="partner" placeholder="Enter Text"
+				<input type="text" class="form-control" name="ppartner" placeholder="Enter Text"
 				value="<?php echo htmlspecialchars($ph);?>">					
 			</div>
 		</div>
@@ -108,7 +161,7 @@ $u = $row[1];
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label"></label>
 			<div class="col-md-8">
-				<input type="submit" class="btn btn-large btn-primary pull-right" name="submit" value="UPDATE">				
+				<input type="submit" class="btn btn-large btn-primary pull-right" name="Usubmit" value="UPDATE">				
 			</div>
 		</div>
 	</div>
@@ -126,23 +179,6 @@ $u = $row[1];
 	</form>
 
 </div>
-
-<?php
-
-function deleteAccount($db, $uid){
-	return $result = $db -> query("DELETE FROM user WHERE (uid =  '$uid')");
-
-}
-
-
-if (array_key_exists("delSubmit", $_POST)){
-	if(deleteAccount($conn, $uid)){
-		session_destroy();
-		header('Location: logout.php');
-	}
-}
-
-?>
 
 
 
