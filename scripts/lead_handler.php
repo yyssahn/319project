@@ -2,8 +2,8 @@
 include('database_helper.php');
 
 // Variables for inserting into database
-$referral = $mandate = $focus = $activities = NULL;
-
+$referral = $mandate = $focus = $activities = '';
+//=========================================================================================================================
 // Take each array form each multi-select box in form and combine selected options into comma separated string
 $i=0;
 for(; $i<count($_POST['referral'])-1; $i++){
@@ -28,36 +28,58 @@ for(; $i<count($_POST['activities'])-1; $i++){
 	$activities .= $_POST['activities'][$i].", ";
 }
 $activities .= $_POST['activities'][$i];
-
-
+//=========================================================================================================================
 $db = new DatabaseHelper();
 
 // Get pid to be associated with lead
 $sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
-$params = array($_POST['partner'], $_POST['contact_name']);
 $stmt = $db->prepareStatement($sql);
+$params = array($_POST['partner'], $_POST['contact_name']);
 $param_types = array('s', 's');
 $db->bindArray($stmt, $param_types, $params);
 $db->executeStatement($stmt);
-$pids = $db->getArrayResult();
-var_dump($pids);
-/*
-// Create query and array of parameters and prepare statement
+$pid_results = $db->getResult($stmt);
+
+// If community partner exists, use its pid, else insert new community partner and use it's new pid
+if($pid_results == NULL){
+	$sql = "INSERT INTO CommunityPartner(community_partner, contact_name, email, phone) VALUES(?,?,?,?)";
+	$params = array($_POST['partner'], $_POST['contact_name'], $_POST['phone'], $_POST['email']);
+	$stmt = $db->prepareStatement($sql);
+	$param_types = array('s', 's', 's', 's');
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
+	
+	$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
+	$stmt = $db->prepareStatement($sql);
+	$params = array($_POST['partner'], $_POST['contact_name']);
+	$param_types = array('s', 's');
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
+	$pid_results = $db->getResult($stmt);
+	$pid = $pid_results[0]['pid'];
+}
+else{ 
+	$pid = $pid_results[0]['pid'];
+}
+//=========================================================================================================================
+// Prepare statement
 $sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 
 														disciplines, timeframe, status) 
-									VALUES(2, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-$params = array();
-array_push($params, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, $activities, 									$_POST['location'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status']);									
+									VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $db->prepareStatement($sql);
 
-// Set types of each parameter
+// Set array of parameters to be bound
+$params = array();
+array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+					$activities, $_POST['location'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status']);	
+
+// Set array of types of parameters to be bound				
 $param_types = array();
-for($i=0; $i<11; $i++)
+$param_types[0] = 'i';
+for($i=1; $i<12; $i++)
 	$param_types[] = 's'; // s = strung
 	
 // Bind parameters and execute statement	
 $db->bindArray($stmt, $param_types, $params);
 $db->executeStatement($stmt);
-*/
 ?> 

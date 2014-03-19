@@ -52,7 +52,7 @@ class DatabaseHelper{
 
 		// Populate array to be passed by reference to be bound	
 		$a_params[] = & $param_type;
-		for($i=0; $i<count($array); $i++)
+		for($i=0; $i<count($param_types); $i++)
 			$a_params[] = & $array[$i];
 
 		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referenceing $array)
@@ -65,19 +65,10 @@ class DatabaseHelper{
 	}
 
 	/* Store result in array */
-	public function getResult(){
+	public function getResult($stmt){
 		$result = $this->stmt->get_result();
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 		
-		return $result_array;
-	}
-	
-	public function getArrayResult(){
-		$result = $this->stmt->get_result();
-		while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-			array_push($result_array, $row);
-		}
-		var_dump($result_array);
 		return $result_array;
 	}
 }
