@@ -53,9 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) 
         	$EmailERR = "Incorrect Email";
     }
-
 }
-
 ?>
 
 <html>
@@ -206,11 +204,9 @@ function runInsert($db, $u, $p, $f, $l, $ph, $e){
 	$db->executeStatement($stmt);
 }
 
-
 function isValid($pattern, $value){
 	return preg_match($pattern, $value) ? true : false;
 }
-
 
 if(array_key_exists("createNewACC" , $_POST)){
 
