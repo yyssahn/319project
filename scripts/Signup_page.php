@@ -178,6 +178,7 @@ $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
 $DBName = "cbel_db";
+$key  =  $_POST['key'];
  
 // Connect to database
 $conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
@@ -191,11 +192,13 @@ function samePassword($pass, $confPass) {
  
 function noUserExists($db,$userE){
 	$result = $db->query("SELECT * FROM user WHERE (username = '$userE')");
+	echo "$result->num_rows";
 	return ($result->num_rows == 0);
 }
 
 function mailExists($db, $mail){
 	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail')");
+	echo "$resultMail->num_rows";
 	return ($resultMail->num_rows != 0);
 }
 
@@ -214,14 +217,19 @@ function runInsert($db, $u, $p, $f, $l, $ph, $e){
 }
 
 //Check if key exists in the database
-function checkKey($c, $k){
-	$resultKEY = $c->query("SELECT * FROM key WHERE (key = '$k')");
-	echo "$c->affected_rows";
-	return ($c->affected_rows == 1);
+function checkKey($db, $k){
+	$sql = "SELECT count(*) FROM genkeys WHERE unusedkey = ?";
+	$stmt = $db->prepareStatement($sql);
+	$params = array($k);
+	$param_types = array('s');
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
+	$key_results = $db->getResult($stmt);
+	return ($key_results[0]['count(*)'] == 1);
 }
 
 function deleteKey($db, $key){
-	$db->query("DELETE FROM key WHERE (key = '$key')");
+	$db->query("DELETE FROM genkeys WHERE (unusedkey = '$key')");
 	return($db->affected_rows == 1);
 }
 
@@ -235,8 +243,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
 
-			$key  =  $_POST['key'];
-		if(checkKey($conn, $key)){
+		if(checkKey($dbHelper, $key)){
 
 		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
 		if(deleteKey($conn, $key)){
