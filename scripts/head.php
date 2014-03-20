@@ -8,6 +8,9 @@
 
 		<!-- Bootstrap -->
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+		
+		<!-- Our extra css -->
+		<link href="styles.css" rel="stylesheet">
 	</head>
   
 	<body>

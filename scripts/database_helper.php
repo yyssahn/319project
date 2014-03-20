@@ -36,9 +36,9 @@ class DatabaseHelper{
 		return $this->stmt;
 	}
 	
-	/* Bind parameters.  May be removed */
-	public function bindParameters($stmt, $types, $params){
-		$this->stmt->bind_param($types, $params);
+	/* Bind single parameter */
+	public function bindParameter($stmt, $type, $param){
+		$this->stmt->bind_param($type, $param);
 	}
 	
 	/* Bind an array of parameters */

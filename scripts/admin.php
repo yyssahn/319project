@@ -175,11 +175,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 									$allDroppedSQL = "SELECT count(*)
 													  FROM cbel_lead
-													  WHERE status = 'dropped'";
+													  WHERE status = 'Project Dropped'";
 
 									$allSuccessedSQL = "SELECT count(*)
 													    FROM cbel_lead
-														WHERE status = 'successed'";
+														
+														WHERE status = 'Project/Placement Completed (Ready for Archiv' OR
+																	 status = 'Archived'";
 
 
 									$projectExecute= $db->prepareStatement($allProjectSQL);	

@@ -5,7 +5,26 @@
 <?php
 	include('database_helper.php');
 	if(isset($_POST['submit'])){
-		echo "Input submitted mother fucker!";
+		$lid = 1;
+?>
+		<div class="well">
+			<div class="row clearfix">
+				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
+					<table class="table">
+						<thead>
+							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
+						</thead>
+						<tbody>
+							<tr class='info' onmouseover="this.style.cursor='pointer' " 
+								onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>' ">
+								<td>Rebel Against Aerys Targaryen</td><td>The Mad King must die.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+<?php
 	}
 	else{
 		echo "<div class='well'><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></div>";
