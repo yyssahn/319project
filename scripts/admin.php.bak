@@ -189,12 +189,12 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 									$droppedExecute= $db->prepareStatement($allDroppedSQL);	
 									$db->executeStatement($droppedExecute);
-									$droppedResult = $db->getResult($droppedExecute);
+									$droppedResult = $db->getResult();
 									$allDropped = $droppedResult[0];
 
 									$successedExecute= $db->prepareStatement($allSuccessedSQL);	
 									$db->executeStatement($successedExecute);
-									$successedResult = $db->getResult($successedExecute);
+									$successedResult = $db->getResult();
 									$allSuccessed = $successedResult[0];
 									?>
 									
