@@ -18,7 +18,7 @@ if($conn->connect_error) {
 }
 // Query Database for list of Usernames
 
-$sql = "SELECT username FROM user";
+$sql = "SELECT username, admin FROM user";
 
 $result = $conn->query($sql);
 
@@ -29,6 +29,7 @@ $listOfUsers = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $listOfUsers[] = $row;
 }
+
 
 ?>
 
@@ -76,8 +77,18 @@ while ($row = mysqli_fetch_assoc($result)) {
                                                                         
                                                                             foreach($listOfUsers as $username) {
                                                                                 //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
+                                                                                
+                                                                                // Show Promote or Demote
+                                                                                if ($username['admin']) {
+                                                                                    $promoteornot = "<a href='admindemote.php?content=".$username['username']."' class='btn btn-large btn-danger'>Demote</a>";
+                                                                                } else {
+                                                                                    $promoteornot = "<a href='adminpromote.php?content=".$username['username']."' class='btn btn-large btn-success'>Promote</a>";
+                                                                                }
+                                                                                    
                                                                                 print "<tr><td>".$username['username'].
-                                                                                        "</td><td><div><a href='admindelete.php?content=".$username['username']."' class='btn btn-large btn-danger'>Delete User</a></div></td></tr>";
+                                                                                        "</td><td><div><a href='admindelete.php?content=".$username['username']."' class='btn btn-large btn-danger'>Delete</a>"
+                                                                                        . $promoteornot
+                                                                                        . "</div></td></tr>";
                                                                             }
 									?>
 								</tbody>
@@ -124,7 +135,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 				</div>
 				
 				<div class="tab-pane" id="categories">
-					<div class="row" style="padding-top:50px">
+<!--					<div class="row" style="padding-top:50px">
 						<div class="col-md-10 column col-md-offset-1" style="height:600px; overflow:scroll">
 							<table class="table table-striped">
 								<thead>
@@ -154,7 +165,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 					<div class="col-md-1 col-md-offset-10">
 						<a href='index.php?content=lead_edit' class='btn btn-large btn-primary'>Submit</a>
-					</div>
+					</div>-->
 				</div>
 
 				

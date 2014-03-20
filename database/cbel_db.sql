@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS `cbel_lead`;
 CREATE TABLE `cbel_lead` (
   `lid` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
-  `idea_name` varchar(45) NOT NULL,
+  `lead_name` varchar(45) NOT NULL,
   `description` varchar(250) DEFAULT NULL,
   `idea_type` varchar(45) DEFAULT NULL,
   `referral` varchar(45) DEFAULT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `cbel_lead` (
   `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`lid`,`pid`),
   UNIQUE KEY `lid_UNIQUE` (`lid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(3,2,'name',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,0,'name1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(3,2,'name',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,0,'name1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,5,'','aahahahaha','','','','','',NULL,NULL,NULL,''),(6,6,'','aahahahaha','One-Time Project','Trek Program','Arts - Culture - Heritage','','',NULL,NULL,NULL,''),(7,7,'132','1111','','','','','Consultation',NULL,NULL,NULL,'');
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +101,7 @@ CREATE TABLE `communitypartner` (
   `phone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `pid_UNIQUE` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,30 +110,30 @@ CREATE TABLE `communitypartner` (
 
 LOCK TABLES `communitypartner` WRITE;
 /*!40000 ALTER TABLE `communitypartner` DISABLE KEYS */;
-INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','(423)423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','(666)666-6666'),(3,'China','Huangdi','huangdi@sile.ca','(123)456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','(111)111-1111');
+INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','(423)423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','(666)666-6666'),(3,'China','Huangdi','huangdi@sile.ca','(123)456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','(111)111-1111'),(5,'SWAG',':)','',''),(6,'','','',''),(7,'1231123','123','','');
 /*!40000 ALTER TABLE `communitypartner` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `key`
+-- Table structure for table `genkeys`
 --
 
-DROP TABLE IF EXISTS `key`;
+DROP TABLE IF EXISTS `genkeys`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `key` (
-  `key` varchar(29) NOT NULL,
-  PRIMARY KEY (`key`)
+CREATE TABLE `genkeys` (
+  `unusedkey` varchar(29) NOT NULL,
+  PRIMARY KEY (`unusedkey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `key`
+-- Dumping data for table `genkeys`
 --
 
-LOCK TABLES `key` WRITE;
-/*!40000 ALTER TABLE `key` DISABLE KEYS */;
-/*!40000 ALTER TABLE `key` ENABLE KEYS */;
+LOCK TABLES `genkeys` WRITE;
+/*!40000 ALTER TABLE `genkeys` DISABLE KEYS */;
+/*!40000 ALTER TABLE `genkeys` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -153,7 +153,7 @@ CREATE TABLE `user` (
   `phonenumber` varchar(14) NOT NULL,
   `email` varchar(45) NOT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,7 +162,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (100,'user1','pass',0,'','','',''),(101,'user2','swag',0,'','','',''),(103,'testuser1','testuser1',0,'','','',''),(107,'admin','admin',1,'','','',''),(108,'testuser2','testuser2',0,'','','',''),(109,'testuser3','testuser3',0,'','','',''),(110,'testuser4','testuser4',0,'','','','');
+INSERT INTO `user` VALUES (101,'user2','swag',0,'','','',''),(103,'testuser1','testuser1',0,'','','',''),(107,'admin','admin',1,'','','',''),(108,'testuser2','testuser2',0,'','','',''),(110,'testuser4','testuser4',0,'','','',''),(112,'123123','123',0,'123','123','123-123-1234','123@1234.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -175,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-20 12:51:54
+-- Dump completed on 2014-03-20 15:07:10
