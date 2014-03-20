@@ -5,6 +5,8 @@
 <?php
 
 // Connect to the Database
+include('database_helper.php');
+$dbhelper = new DatabaseHelper();
 
 $DBServer = "localhost";
 $DBUser = "root";
@@ -30,6 +32,39 @@ while ($row = mysqli_fetch_assoc($result)) {
     $listOfUsers[] = $row;
 }
 
+function random_key()
+{
+    $character_set_array = array();
+    $character_set_array[] = array('count' => 4, 'characters' => 'abcdefghijklmnopqrstuvwxyz');
+    $character_set_array[] = array('count' => 2, 'characters' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    $character_set_array[] = array('count' => 2, 'characters' => '0123456789');
+    $temp_array = array();
+    foreach ($character_set_array as $character_set) {
+        for ($i = 0; $i < $character_set['count']; $i++) {
+            $temp_array[] = $character_set['characters'][rand(0, strlen($character_set['characters']) - 1)];
+        }
+    }
+    shuffle($temp_array);
+    return implode('', $temp_array);
+}
+
+//Puts a newly created key in the keys table
+function initKey($dbhelper, $key){
+	$query = "INSERT INTO genkey VALUES(?)";
+	$params = array($key);
+	$stmt = $dbhelper -> prepareStatement($query);
+	$param_types = array('s');
+	$dbhelper->bindArray($stmt, $param_types, $params);
+	$dbhelper->executeStatement($stmt);
+}
+
+$key = "";
+if(array_key_exists("genkey", $_POST)){
+	$key = random_key();
+	echo "$key";
+	initKey($key);
+	echo "its done";
+}
 
 ?>
 
@@ -56,8 +91,10 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="tab-content" style="height:60%">
                 <div class="tab-pane active fade in" id="accounts">
 					<br />
-					<a href='blah' class='btn btn-large btn-success'>Generate Key</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<strong>Active Keys:</strong> F4SD5-FS465-SDF54; F4S56-54FDS-FS456
+					<form method = "POST"  action = "index.php?content=admin">
+					<a name = 'genkey' class='btn btn-large btn-success'>Generate Key</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<strong>Active Keys:</strong><?php echo htmlspecialchars($key);?>
+					</form>
 					
 					<div class="row" style="padding-top:50px">
 						<div class="col-md-10 column col-md-offset-1" style="height:500px; overflow:scroll">
