@@ -2,6 +2,36 @@
 	<h2>Admin Mother Fucker!</h2>
 </div>
 
+<?php
+
+// Connect to the Database
+
+$DBServer = "localhost";
+$DBUser = "root";
+$DBPass = "";
+$DBName = "cbel_db";
+
+$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+
+if($conn->connect_error) {
+	trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+}
+// Query Database for list of Usernames
+
+$sql = "SELECT username FROM user";
+
+$result = $conn->query($sql);
+
+// Create a List of users
+
+$listOfUsers = array();
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $listOfUsers[] = $row;
+}
+
+?>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span8 well">
@@ -29,7 +59,7 @@
 					<strong>Active Keys:</strong> F4SD5-FS465-SDF54; F4S56-54FDS-FS456
 					
 					<div class="row" style="padding-top:50px">
-						<div class="col-md-10 column col-md-offset-1" style="height:600px; overflow:scroll">
+						<div class="col-md-10 column col-md-offset-1" style="height:500px; overflow:scroll">
 							<table class="table table-striped">
 								<thead>
 									<tr>
@@ -43,25 +73,26 @@
 								</thead>
 								<tbody>
 									<?php
-										// Temporary placeholder
-										for($i=0; $i< 20; $i++){
-											print "<tr><td>Name {$i}</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
-										}
+                                                                        
+                                                                            foreach($listOfUsers as $username) {
+                                                                                //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
+                                                                                print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=admin' class='btn btn-large btn-danger'>Delete User</a></div></td></tr>";
+                                                                            }
 									?>
 								</tbody>
 							</table>
 						</div>
 						
-						<div class="col-md-1 col-md-offset-10" style="padding-top: 20px">
+						<!--<div class="col-md-1 col-md-offset-10" style="padding-top: 20px">
 							<a href='index.php?content=lead_edit' class='btn btn-large btn-danger'>Delete Users</a>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				
                 <div class="tab-pane" id="user_privileges">
 					<div class="panel-body" style="height:800px">
 						<div class="row" style="padding-top:50px">
-							<div class="col-md-10 column col-md-offset-1" style="height:600px; overflow:scroll">
+							<div class="col-md-10 column col-md-offset-1" style="height:500px; overflow:scroll">
 								<table class="table table-striped">
 									<thead>
 										<tr>
@@ -75,17 +106,18 @@
 									</thead>
 									<tbody>
 										<?php
-											// Temporary placeholder
-											for($i=0; $i< 20; $i++){
-												print "<tr><td>Name {$i}</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
-											}
-										?>
+                                                                        
+                                                                            foreach($listOfUsers as $username) {
+                                                                                //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
+                                                                                 print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=admin' class='btn btn-large btn-success'>Promote User</a></div></td></tr>";
+                                                                            }
+									?>
 									</tbody>
 								</table>
 							</div>
-							<div class="col-md-1 col-md-offset-10">
+							<!--<div class="col-md-1 col-md-offset-10">
 								<a href='index.php?content=lead_edit' class='btn btn-large btn-primary'>Submit</a>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

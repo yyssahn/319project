@@ -1,3 +1,13 @@
+<?php
+
+if (!isset($_GET['content'])) {
+
+$_GET['content'] = NULL;
+
+}
+
+?>
+
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav nav-pills">
@@ -17,10 +27,12 @@
 				<a class="navbar-brand" href="index.php?content=settings">Settings</a>
 			</li>
 			
+                        <?php if ($_SESSION['isAdmin']) { ?>
 			<li <?php if($_GET['content'] == 'admin'){ ?> class="active" <?php } ?>>
 				<a class="navbar-brand" href="index.php?content=admin">Admin</a>
 			</li>
-			
+                        <?php } ?>
+                        
 			<div class="navbar-header pull-right">
 				<a class="navbar-brand" href="Logout.php">Log out</a>
 			</div>

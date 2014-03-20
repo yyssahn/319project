@@ -29,11 +29,34 @@ class DatabaseHelper{
 	
 	/* Prepare statement */
 	public function prepareStatement($sql){
-	if($this->conn === NULL)
-			print "NULL mother fucker!";
 		$this->stmt = $this->conn->prepare($sql);
 		if($this->stmt === false)
 			trigger_error($this->conn->error, E_USER_ERROR);
+			
+		return $this->stmt;
+	}
+	
+	/* Bind parameters.  May be removed */
+	public function bindParameters($stmt, $types, $params){
+		$this->stmt->bind_param($types, $params);
+	}
+	
+	/* Bind an array of parameters */
+	public function bindArray($stmt, $param_types, $array){
+		$a_params = array();	// Array to be passed by reference
+		
+		// Create string of types in array
+		$param_type = '';
+		for($i=0; $i<count($param_types); $i++)
+			$param_type .= $param_types[$i];
+
+		// Populate array to be passed by reference to be bound	
+		$a_params[] = & $param_type;
+		for($i=0; $i<count($param_types); $i++)
+			$a_params[] = & $array[$i];
+
+		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referencing $array)
+		call_user_func_array(array($this->stmt, 'bind_param'), $a_params);
 	}
 	
 	/* Execute Statement */
@@ -42,7 +65,7 @@ class DatabaseHelper{
 	}
 
 	/* Store result in array */
-	public function getResult(){
+	public function getResult($stmt){
 		$result = $this->stmt->get_result();
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 		
