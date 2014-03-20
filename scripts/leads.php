@@ -51,7 +51,7 @@
 			}
 				if (isset($_POST['activities'])){
 				foreach($_POST['activities'] as $row){
-$query = $query." main_activities LIKE '%".$row."%' OR";	
+				$query = $query." main_activities LIKE '%".$row."%' OR";	
 					
 			}
 				}
@@ -80,17 +80,16 @@ $query = $query." timeframe LIKE '%".$row."%' OR";
 				}
 			}
 		
-$or = 'OR';					
-
+$or = 'OR';			
     if (substr($query, -strlen($or)) === $or){
 		$state =substr_replace($query ,"",-2);
 //		echo $state;
+		$stmt = $db->prepareStatement($state);
+		$db->executeStatement($stmt);
+		$result = $db->getResult();
+		print_r ($result);	
+	
 	}
-
-			$stmt = $db->prepareStatement($state);
-			$db->executeStatement($stmt);
-			$result = $db->getResult();
-			print_r ($result);	
 			
 		
 	}

@@ -56,10 +56,6 @@ class DatabaseHelper{
 		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referenceing $array)
 		call_user_func_array(array($this->stmt, 'bind_param'), $a_params);
 	}
-	public function bindSearch($stmt, $name, $type, $referral, $mandate, $focus, $activities, $delivery, $discilines, $timeframe, $status) {
-		$this->stmt->bind_param("ssssssssss", $name,$type,$referral,$mandate,$focus,$activities,$delivery,$discilines,$timeframe,$status);
-	
-	}
 	
 	/* Execute Statement */
 	public function executeStatement(){
