@@ -118,19 +118,61 @@
 							</table>
 						</div>
 					</div>
+
 					<div class="col-md-1 col-md-offset-10">
 						<a href='index.php?content=lead_edit' class='btn btn-large btn-primary'>Submit</a>
 					</div>
 				</div>
+
 				
 				<div class="tab-pane" id="statistics">
 					<div class="row" style="padding-top:50px">
 						<div class="col-md-10 column col-md-offset-1">
 							<table class="table">
 								<tbody>
-									<tr class="warning"><td>Projects Completed: 80<td><td>Projects Dropped: 20</td><tr>
-									<tr class="warning"><td>Projects Attempted:  100<td><td>Projects Attempted: 100</td><tr>
-									<tr class="success"><td>Success Rate: 80%<td><td>Failure Rate: 20%</td><tr>
+									<?php 
+									
+									// Query database
+									include('database_helper.php');
+
+									$db = new DatabaseHelper();
+
+
+									$allProjectSQL = "SELECT count(*) 
+										   		      FROM cbel_lead";
+
+									$allDroppedSQL = "SELECT count(*)
+													  FROM cbel_lead
+													  WHERE status = 'dropped'";
+
+									$allSuccessedSQL = "SELECT count(*)
+													    FROM cbel_lead
+														WHERE status = 'successed'";
+
+
+									$projectExecute= $db->prepareStatement($allProjectSQL);	
+									$db->executeStatement($projectExecute);
+									$projectResult = $db->getResult();
+									$allProjects = $projectResult[0];
+
+									$droppedExecute= $db->prepareStatement($allDroppedSQL);	
+									$db->executeStatement($droppedExecute);
+									$droppedResult = $db->getResult();
+									$allDropped = $droppedResult[0];
+
+									$successedExecute= $db->prepareStatement($allSuccessedSQL);	
+									$db->executeStatement($successedExecute);
+									$successedResult = $db->getResult();
+									$allSuccessed = $successedResult[0];
+									?>
+									
+									
+									<tr class="warning"><td>Projects Completed: <?php  echo $allSuccessed['count(*)'] ?>  <td><td>Projects Dropped: <?php  echo $allDropped['count(*)'] ?> </td><tr>
+
+									<tr class="warning"><td>Projects Attempted: <?php  echo $allProjects['count(*)'] ?> <td><td>Projects Attempted: <?php  echo $allProjects['count(*)'] ?>  </td><tr>
+								
+									<tr class="success"><td>Success Rate:  <?php  echo round($allSuccessed['count(*)'] / $allProjects['count(*)'], 2)*100 ?>%<td><td>Failure Rate:  <?php  echo round($allDropped['count(*)'] / $allProjects['count(*)'], 2)*100 ?>%</td><tr>
+
 								</tbody>
 							</table>
 						</div>
