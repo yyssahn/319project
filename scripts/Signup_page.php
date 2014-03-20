@@ -194,8 +194,7 @@ function noUserExists($db,$userE){
 	return ($result->num_rows == 0);
 }
 
-function mailExists($db, $mail){ //TODO: MAKE IT NO? 
-	//TODO: CHANGE QUERY TO THE RIGHT COLOMN.
+function mailExists($db, $mail){
 	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail')");
 	return ($resultMail->num_rows != 0);
 }
@@ -215,13 +214,15 @@ function runInsert($db, $u, $p, $f, $l, $ph, $e){
 }
 
 //Check if key exists in the database
-function checkKey($db, $key){
-	$result = $db->query("SELECT * FROM key WHERE (key = '$key')");
-		return ($result->num_rows != 0);
+function checkKey($c, $k){
+	$resultKEY = $c->query("SELECT * FROM key WHERE (key = '$k')");
+	echo "$c->affected_rows";
+	return ($c->affected_rows == 1);
 }
 
 function deleteKey($db, $key){
-	return $db->query("DELETE FROM key WHERE (key = '$key')");
+	$db->query("DELETE FROM key WHERE (key = '$key')");
+	return($db->affected_rows == 1);
 }
 
 function isValid($pattern, $value){
@@ -233,10 +234,12 @@ if(array_key_exists("createNewACC" , $_POST)){
 	if(noUserExists($conn , $user) && samePassword($PWSRD, $CPWSRD) && 
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
+
+			$key  =  $_POST['key'];
 		if(checkKey($conn, $key)){
 
 		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
-		deleteKey($conn, $key);
+		if(deleteKey($conn, $key)){
 			
 			//Checks if it all works.
 			echo "Congratulations, you have been registered. Sign in plz";
@@ -244,7 +247,8 @@ if(array_key_exists("createNewACC" , $_POST)){
 			echo ", $result->num_rows. Should be 1.";
 			echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
 			$result->close();
-    		header('Refresh: 5; login_page.html');    
+    		header('Refresh: 5; login_page.html');
+    		}    
     	}
     	else
     		echo "Well, your key doesnt work, Get another key from admin.";
