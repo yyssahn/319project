@@ -148,6 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</div>
 						</div>
 					</div>
+
+					<div class="row" style="padding-top: 20px">
+						<div class="col-md-10 col-md-offset-1">
+							<label for="pNum" class="col-md-3 control-label">Key:</label>
+							<div class="col-md-8">
+								<input type = "text" class="form-control" name = "key" placeholder ="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+								<!--<span class="error"><?php echo $TelepERR;?></span>-->
+							</div>
+						</div>
+					</div>
 				</div>
 				
 				<div class="row clearfix">
@@ -204,6 +214,16 @@ function runInsert($db, $u, $p, $f, $l, $ph, $e){
 	$db->executeStatement($stmt);
 }
 
+//Check if key exists in the database
+function checkKey($db, $key){
+	$result = $db->query("SELECT * FROM key WHERE (key = '$key')");
+		return ($result->num_rows != 0);
+}
+
+function deleteKey($db, $key){
+	return $db->query("DELETE FROM key WHERE (key = '$key')");
+}
+
 function isValid($pattern, $value){
 	return preg_match($pattern, $value) ? true : false;
 }
@@ -213,15 +233,21 @@ if(array_key_exists("createNewACC" , $_POST)){
 	if(noUserExists($conn , $user) && samePassword($PWSRD, $CPWSRD) && 
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
+		if(checkKey($conn, $key)){
 
 		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
-
+		deleteKey($conn, $key);
+			
+			//Checks if it all works.
 			echo "Congratulations, you have been registered. Sign in plz";
-		$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
-		echo ", $result->num_rows. Should be 1.";
-		echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
-		$result->close();
-    	header('Refresh: 5; login_page.html');    
+			$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
+			echo ", $result->num_rows. Should be 1.";
+			echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
+			$result->close();
+    		header('Refresh: 5; login_page.html');    
+    	}
+    	else
+    		echo "Well, your key doesnt work, Get another key from admin.";
 	}
 	else
 		echo "$user - Already exists - OR passwords dont match";
