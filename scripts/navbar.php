@@ -1,3 +1,13 @@
+<?php
+
+if (!isset($_GET['content'])) {
+
+$_GET['content'] = NULL;
+
+}
+
+?>
+
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav nav-pills">

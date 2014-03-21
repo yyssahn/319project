@@ -32,11 +32,13 @@ class DatabaseHelper{
 		$this->stmt = $this->conn->prepare($sql);
 		if($this->stmt === false)
 			trigger_error($this->conn->error, E_USER_ERROR);
+			
+		return $this->stmt;
 	}
 	
-	/* Bind parameters.  May be removed */
-	public function bindParameters($stmt, $types, $params){
-		$this->stmt->bind_param($types, $params);
+	/* Bind single parameter */
+	public function bindParameter($stmt, $type, $param){
+		$this->stmt->bind_param($type, $param);
 	}
 	
 	/* Bind an array of parameters */
@@ -50,10 +52,10 @@ class DatabaseHelper{
 
 		// Populate array to be passed by reference to be bound	
 		$a_params[] = & $param_type;
-		for($i=0; $i<count($array); $i++)
+		for($i=0; $i<count($param_types); $i++)
 			$a_params[] = & $array[$i];
 
-		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referenceing $array)
+		// Bind array. call_user_func_array requires the array to be passed by reference ($a_params is referencing $array)
 		call_user_func_array(array($this->stmt, 'bind_param'), $a_params);
 	}
 	
@@ -63,7 +65,7 @@ class DatabaseHelper{
 	}
 	
 	/* Store result in array */
-	public function getResult(){
+	public function getResult($stmt){
 		$result = $this->stmt->get_result();
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 		
