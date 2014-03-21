@@ -32,7 +32,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 ?>
-
+<!-- some change -->
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span8 well">
