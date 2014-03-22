@@ -13,6 +13,26 @@ if(isset($_POST['submit'])){
 
 	// Need to add community partner search
 	$subquery = NULL;
+	if(isset($_POST['partner'])){
+		$partners = array();
+		foreach($_POST['partner'] as $row){
+			$partners[] = $row;
+		}
+		
+		$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ?";
+		$stmt = $db->prepareStatement($sql);
+		
+		$params = array();
+		$param_types = array('s');
+		foreach($_POST['partner'] as $row){
+			$params[] = $row;
+		}
+
+		$db->bindArray($stmt, $param_types, $params);
+		$db->executeStatement($stmt);
+		$pid_results = $db->getResult($stmt);
+		var_dump($pid_results);
+	}
 	if (isset($_POST['name'])){
 		foreach($_POST['name'] as $row){
 			$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
