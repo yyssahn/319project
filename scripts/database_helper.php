@@ -37,7 +37,7 @@ class DatabaseHelper{
 	}
 	
 	/* Bind single parameter */
-	public function bindParameter($stmt, $type, $param){
+	public function bindParameter($stmt, $type, $param){	
 		$this->stmt->bind_param($type, $param);
 	}
 	
@@ -60,7 +60,7 @@ class DatabaseHelper{
 	}
 	
 	/* Execute Statement */
-	public function executeStatement(){
+	public function executeStatement($stmt){
 		$this->stmt->execute();
 	}
 	

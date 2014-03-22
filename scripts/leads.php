@@ -14,24 +14,23 @@ if(isset($_POST['submit'])){
 	// Need to add community partner search
 	$subquery = NULL;
 	if(isset($_POST['partner'])){
-		$partners = array();
+		$pquery = "SELECT pid FROM CommunityPartner WHERE";
+		$psubquery = '';
 		foreach($_POST['partner'] as $row){
-			$partners[] = $row;
-		}
-		
-		$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ?";
-		$stmt = $db->prepareStatement($sql);
-		
-		$params = array();
-		$param_types = array('s');
-		foreach($_POST['partner'] as $row){
-			$params[] = $row;
+			$psubquery = $psubquery." community_partner = '".$row."' OR";
 		}
 
-		$db->bindArray($stmt, $param_types, $params);
+		if(substr($psubquery, -strlen('OR')) === 'OR'){
+			$psubquery = substr_replace($psubquery ,"",-2);
+			$pquery .= $psubquery;
+		}
+
+		$stmt = $db->prepareStatement($pquery);
 		$db->executeStatement($stmt);
 		$pid_results = $db->getResult($stmt);
-		var_dump($pid_results);
+		foreach($pid_results as $pid){
+			$subquery = $subquery." pid = ".$pid['pid']." OR";
+		}
 	}
 	if (isset($_POST['name'])){
 		foreach($_POST['name'] as $row){
@@ -90,7 +89,7 @@ if(isset($_POST['submit'])){
 		$subquery = substr_replace($subquery ,"",-2);
 		$query .= $subquery;
 	}
-	
+
 	$stmt = $db->prepareStatement($query);
 	$db->executeStatement($stmt);
 	$result = $db->getResult($db);
