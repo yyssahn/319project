@@ -1,7 +1,13 @@
 <div class="page-header">
 	<h2>Home Mother Fucker!</h2> 
 </div>
+<?php 
 
+
+	
+
+echo '
+	
 <div class="well">
 	<div class="row clearfix">
 		<div class="col-md-6 column">
@@ -133,4 +139,5 @@
 		</div>
 		
 	</div>
-</div>
+</div>'
+?>

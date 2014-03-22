@@ -60,10 +60,10 @@ class DatabaseHelper{
 	}
 	
 	/* Execute Statement */
-	public function executeStatement($stmt){
-		$this->stmt ->execute();
+	public function executeStatement(){
+		$this->stmt->execute();
 	}
-
+	
 	/* Store result in array */
 	public function getResult($stmt){
 		$result = $this->stmt->get_result();

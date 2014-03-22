@@ -10,95 +10,102 @@ $db = new DatabaseHelper();
 	
 if(isset($_POST['submit'])){
 	$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
-	$client=$name=$type=$referral=$mandate=$focus=$activities=$delivery=$disciplines=$timeframe=$status=NULL;
-	
+
 	// Need to add community partner search
-	
+	$subquery = NULL;
 	if (isset($_POST['name'])){
 		foreach($_POST['name'] as $row){
-			$query = $query." lead_name LIKE '%".$row."%' OR";	
+			$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['type'])){
 		foreach($_POST['type'] as $row){
-			$query = $query." idea_type LIKE '%".$row."%' OR";	
+			$subquery = $subquery." idea_type LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['referral'])){
 		foreach($_POST['referral'] as $row){
-			$query = $query." referral LIKE '%".$row."%' OR";	
+			$subquery = $subquery." referral LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['mandate'])){
 		foreach($_POST['mandate'] as $row){
-			$query = $query." mandate LIKE '%".$row."%' OR";	
+			$subquery = $subquery." mandate LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['focus'])){
 		foreach($_POST['focus'] as $row){
-			$query = $query." focus LIKE '%".$row."%' OR";	
+			$subquery = $subquery." focus LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['activities'])){
 		foreach($_POST['activities'] as $row){
-			$query = $query." main_activities LIKE '%".$row."%' OR";		
+			$subquery = $subquery." main_activities LIKE '%".$row."%' OR";		
 		}
 	}
 	if (isset($_POST['delivery'])){
 		foreach($_POST['delivery'] as $row){
-			$query = $query." delivery_location LIKE '%".$row."%' OR";	
+			$subquery = $subquery." delivery_location LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['disciplines'])){
 		foreach($_POST['disciplines'] as $row){
-			$query = $query." disciplines LIKE '%".$row."%' OR";	
+			$subquery = $subquery." disciplines LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['timeframe'])){
 		foreach($_POST['timeframe'] as $row){
-			$query = $query." timeframe LIKE '%".$row."%' OR";	
+			$subquery = $subquery." timeframe LIKE '%".$row."%' OR";	
 		}
 	}
 	if (isset($_POST['status'])){
 		foreach($_POST['status'] as $row){
-			$query = $query." status LIKE '%".$row."%' OR";	
+			$subquery = $subquery." status LIKE '%".$row."%' OR";	
 		}
 	}
 
-	$or = 'OR';			
-	if (substr($query, -strlen($or)) === $or){
-		$state =substr_replace($query ,"",-2);
-		// Echo $state;
-		$stmt = $db->prepareStatement($state);
-		$db->executeStatement($stmt);
-		$result = $db->getResult($db);
+	if($subquery == NULL)
+		$query = substr_replace($query, "", -(strlen(' WHERE')));
+	else if(substr($subquery, -strlen('OR')) === 'OR'){
+		$subquery = substr_replace($subquery ,"",-2);
+		$query .= $subquery;
 	}
+	
+	$stmt = $db->prepareStatement($query);
+	$db->executeStatement($stmt);
+	$result = $db->getResult($db);
+		
+		if($result != NULL){
 ?>
-	<div class="well">
-		<div class="row clearfix">
-			<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
-				<table class="table table-striped table-hover">
-					<thead>
-						<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
-					</thead>
-					<tbody>
-						<?php
-							foreach($result as $row){
-								$lid = $row['lid'];
-						?>
-								<tr class='info' onmouseover="this.style.cursor='pointer' " 
-									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
-									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
-								</tr>
-						<?php
-							}
-						?>
-					</tbody>
-				</table>
+		<div class="well">
+			<div class="row clearfix">
+				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
+						</thead>
+						<tbody>
+							<?php
+								foreach($result as $row){
+									$lid = $row['lid'];
+							?>
+									<tr class='info' onmouseover="this.style.cursor='pointer' " 
+										onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
+										<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
+									</tr>
+							<?php
+								}
+							?>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
-	</div>
 <?php
+	}
+	else{
+		print "<div class='alert alert-danger'>There are no leads that match the given criteria</div>";
+	}	
 }
 else{
 	// Get  category options
