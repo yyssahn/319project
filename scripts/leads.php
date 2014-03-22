@@ -89,10 +89,10 @@ if(isset($_POST['submit'])){
 								foreach($result as $row){
 									$lid = $row['lid'];
 							?>
-									<tr class='info' onmouseover="this.style.cursor='pointer' " 
-										onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
-										<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
-									</tr>
+								<tr class='info' onmouseover="this.style.cursor='pointer' " 
+									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
+									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
+								</tr>
 							<?php
 								}
 							?>
