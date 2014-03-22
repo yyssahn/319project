@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Login page</title>
 
+
 	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 
@@ -20,6 +21,7 @@
 	function loginForm_send(form) { 
 		
 		if(!form.username.value) {
+			
 			alert("Please type your username!");
 			form.username.focus(); 
 			return;
@@ -33,7 +35,6 @@
 
 		// send the form to "Login.php"
 		document.login_form.submit();
-	
 	}
 	</script>
 </head>

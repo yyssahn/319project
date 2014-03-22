@@ -18,7 +18,7 @@ if($conn->connect_error) {
 }
 // Query Database for list of Usernames
 
-$sql = "SELECT username FROM user";
+$sql = "SELECT username,activityCount FROM user";
 
 $result = $conn->query($sql);
 
@@ -29,6 +29,8 @@ $listOfUsers = array();
 while ($row = mysqli_fetch_assoc($result)) {
     $listOfUsers[] = $row;
 }
+
+
 
 ?>
 
@@ -69,15 +71,31 @@ while ($row = mysqli_fetch_assoc($result)) {
 										<th>
 											Selected
 										</th>
+										<th>
+											MontlyActivityCounts
+										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
-                                                                        
-                                                                            foreach($listOfUsers as $username) {
-                                                                                //print "<tr><td>".$username['username']."</td><td><div class='checkbox'><input type='checkbox'></div></td></tr>";
-                                                                                print "<tr><td>".$username['username']."</td><td><div><a href='index.php?content=admin' class='btn btn-large btn-danger'>Delete User</a></div></td></tr>";
-                                                                            }
+									
+									foreach($listOfUsers as $username) {
+										print 
+											"<tr>
+												
+											<td>".$username['username']."</td>
+										
+											<td>
+												<div>
+													<a href='index.php?content=admin' class='btn btn-large btn-danger'>Delete User</a>
+												</div>
+											</td>
+
+											<td>".$username['activityCount']."</td>
+
+											</tr>";
+									}
+									
 									?>
 								</tbody>
 							</table>
@@ -162,11 +180,34 @@ while ($row = mysqli_fetch_assoc($result)) {
 						<div class="col-md-10 column col-md-offset-1">
 							<table class="table">
 								<tbody>
+									<script type="text/javascript">
+
+$(document).ready(function(){
+    var plot1 = $.jqplot('pie1', [[['success',45],['fail',10],['project-ongoing',30]]], {
+        gridPadding: {top:10, bottom:38, left:0, right:0},
+        seriesDefaults:{
+            renderer:$.jqplot.PieRenderer, 
+            trendline:{ show:false }, 
+            rendererOptions: { padding: 8, showDataLabels: true }
+        },
+        legend:{
+            show:true, 
+            placement: 'outside', 
+            rendererOptions: {
+                numberRows: 1
+            }, 
+            location:'s',
+            marginTop: '15px'
+        }       
+    });
+});
+ </script>		
+  <div id="pie1"></div> 
 									<?php 
-									
+			
 									// Query database
 									include('database_helper.php');
-
+									include('Noname.php');
 									$db = new DatabaseHelper();
 
 
@@ -191,7 +232,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 									$db->executeStatement($droppedExecute);
 									$droppedResult = $db->getResult($droppedExecute);
 									$allDropped = $droppedResult[0];
-
+								
 									$successedExecute= $db->prepareStatement($allSuccessedSQL);	
 									$db->executeStatement($successedExecute);
 									$successedResult = $db->getResult($successedExecute);

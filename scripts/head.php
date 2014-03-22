@@ -8,6 +8,10 @@
 
 		<!-- Bootstrap -->
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+		<script language="javascript" type="text/javascript" src="jqplot/src/jquery.jqplot.min.js"></script>
+	    <link rel="stylesheet" type="text/css" href="jqplot/src/jquery.jqplot.css"/>
+	
+	    <script type="text/javascript" src="jqplot/src/plugins/jqplot.pieRenderer.min.js"></script>
 	</head>
   
 	<body>
