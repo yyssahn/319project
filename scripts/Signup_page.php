@@ -238,29 +238,36 @@ function isValid($pattern, $value){
 
 if(array_key_exists("createNewACC" , $_POST)){
 
-	if(noUserExists($conn , $user) && samePassword($PWSRD, $CPWSRD) && 
-		!mailExists($conn, $Email)){
-			echo "$user - Doesn't exist, We are adding it now.";
-			$key = $_POST['signupkey'];
-		if(checkKey($dbHelper, $key)){
-
-		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
-		if(deleteKey($conn, $key)){
+	if(noUserExists($conn , $user)){
+	 	if(samePassword($PWSRD, $CPWSRD)){ 
+			if(!mailExists($conn, $Email)){
+			//echo "$user - Doesn't exist, We are adding it now.";
+				$key = $_POST['signupkey'];
+				if(checkKey($dbHelper, $key)){
+					runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
+					if(deleteKey($conn, $key)){
 			
-			//Checks if it all works.
-			echo "Congratulations, you have been registered. Sign in plz";
-			$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
-			echo ", $result->num_rows. Should be 1.";
-			echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
-			$result->close();
-    		header('Refresh: 2; login_page.html');
-    		}    
-    	}
-    	else
-    		echo "Well, your key doesnt work, Get another key from admin.";
+					//Checks if it all works.
+					//echo "Congratulations, you have been registered. Sign in plz";
+					//$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
+					//echo ", $result->num_rows. Should be 1.";
+					//echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
+					//$result->close();
+		    			header('Refresh: 2; login_page.html');
+		    		}
+
+    			}
+    			else
+    				echo "Well, your key doesnt work, Get another key from admin.";
+			}
+			else
+				echo "Email already used.";
+		}
+		else
+			echo "Passwords dont match.";
 	}
 	else
-		echo "$user - Already exists - OR passwords dont match";
+		echo "$user - Already exists.";
 }
 
 $conn->close();
