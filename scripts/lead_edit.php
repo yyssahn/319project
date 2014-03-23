@@ -5,6 +5,8 @@
 <?php
 	include('database_helper.php');
 
+	$TelepERR = '';
+	
 	$lead_info = array();
 	$partner_info = array();
 	
@@ -16,6 +18,14 @@
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$categories = $db->getResult($db);
+	
+	// Enforce phone number formatting
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
+		if(!isValid($phonePattern, $_POST['phone'])){
+			$TelepERR = "Incorrect Input";
+		}
+	}
 	
 	// Get lead data if lead exists
 	if(isset($_GET['lid'])){
@@ -34,14 +44,14 @@
 		$partner_info = $db->getResult($stmt);
 	}
 ?>
-	<form action="index.php?content=lead_handler" method="POST">
+	<form id="form" action="index.php?content=lead_handler" method="POST">
 		<h4><strong>Community Partner:</strong></h4>
 		<hr />
 		<div class="jumbotron">
 			<div class="row">
-				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
-				<div class="col-md-4">
-						<input type="text" class="form-control" name="partner" placeholder="Enter Community Partner"
+				<label for="partner" class="control-label col-md-2">Community Partner:</label>
+				<div class="col-md-4 controls">
+						<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
 							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
 				</div>
 				
@@ -57,6 +67,7 @@
 				<div class="col-md-4">
 						<input type="text" class="form-control" name="phone" placeholder="Enter Valid Phone Number"
 							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
+						<span class="error"><?php echo $TelepERR;?></span>
 				</div>
 			
 				<label for="email" class="col-md-2 control-label">Contact Email:</label>

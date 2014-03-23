@@ -9,8 +9,9 @@
 		<!-- Bootstrap -->
 		<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
 		
-		<!-- Our extra css -->
-		<link href="styles.css" rel="stylesheet">
+		<!-- For validation plugin -->
+		<link href="style.css" rel="stylesheet">
+		<script src="js/modernizr-2.5.3.min.js"></script>
 	</head>
   
 	<body>

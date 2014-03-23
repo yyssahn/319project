@@ -61,6 +61,7 @@ else{
 		$activities .= $_POST['activities'][$i];
 	}
 
+	// To get rid of warnings
 	if(isset($_POST['delivery'])){
 		$location = $_POST['delivery'];
 	}
@@ -70,7 +71,7 @@ else{
 	if(isset($_POST['timeframe'])){
 		$timeframe = $_POST['timeframe'];
 	}
-	//=========================================================================================================================
+	//=======================================================================================================================
 	// Get pid to be associated with lead
 	$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
 	$stmt = $db->prepareStatement($sql);
@@ -139,6 +140,8 @@ else{
 		for($i=1; $i<12; $i++)
 			$param_types[] = 's'; // s = strung
 		$param_types[] = 'i';
+		
+		$_SESSION['lid'] = NULL;
 	}
 		
 	// Bind parameters and execute statement	
