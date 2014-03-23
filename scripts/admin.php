@@ -7,6 +7,37 @@ include('database_helper.php');
 
 // Connect to the Database
 $db = new DatabaseHelper();
+
+function random_key(){
+   $character_set_array = array();
+   $character_set_array[] = array('count' => 4, 'characters' => 'abcdefghijklmnopqrstuvwxyz');
+   $character_set_array[] = array('count' => 2, 'characters' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+   $character_set_array[] = array('count' => 2, 'characters' => '0123456789');
+   $temp_array = array();
+   foreach ($character_set_array as $character_set) {
+       for ($i = 0; $i < $character_set['count']; $i++) {
+           $temp_array[] = $character_set['characters'][rand(0, strlen($character_set['characters']) - 1)];
+       }
+   }
+   shuffle($temp_array);
+   return implode('', $temp_array);
+}
+
+//Puts a newly created key in the keys table
+function initKey($dbhelper, $key){
+	$query = "INSERT INTO genkeys VALUES(?)";
+	$params = array($key);
+	$stmt = $dbhelper -> prepareStatement($query);
+	$param_types = array('s');
+	$dbhelper->bindArray($stmt, $param_types, $params);
+	$dbhelper->executeStatement($stmt);
+}
+$key="";
+if(array_key_exists("genkey", $_POST)){
+	$key = random_key();
+	initKey($db,$key);
+}
+
 //=========================================================================================================================
 function accountsTab(){
 	global $db;
@@ -17,9 +48,11 @@ function accountsTab(){
 	$listOfUsers = $db->getResult($stmt);
 ?>
 	<br />
-	<a href='blah' class='btn btn-large btn-success'>Generate Key</a>&nbsp;&nbsp;&nbsp;&nbsp;
-	<strong>Active Keys:</strong> F4SD5-FS465-SDF54; F4S56-54FDS-FS456
-	
+	<form method = "POST" action = "index.php?content=admin" >
+	<input class='btn btn-large btn-success' type="submit" name = "genkey" value ="Generate Key">&nbsp;&nbsp;&nbsp;&nbsp;
+	<strong>Active Keys:</strong> <?php echo $GLOBALS['key'];?>
+	</form>
+
 	<div class="row" style="padding-top:50px">
 		<div class="col-md-10 column col-md-offset-1" style="height:500px; overflow:scroll">
 			<table class="table table-striped">
@@ -72,6 +105,7 @@ function categoriesTab(){
 							</div>
 							<div id="collapseOne" class="panel-collapse collpase collapse">
 								<div class="panel-body">
+                                                                    <form name = "option_form" method = "post" action = "">	
 									<table class="table table-condensed">
 										<?php
 											$sql = "SELECT idea_type FROM categoryoptions";
@@ -83,22 +117,21 @@ function categoriesTab(){
 												if (isset($subcat['idea_type'])) {
 													print "<tr><td>".$subcat['idea_type']."</td>".
 														"<td><a href='index.php?content=admin' class='btn btn-large btn-info'>Edit</a>".
-														"<a href='index.php?content=admin' class='btn btn-large btn-danger'>Remove</a>".
+														"<a href='remove_option.php?optionName=".$subcat['idea_type']."&category=idea_type' class='btn btn-large btn-danger'>Remove</a>".
 														"</td></tr>";
 												}
 											}
 										?>
 										<tr>
 											<td>
-												<form role="form">
-													<input type="text" class="form-control" id="optionName" placeholder="Option Name">
-												</form>
+                                                                                                <input type="text" name="optionName" class="form-control" id="optionName" placeholder="Option Name">
 											</td>
 											<td>
-												<button type="submit" class="btn btn-large btn-success">Add Option</button>
+												 <input type ="button" id ="addOption" value="Add Option" onClick="optionForm_add(this.form,'idea_type')" class="btn btn-large btn-success" contenteditable="true">
 											</td>
 										</tr>
-									</table>    
+									</table>
+                                                                    </form>
 								</div>
 							</div>
 						</div>
@@ -123,6 +156,15 @@ function categoriesTab(){
     </div>
 </div>
 
+	<script language ="javascript">
+	
+	function optionForm_add(form, category) { 
+		
+                var optionName = form.optionName.value;
+		window.location.href = "add_option.php?optionName=" + optionName + "&category=" + category;
+	}
+	</script>
+        
 <?php
 }
 //=========================================================================================================================

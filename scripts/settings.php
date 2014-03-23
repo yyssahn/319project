@@ -4,6 +4,27 @@ include('database_helper.php');
 $dbhelp = new DatabaseHelper();
 
 $uid = $_SESSION['User_ID'];
+$EmailERR = $phoneERR = "";
+$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
+
+// Database credentials
+$DBServer = "localhost";
+$DBUser = "root";
+$DBPass = "";
+$DBName = "cbel_db";
+$key ="";
+ 
+// Connect to database
+$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+
+function isValid($pattern, $value){
+	return preg_match($pattern, $value) ? true : false;
+}
+
+function mailExists($db, $mail){
+	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail')");
+	return ($resultMail->num_rows != 0);
+}
 
 function deleteAccount($db, $uid){
 	return $result = $db -> query("DELETE FROM user WHERE (uid =  '$uid')");
@@ -64,9 +85,19 @@ if (array_key_exists("delSubmit", $_POST)){
 //Update general info.
 if(array_key_exists("Usubmit", $_POST)){
 	$f = $_POST['fpartner'];	$l = $_POST['lpartner'];
-	$p = $_POST['ppartner'];	$e = $_POST['epartner'];
+	$p = $_POST['ppartner'];
+	$e = filter_var($_POST['epartner'], FILTER_SANITIZE_EMAIL);
 
-	updateInfo($dbhelp, $uid, $f, $l, $p, $e );
+	if(!isValid($phonePattern, $p))
+		$phoneERR = "Incorrect phone number entered.";
+
+	if (!filter_var($e, FILTER_VALIDATE_EMAIL)) 
+    	$EmailERR = "Incorrect Email Entered.";
+    if(mailExists($conn, $e))
+    	$EmailERR = "This email already exists.";
+
+	if($phoneERR == $EmailERR)
+		updateInfo($dbhelp, $uid, $f, $l, $p, $e );
 }
 
 $sql = "SELECT username,firstname,lastname,phonenumber,email FROM user WHERE uid = ?";
@@ -98,6 +129,7 @@ if(array_key_exists("Psubmit", $_POST)){
 	else
 		echo "YOU STUPID.";
 }
+$conn->close();
 ?>
 
 <div class="page-header">
@@ -147,8 +179,9 @@ if(array_key_exists("Psubmit", $_POST)){
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Phone:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="ppartner" placeholder="Enter Text"
-				value="<?php echo htmlspecialchars($ph);?>">					
+				<input type="text" class="form-control" name="ppartner" placeholder="XXX-XXX-XXXX"
+				value="<?php echo htmlspecialchars($ph);?>">
+				<span class = "error"><?php echo $phoneERR; ?></span>					
 			</div>
 		</div>
 	</div>
@@ -159,8 +192,9 @@ if(array_key_exists("Psubmit", $_POST)){
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Email:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="epartner" placeholder="Enter Text"
+				<input type="text" class="form-control" name="epartner" placeholder="abc@email.com"
 				value="<?php echo htmlspecialchars($e);?>">
+				<span class="error"><?php echo $EmailERR;?></span>
 			</div>
 		</div>
 	</div>
