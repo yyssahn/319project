@@ -40,7 +40,6 @@ if($row) {
 }else {
 	echo "<script>alert('Your login account information is incorrect!');history.back();</script>";
 }
-
 ?>
 
 

@@ -7,29 +7,35 @@ $db = new DatabaseHelper();
 $referral = $mandate = $focus = $activities = '';
 //=========================================================================================================================
 // Take each array form each multi-select box in form and combine selected options into comma separated string
+if(isset($_POST['referral'])){
 $i=0;
 for(; $i<count($_POST['referral'])-1; $i++){
 	$referral .= $_POST['referral'][$i].", ";
 }
 $referral .= $_POST['referral'][$i];
+}
 
+if(isset($_POST['mandate'])){
 $i=0;
 for(; $i<count($_POST['mandate'])-1; $i++){
 	$mandate .= $_POST['mandate'][$i].", ";
 }
 $mandate .= $_POST['mandate'][$i];
-
+}
+if(isset($_POST['focus'])){
 $i=0;
 for(; $i<count($_POST['focus'])-1; $i++){
 	$focus .= $_POST['focus'][$i].", ";
 }
 $focus .= $_POST['focus'][$i];
-
+}
+if(isset($_POST['activities'])){
 $i=0;
 for(; $i<count($_POST['activities'])-1; $i++){
 	$activities .= $_POST['activities'][$i].", ";
 }
 $activities .= $_POST['activities'][$i];
+}
 //=========================================================================================================================
 // Get pid to be associated with lead
 $sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
@@ -63,35 +69,43 @@ else{
 }
 //=========================================================================================================================
 // Prepare statement
-$sql = "INSERT INTO CBEL_Lead(lid, pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, disciplines, timeframe, status) 
-VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)
-ON DUPLICATE KEY UPDATE
-	lid = values(lid),
-	pid = values(pid), 
-	lead_name = values(lead_name), 
-	description = values(description), 
-	idea_type = values(idea_type), 
-	referral = values(referral), 
-	mandate=values(mandate),
-	focus=values(focus), 
-	main_activities=values(main_activities), 
-	location=values(location), 
-	disciplines=values(disciplines), 
-	timeframe=values(timeframe), 
-	status=values(status)";
+if($_SESSION['lid'] == NULL){
+	$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
+					disciplines, timeframe, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+					
+	$stmt = $db->prepareStatement($sql);
 
-$stmt = $db->prepareStatement($sql);
+	// Set array of parameters to be bound
+	$params = array();
+	array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+						$activities, $_POST['location'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status']);	
 
-// Set array of parameters to be bound
-$params = array();
-array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
-					$activities, $_POST['location'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status']);	
+	// Set array of types of parameters to be bound				
+	$param_types = array();
+	$param_types[0] = 'i';
+	for($i=1; $i<12; $i++)
+		$param_types[] = 's'; // s = strung
+}
+else if($_SESSION['lid'] != NULL){
+	$sql = "UPDATE CBEL_Lead 
+				SET pid = ?, lead_name = ?, description = ?, idea_type = ?, referral = ?, mandate = ?, focus = ?, main_activities = ?, 		
+					location = ?, disciplines = ?, timeframe = ?, status = ?
+				WHERE lid = ?";
+				
+	$stmt = $db->prepareStatement($sql);
 
-// Set array of types of parameters to be bound				
-$param_types = array();
-$param_types[0] = 'i';
-for($i=1; $i<12; $i++)
-	$param_types[] = 's'; // s = strung
+	// Set array of parameters to be bound
+	$params = array();
+	array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+						$activities, $_POST['location'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status'], $_SESSION['lid']);	
+						
+	// Set array of types of parameters to be bound				
+	$param_types = array();
+	$param_types[0] = 'i';
+	for($i=1; $i<12; $i++)
+		$param_types[] = 's'; // s = strung
+	$param_types[] = 'i';
+}
 	
 // Bind parameters and execute statement	
 $db->bindArray($stmt, $param_types, $params);

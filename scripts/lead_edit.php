@@ -19,6 +19,8 @@
 	
 	// Get lead data if lead exists
 	if(isset($_GET['lid'])){
+		$_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
+		
 		$sql = "SELECT * FROM CBEL_Lead WHERE lid=?";
 		$stmt = $db->prepareStatement($sql);
 		$db->bindParameter($db, 'i', $_GET['lid']);
@@ -91,17 +93,13 @@
 							// Populate each option from database. Automatically selects options that associated with the lead
 							echo "<option>".NULL."</option>";
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['idea_type'], $row['idea_type']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
 								
 								if($row['idea_type'] != NULL){
-						?>
-									<option value="<?php $row['idea_type']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['idea_type']; ?></option>
-								
-						<?php
+									echo "<option value='{$row['idea_type']}' $selected >".$row['idea_type']."</option>";
 								}
 							}
 						?>
@@ -114,18 +112,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['referral'], $row['referral']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-									
-								if($row['referral'] != NULL){
+								if($row['referral'] != NULL)
+									echo "<option value='{$row['referral']}' $selected >".$row['referral']."</option>";
+							}
 						?>
-									<option value="<?php $row['referral']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['referral']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 			</div>
@@ -137,18 +131,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['mandate'], $row['mandate']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-									
-								if($row['mandate'] != NULL){
+								if($row['mandate'] != NULL)
+									echo "<option value='{$row['mandate']}' $selected >".$row['mandate']."</option>";
+							}
 						?>
-									<option value="<?php $row['mandate']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['mandate']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 				
@@ -158,18 +148,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['focus'], $row['focus']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-									
-								if($row['focus'] != NULL){
+								if($row['focus'] != NULL)
+									echo "<option value='{$row['focus']}' $selected >".$row['focus']."</option>";
+							}
 						?>
-									<option value="<?php $row['focus']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['focus']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 			</div>
@@ -181,18 +167,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
-								if(strpos($lead_info[0]['main_activities'], $row['main_activities']) !== false){
-									$selected = true; 
+								$selected = '';
+								if(strpos($lead_info[0]['activities'], $row['activities']) !== false){
+									$selected = 'selected';
 								}
-									
-								if($row['main_activities'] != NULL){
+								if($row['activities'] != NULL)
+									echo "<option value='{$row['activities']}' $selected >".$row['activities']."</option>";
+							}
 						?>
-									<option value="<?php $row['main_activities']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['main_activities']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 				
@@ -202,18 +184,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['delivery'], $row['delivery']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-									
-								if($row['delivery'] != NULL){
+								if($row['delivery'] != NULL)
+									echo "<option value='{$row['delivery']}' $selected >".$row['delivery']."</option>";
+							}
 						?>
-									<option value="<?php $row['delivery']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['delivery']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 			</div>
@@ -225,18 +203,14 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-									
-								if($row['disciplines'] != NULL){
+								if($row['disciplines'] != NULL)
+									echo "<option value='{$row['disciplines']}' $selected >".$row['disciplines']."</option>";
+							}
 						?>
-									<option value="<?php $row['disciplines']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['disciplines']; ?></option>
-					<?php }
-							} 
-					?>
 					</select>
 				</div>
 				
@@ -245,20 +219,13 @@
 					<select class="form-control" name="timeframe">
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
-							echo "<option>".NULL."</option>";
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['timeframe'], $row['timeframe']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-								
-								if($row['timeframe'] != NULL){
-						?>
-									<option value="<?php $row['timeframe']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['timeframe']; ?></option>
-								
-						<?php
-								}
+								if($row['timeframe'] != NULL)
+									echo "<option value='{$row['timeframe']}' $selected >".$row['timeframe']."</option>";
 							}
 						?>
 					</select>
@@ -271,20 +238,13 @@
 					<select class="form-control" name="status">
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
-							echo "<option>".NULL."</option>";
 							foreach($categories as $row){
-								$selected = false;
+								$selected = '';
 								if(strpos($lead_info[0]['status'], $row['status']) !== false){
-									$selected = true; 
+									$selected = 'selected';
 								}
-								
-								if($row['status'] != NULL){
-						?>
-									<option value="<?php $row['status']; ?>" <?php if($selected){ ?>  selected <?php } ?>>
-										<?php print $row['status']; ?></option>
-								
-						<?php
-								}
+								if($row['status'] != NULL)
+									echo "<option value='{$row['status']}' $selected >".$row['status']."</option>";
 							}
 						?>
 					</select>
