@@ -105,6 +105,7 @@ function categoriesTab(){
 							</div>
 							<div id="collapseOne" class="panel-collapse collpase collapse">
 								<div class="panel-body">
+                                                                    <form name = "option_form" method = "post" action = "">	
 									<table class="table table-condensed">
 										<?php
 											$sql = "SELECT idea_type FROM categoryoptions";
@@ -116,22 +117,21 @@ function categoriesTab(){
 												if (isset($subcat['idea_type'])) {
 													print "<tr><td>".$subcat['idea_type']."</td>".
 														"<td><a href='index.php?content=admin' class='btn btn-large btn-info'>Edit</a>".
-														"<a href='index.php?content=admin' class='btn btn-large btn-danger'>Remove</a>".
+														"<a href='remove_option.php?optionName=".$subcat['idea_type']."&category=idea_type' class='btn btn-large btn-danger'>Remove</a>".
 														"</td></tr>";
 												}
 											}
 										?>
 										<tr>
 											<td>
-												<form role="form">
-													<input type="text" class="form-control" id="optionName" placeholder="Option Name">
-												</form>
+                                                                                                <input type="text" name="optionName" class="form-control" id="optionName" placeholder="Option Name">
 											</td>
 											<td>
-												<button type="submit" class="btn btn-large btn-success">Add Option</button>
+												 <input type ="button" id ="addOption" value="Add Option" onClick="optionForm_add(this.form,'idea_type')" class="btn btn-large btn-success" contenteditable="true">
 											</td>
 										</tr>
-									</table>    
+									</table>
+                                                                    </form>
 								</div>
 							</div>
 						</div>
@@ -156,6 +156,15 @@ function categoriesTab(){
     </div>
 </div>
 
+	<script language ="javascript">
+	
+	function optionForm_add(form, category) { 
+		
+                var optionName = form.optionName.value;
+		window.location.href = "add_option.php?optionName=" + optionName + "&category=" + category;
+	}
+	</script>
+        
 <?php
 }
 //=========================================================================================================================
