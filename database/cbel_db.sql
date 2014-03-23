@@ -60,6 +60,7 @@ DROP TABLE IF EXISTS `cbel_lead`;
 CREATE TABLE `cbel_lead` (
   `lid` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
+  `activity_count` int(11) DEFAULT 0,
   `idea_name` varchar(45) NOT NULL,
   `description` varchar(250) DEFAULT NULL,
   `idea_type` varchar(45) DEFAULT NULL,
@@ -71,6 +72,7 @@ CREATE TABLE `cbel_lead` (
   `disciplines` varchar(45) DEFAULT NULL,
   `timeframe` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
+
   PRIMARY KEY (`lid`,`pid`),
   UNIQUE KEY `lid_UNIQUE` (`lid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -82,7 +84,7 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(3,2,'name',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,0,'name1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `cbel_lead` VALUES (1,1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,1,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(3,2,1,'name',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,0,1,'name1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
