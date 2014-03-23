@@ -71,6 +71,14 @@ class DatabaseHelper{
 		
 		return $result_array;
 	}
+	
+	public function getAffectedRows($stmt){
+		return $this->stmt->affected_rows;
+	}
+	
+	public function closeConnection($conn){
+		$this->conn->close();
+	}
 }
 
 ?>

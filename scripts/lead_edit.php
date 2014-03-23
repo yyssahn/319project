@@ -168,11 +168,11 @@
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
 								$selected = '';
-								if(strpos($lead_info[0]['activities'], $row['activities']) !== false){
+								if(strpos($lead_info[0]['main_activities'], $row['main_activities']) !== false){
 									$selected = 'selected';
 								}
-								if($row['activities'] != NULL)
-									echo "<option value='{$row['activities']}' $selected >".$row['activities']."</option>";
+								if($row['main_activities'] != NULL)
+									echo "<option value='{$row['main_activities']}' $selected >".$row['main_activities']."</option>";
 							}
 						?>
 					</select>
@@ -184,12 +184,12 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = '';
-								if(strpos($lead_info[0]['delivery'], $row['delivery']) !== false){
+								$selected = 'selected';
+								if(strpos($lead_info[0]['location'], $row['location']) !== false){
 									$selected = 'selected';
 								}
-								if($row['delivery'] != NULL)
-									echo "<option value='{$row['delivery']}' $selected >".$row['delivery']."</option>";
+								if($row['location'] != NULL)
+									echo "<option value='{$row['location']}' $selected >".$row['location']."</option>";
 							}
 						?>
 					</select>
@@ -203,7 +203,7 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = '';
+								$selected = 'selected';
 								if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
 									$selected = 'selected';
 								}
@@ -220,7 +220,7 @@
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
 							foreach($categories as $row){
-								$selected = '';
+								$selected = 'selected';
 								if(strpos($lead_info[0]['timeframe'], $row['timeframe']) !== false){
 									$selected = 'selected';
 								}
@@ -238,6 +238,7 @@
 					<select class="form-control" name="status">
 						<?php
 							// Populate each option from database. Automatically selects options that associated with the lead
+							echo "<option>".NULL."</option>";
 							foreach($categories as $row){
 								$selected = '';
 								if(strpos($lead_info[0]['status'], $row['status']) !== false){
@@ -263,6 +264,17 @@
 		</div>
 		
 		<div class="row">
+<?php
+		// Delete button only shows up when edititin existing lead, not when adding a new lead
+		if(isset($_GET['lid'])){ 
+?>
+			<div class="col-md-1">
+				<input type="submit" class="btn btn-large btn-danger" name="delete" value="Delete Lead">
+				<input type="hidden" name="submit" value="submit">
+			</div>
+<?php
+		}
+?>
 			<div class="col-md-offset-11">
 				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Submit">
 				<input type="hidden" name="submit" value="submit">
