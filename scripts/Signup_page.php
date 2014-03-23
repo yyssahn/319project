@@ -153,8 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						<div class="col-md-10 col-md-offset-1">
 							<label for="pNum" class="col-md-3 control-label">Key:</label>
 							<div class="col-md-8">
-								<input type = "text" class="form-control" name = "key" placeholder ="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
-								<!--<span class="error"><?php echo $TelepERR;?></span>-->
+								<input type = "text" class="form-control" name = "signupkey" placeholder ="XXXXXXXX">
 							</div>
 						</div>
 					</div>
@@ -178,7 +177,7 @@ $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
 $DBName = "cbel_db";
-$key  =  $_POST['key'];
+$key ="";
  
 // Connect to database
 $conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
@@ -242,7 +241,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 	if(noUserExists($conn , $user) && samePassword($PWSRD, $CPWSRD) && 
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
-
+			$key = $_POST['signupkey'];
 		if(checkKey($dbHelper, $key)){
 
 		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
@@ -254,7 +253,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 			echo ", $result->num_rows. Should be 1.";
 			echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
 			$result->close();
-    		header('Refresh: 5; login_page.html');
+    		header('Refresh: 2; login_page.html');
     		}    
     	}
     	else
