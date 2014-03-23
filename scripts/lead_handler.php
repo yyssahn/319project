@@ -63,9 +63,23 @@ else{
 }
 //=========================================================================================================================
 // Prepare statement
-$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 
-														disciplines, timeframe, status) 
-									VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO CBEL_Lead(lid, pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, disciplines, timeframe, status) 
+VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?)
+ON DUPLICATE KEY UPDATE
+	lid = values(lid),
+	pid = values(pid), 
+	lead_name = values(lead_name), 
+	description = values(description), 
+	idea_type = values(idea_type), 
+	referral = values(referral), 
+	mandate=values(mandate),
+	focus=values(focus), 
+	main_activities=values(main_activities), 
+	location=values(location), 
+	disciplines=values(disciplines), 
+	timeframe=values(timeframe), 
+	status=values(status)";
+
 $stmt = $db->prepareStatement($sql);
 
 // Set array of parameters to be bound
