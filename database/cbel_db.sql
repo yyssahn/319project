@@ -71,9 +71,10 @@ CREATE TABLE `cbel_lead` (
   `disciplines` varchar(45) DEFAULT NULL,
   `timeframe` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
+  `activity_count` int(11) DEFAULT '0',
   PRIMARY KEY (`lid`,`pid`),
   UNIQUE KEY `lid_UNIQUE` (`lid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +83,7 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(16,2,'','','','Course-Based Opportunity, Reading Week Project, Community-Based Research','Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development','Aboriginal Engagement, Arts - Culture - Heritage, Education - Research','Curriculum Development, Data Gathering and Mapping, Event',NULL,NULL,NULL,''),(17,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session'),(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session'),(19,1,'Marry Dead Brother\'s Betrothed','Brandon is dead. I must marry Catelyn instead.','One-Time Project','Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(21,11,'Run Away With Lyanna Stark','I want to fuck her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed');
+INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented',10),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',8),(16,2,'Lead','Description','','Course-Based Opportunity, Reading Week Project, Community-Based Research','Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development','Aboriginal Engagement, Arts - Culture - Heritage, Education - Research','Curriculum Development, Data Gathering and Mapping, Event',NULL,NULL,NULL,'',6),(17,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session',3),(18,2,'Something','fjal;ksjfkl;sdaj','Part of a Multi-Phase Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session',1),(19,1,'Marry Dead Brother\'s Betrothed','Brandon is dead. I must marry Catelyn instead.','One-Time Project','Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',4),(21,11,'Run Away With Lyanna Stark','I love Lyanna Stark. I shall marry her.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed',9),(22,12,'Avenge my Father','The Lannisters must pay for murdering my father','','','','','',NULL,NULL,NULL,'',10),(23,12,'Defeat Tywin at Green Fork','Our first real battle. Fuck yeah!','One-Time Project',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,20),(24,12,'','','','','','','',NULL,NULL,NULL,'',0);
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +102,7 @@ CREATE TABLE `communitypartner` (
   `phone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `pid_UNIQUE` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +111,7 @@ CREATE TABLE `communitypartner` (
 
 LOCK TABLES `communitypartner` WRITE;
 /*!40000 ALTER TABLE `communitypartner` DISABLE KEYS */;
-INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','(423)423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','(666)666-6666'),(3,'China','Huangdi','huangdi@sile.ca','(123)456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','(111)111-1111'),(7,'Tits','McGee','',''),(11,'Selfish Fools Who Start Wars','Rhaegar Targaryen','reddragon@fireandblood.ca','4564646');
+INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','(423)423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','(666)666-6666'),(3,'China','Huangdi','huangdi@sile.ca','(123)456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','(111)111-1111'),(7,'Tits','McGee','',''),(11,'Selfish Fools Who Start Wars','Rhaegar Targaryen','reddragon@fireandblood.ca','4564646'),(12,'','','','');
 /*!40000 ALTER TABLE `communitypartner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +141,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (100,'user1','pass',0,'','','',''),(101,'user2','swag',0,'','','',''),(102,'ninja','ninjapass',0,'ninjapass','Ninja','of Awesomeness','64658'),(103,'ninja1421','katana',0,'katana','Ninja','of Awesomeness','64658'),(104,'fool','evil',0,'Name','Last','666','fool@hotmail.com');
+INSERT INTO `user` VALUES (100,'user1','pass',0,'','','',''),(101,'user2','swag',0,'','','',''),(102,'ninja','ninjapass',1,'ninjapass','Ninja','of Awesomeness','64658'),(103,'ninja1421','katana',0,'katana','Ninja','of Awesomeness','64658'),(104,'fool','evil',0,'Name','Last','666','fool@hotmail.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,4 +158,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-23 12:10:38
+-- Dump completed on 2014-03-24  9:55:22

@@ -13,9 +13,10 @@ $(document).ready(function(){
 	// http://docs.jquery.com/Plugins/Validation/
 	// http://docs.jquery.com/Plugins/Validation/validate#toptions
 
-		$.validator.addMethod("regx", function(value, element, regexpr) {          
+
+		$.validator.addMethod("pattern", function(value, element, regexpr){
 			return this.optional(element) || regexpr.test(value);
-		}, "Please use the format XXX-XXX-XXXX.");
+		}, "Please use the proper format");
 		
 		$('#form').validate({
 	    rules: {
@@ -27,9 +28,9 @@ $(document).ready(function(){
 	      	minlength: 2,
 	        required: true
 	      },
-		  phone: {
-			required: false,
-			regx: /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+		  phone:{
+			required: false,s
+			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
 		  },
 	      email: {
 	        required: true,
