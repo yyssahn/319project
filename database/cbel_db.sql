@@ -61,6 +61,7 @@ CREATE TABLE `cbel_lead` (
   `lid` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
   `lead_name` varchar(45) NOT NULL,
+  `activity_count` int(11) DEFAULT 0,
   `description` varchar(250) DEFAULT NULL,
   `idea_type` varchar(45) DEFAULT NULL,
   `referral` varchar(200) DEFAULT NULL,
@@ -71,6 +72,7 @@ CREATE TABLE `cbel_lead` (
   `disciplines` varchar(45) DEFAULT NULL,
   `timeframe` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
+
   PRIMARY KEY (`lid`,`pid`),
   UNIQUE KEY `lid_UNIQUE` (`lid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
@@ -82,7 +84,9 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
+
 INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(16,2,'','','','Course-Based Opportunity, Reading Week Project, Community-Based Research','Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development','Aboriginal Engagement, Arts - Culture - Heritage, Education - Research','Curriculum Development, Data Gathering and Mapping, Event',NULL,NULL,NULL,''),(17,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session'),(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session'),(19,1,'Marry Dead Brother\'s Betrothed','Brandon is dead. I must marry Catelyn instead.','One-Time Project','Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(21,11,'Run Away With Lyanna Stark','I want to fuck her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed');
+
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
