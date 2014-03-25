@@ -118,14 +118,14 @@ function categoriesTab(){
 											$listOfSubcats = $db->getResult($stmt);
 											
 											foreach($listOfSubcats as $subcat) {
-												if (isset($subcat['idea_type'])) {
-													print "<tr><td>".$subcat['idea_type']."</td>".
-														"<td><a href='index.php?content=admin' class='btn btn-large btn-info'>Edit</a>".
-														"<a href='remove_option.php?optionName=".$subcat['idea_type']."&category=idea_type' class='btn btn-large btn-danger'>Remove</a>".
-														"</td></tr>";
-												}
-											}
-										?>
+												if (isset($subcat['idea_type'])) { ?>
+													<tr><td><?php print $subcat['idea_type']; ?></td>
+                                                                                                        <td><input type ='button' id ='editOption' value='Edit' onClick='expand_option("<?php print $subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
+														<a href='remove_option.php?optionName=<?php print $subcat['idea_type']; ?>&category=idea_type' class='btn btn-large btn-danger'>Remove</a>
+														</td></tr>
+												<?php }
+											} ?>
+										
 										<tr>
 											<td>
                                                                                                 <input type="text" name="optionName" class="form-control" id="optionName" placeholder="Option Name">
@@ -167,6 +167,20 @@ function categoriesTab(){
                 var optionName = form.optionName.value;
 		window.location.href = "add_option.php?optionName=" + optionName + "&category=" + category;
 	}
+        
+//        function optionForm_expand(option) {
+//            alert(option);
+//        }
+
+        function expand_option(option, category) {
+            var x;
+
+            var newOptionName=prompt("New Option Name");
+
+            if (newOptionName!=null) {
+                window.location.href = "edit_option.php?newOptionName=" + newOptionName + "&option=" + option + "&category=" + category;
+            }
+        }
 	</script>
         
 <?php
