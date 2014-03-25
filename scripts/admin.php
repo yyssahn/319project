@@ -43,7 +43,7 @@ if(array_key_exists("genkey", $_POST)){
 function accountsTab(){
 	global $db;
 	// Query Database for list of Usernames
-	$sql = "SELECT username, admin, activityCount FROM user";
+	$sql = "SELECT username, admin, activity_count FROM user";
 	$stmt = $db->prepareStatement($sql);
 	$db->executeStatement($stmt);
 	$listOfUsers = $db->getResult($stmt);
@@ -74,7 +74,7 @@ function accountsTab(){
 									"</td><td><div><a href='admin_delete.php?username=".$username['username']."' class='btn btn-large btn-danger'>Delete</a>"
 									. $promoteornot
 									. "</div></td>
-									<td>".$username['activityCount']."</td>
+									<td>".$username['activity_count']."</td>
 									</tr>";
 						}
 					?>
