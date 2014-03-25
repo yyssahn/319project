@@ -148,6 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</div>
 						</div>
 					</div>
+
+					<div class="row" style="padding-top: 20px">
+						<div class="col-md-10 col-md-offset-1">
+							<label for="pNum" class="col-md-3 control-label">Key:</label>
+							<div class="col-md-8">
+								<input type = "text" class="form-control" name = "key" placeholder ="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+								<!--<span class="error"><?php echo $TelepERR;?></span>-->
+							</div>
+						</div>
+					</div>
 				</div>
 				
 				<div class="row clearfix">
@@ -168,6 +178,7 @@ $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
 $DBName = "cbel_db";
+$key  =  $_POST['key'];
  
 // Connect to database
 $conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
@@ -181,12 +192,13 @@ function samePassword($pass, $confPass) {
  
 function noUserExists($db,$userE){
 	$result = $db->query("SELECT * FROM user WHERE (username = '$userE')");
+	echo "$result->num_rows";
 	return ($result->num_rows == 0);
 }
 
-function mailExists($db, $mail){ //TODO: MAKE IT NO? 
-	//TODO: CHANGE QUERY TO THE RIGHT COLOMN.
+function mailExists($db, $mail){
 	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail')");
+	echo "$resultMail->num_rows";
 	return ($resultMail->num_rows != 0);
 }
 
@@ -204,6 +216,23 @@ function runInsert($db, $u, $p, $f, $l, $ph, $e){
 	$db->executeStatement($stmt);
 }
 
+//Check if key exists in the database
+function checkKey($db, $k){
+	$sql = "SELECT count(*) FROM genkeys WHERE unusedkey = ?";
+	$stmt = $db->prepareStatement($sql);
+	$params = array($k);
+	$param_types = array('s');
+	$db->bindArray($stmt, $param_types, $params);
+	$db->executeStatement($stmt);
+	$key_results = $db->getResult($stmt);
+	return ($key_results[0]['count(*)'] == 1);
+}
+
+function deleteKey($db, $key){
+	$db->query("DELETE FROM genkeys WHERE (unusedkey = '$key')");
+	return($db->affected_rows == 1);
+}
+
 function isValid($pattern, $value){
 	return preg_match($pattern, $value) ? true : false;
 }
@@ -214,14 +243,22 @@ if(array_key_exists("createNewACC" , $_POST)){
 		!mailExists($conn, $Email)){
 			echo "$user - Doesn't exist, We are adding it now.";
 
-		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
+		if(checkKey($dbHelper, $key)){
 
+		runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
+		if(deleteKey($conn, $key)){
+			
+			//Checks if it all works.
 			echo "Congratulations, you have been registered. Sign in plz";
-		$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
-		echo ", $result->num_rows. Should be 1.";
-		echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
-		$result->close();
-    	header('Refresh: 5; login_page.html');    
+			$result = $conn->query("SELECT * FROM user WHERE (username = '$user')");
+			echo ", $result->num_rows. Should be 1.";
+			echo "THIS PAGE WILL AUTOMATICALLY GO TO LOGIN just wait";
+			$result->close();
+    		header('Refresh: 5; login_page.html');
+    		}    
+    	}
+    	else
+    		echo "Well, your key doesnt work, Get another key from admin.";
 	}
 	else
 		echo "$user - Already exists - OR passwords dont match";

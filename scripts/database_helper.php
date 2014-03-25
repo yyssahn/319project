@@ -36,9 +36,9 @@ class DatabaseHelper{
 		return $this->stmt;
 	}
 	
-	/* Bind parameters.  May be removed */
-	public function bindParameters($stmt, $types, $params){
-		$this->stmt->bind_param($types, $params);
+	/* Bind single parameter */
+	public function bindParameter($stmt, $type, $param){	
+		$this->stmt->bind_param($type, $param);
 	}
 	
 	/* Bind an array of parameters */
@@ -61,15 +61,23 @@ class DatabaseHelper{
 	
 	/* Execute Statement */
 	public function executeStatement($stmt){
-		$this->stmt ->execute();
+		$this->stmt->execute();
 	}
-
+	
 	/* Store result in array */
 	public function getResult($stmt){
 		$result = $this->stmt->get_result();
 		$result_array = $result->fetch_all(MYSQLI_ASSOC);
 		
 		return $result_array;
+	}
+	
+	public function getAffectedRows($stmt){
+		return $this->stmt->affected_rows;
+	}
+	
+	public function closeConnection($conn){
+		$this->conn->close();
 	}
 }
 

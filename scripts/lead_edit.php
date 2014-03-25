@@ -1,9 +1,30 @@
 <div class="page-header">
 	<h2>Lead Edit Page Mother Fucker!</h2>
 </div>
+<head>
+	<style type="text/css">
+	.commentList{
+				width: 600px;
+				margin-top: 100 auto;		
+				
+				}
+	
+	.commentCSS{
+			border-bottom: 2px solid #eee;
+			margin-bottom: 0.5em;
+			font-family: Verdana, Geneva, sans-serif;
+			font-size: 12px;
 
+	}
+	</style>
+
+</head>
 <?php
+
 	include('database_helper.php');
+
+	$lead_info = array();
+	$partner_info = array();
 	
 	// Connect to database
 	$db = new DatabaseHelper();
@@ -13,6 +34,21 @@
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$categories = $db->getResult($db);
+	
+	// Get lead data if lead exists
+	if(isset($_GET['lid'])){
+		$sql = "SELECT * FROM CBEL_Lead WHERE lid=?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindParameter($db, 'i', $_GET['lid']);
+		$db->executeStatement($stmt);
+		$lead_info = $db->getResult($stmt);
+		
+		$sql = "SELECT * FROM CommunityPartner WHERE pid=?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindParameter($db, 'i', $lead_info[0]['pid']);
+		$db->executeStatement($stmt);
+		$partner_info = $db->getResult($stmt);
+	}
 ?>
 	<form action="index.php?content=lead_handler" method="POST">
 		<h4><strong>Community Partner:</strong></h4>
@@ -21,24 +57,28 @@
 			<div class="row">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
 				<div class="col-md-4">
-						<input type="text" class="form-control" name="partner" placeholder="Enter Community Partner">
+						<input type="text" class="form-control" name="partner" placeholder="Enter Community Partner"
+							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
 				</div>
 				
 				<label for="contact_name" class="col-md-2 control-label">Contact Name:</label>
 				<div class="col-md-4">
-						<input type="text" class="form-control" name="contact_name" placeholder="Enter Contact Name">
+						<input type="text" class="form-control" name="contact_name" placeholder="Enter Contact Name"
+							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
 				</div>
 			</div>
 			
 			<div class="row">
 				<label for="phone" class="col-md-2 control-label">Contact Phone:</label>
 				<div class="col-md-4">
-						<input type="text" class="form-control" name="phone" placeholder="Enter Valid Phone Number">
+						<input type="text" class="form-control" name="phone" placeholder="Enter Valid Phone Number"
+							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
 				</div>
 			
 				<label for="email" class="col-md-2 control-label">Contact Email:</label>
 				<div class="col-md-4">
-						<input type="email" class="form-control" name="email" placeholder="Enter Valid Email Address">
+						<input type="email" class="form-control" name="email" placeholder="Enter Valid Email Address"
+							value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
 				</div>
 			</div>
 		</div>
@@ -50,12 +90,14 @@
 			<div class="row">
 				<label for="lead_name" class="col-md-2 control-label">Lead Name:</label>
 				<div class="col-md-4">
-						<input type="text" class="form-control" name="lead_name" placeholder="Enter a Name for the Lead">
+						<input type="text" class="form-control" name="lead_name" placeholder="Enter a Name for the Lead"
+							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['lead_name']);?>">
 				</div>
 				
 				<label for="description" class="col-md-2 control-label">Description:</label>
 				<div class="col-md-4">
-						<textarea class="form-control" name="description" rows="4" placeholder="Enter a Brief Description of the Lead"></textarea>
+						<textarea class="form-control" name="description" rows="4" placeholder="Enter a Brief Description of the 
+							Lead"><?php if($lead_info) echo htmlspecialchars($lead_info[0]['description']);?></textarea>
 				</div>
 			</div>
 			
@@ -197,3 +239,203 @@
 			</div>
 		</div>
 	</form>
+	
+	<?php if(isset($_GET['lid'])) :?> 
+	<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+				 	<h2 class="comments-title">Comments</h2> 
+					
+					<ol class="commentList">
+					
+					<?php
+					if(isset($_POST['commentSubmit'])) {
+						$postedComment = htmlentities($_POST['commentBox']);
+
+						if(strlen(trim($postedComment)) < 1) {
+							echo "<script type=\"text/javascript\">\n";
+							echo "alert('Please fill in the comment box!');\n";
+							echo "</script>\n";
+
+						}else {
+							global $db;
+							global $lead_info;
+
+							$userName = $_SESSION['Input_username'];
+							$selectedLeadID = htmlspecialchars($lead_info[0]['lid']);
+
+							$sql = "INSERT INTO comment (username, lid, regDate, post) VALUES ('$userName', '.$selectedLeadID.', CURRENT_TIMESTAMP, '$postedComment')";
+
+							$stml= $db->prepareStatement($sql);	
+							$db->executeStatement($stml);
+	
+							echo "<script type=\"text/javascript\">\n";
+							echo "document.commentBoxID.value = \"\";\n";
+							echo "</script>\n";
+						}	
+					}
+					?>
+					
+					<?php
+
+					global $db;
+					global $lead_info;
+	
+					$selectedLeadID = htmlspecialchars($lead_info[0]['lid']);
+					$sql = "SELECT * FROM comment WHERE lid = '$selectedLeadID'";  
+
+					$stml= $db->prepareStatement($sql);	
+					$db->executeStatement($stml);
+					$temp = $db->getResult($db);
+					$totalNumOfComments = $db->getAffectedRows($db);
+				
+					if(!($totalNumOfComments == 0)) {
+
+						if(isset($_GET['page'])) {
+							$currentPage = $_GET['page'];
+							if($currentPage < 0) {
+								$currentPage = 1;
+							}
+						}else {
+							$currentPage = 1;
+						}
+						
+						$commentPerPage = 6;
+
+						$startComment = $commentPerPage*($currentPage - 1);
+						$commentToGet = $commentPerPage;
+						
+						
+
+						if($startComment + $commentToGet > $totalNumOfComments) {
+							$commentToGet = $totalNumOfComments - $startComment;
+						}
+						
+						
+					
+						$sql = "SELECT * FROM comment WHERE lid = '$selectedLeadID' ORDER BY regDate DESC LIMIT $startComment, $commentToGet";  
+
+						$stml= $db->prepareStatement($sql);	
+						$db->executeStatement($stml);
+						$listOfComments = $db->getResult($db);
+						$rows = $db->getAffectedRows($db);
+							
+
+						foreach($listOfComments as $comm) {
+
+							/*
+					
+							$sql = "SELECT * FROM user WHERE username = '.$comm[username].'";
+
+
+							$stml= $db->prepareStatement($sql);	
+							$db->executeStatement($stml);
+
+							$commentedUser = $db->getResult($db);
+								
+							*/
+
+							
+							echo
+								'<li id=',
+									$comm['cid'],
+								'>',
+									'<article id=',
+										$comm['cid'],
+									'>',
+												
+									'<header>',
+										'<a href = "#"',
+												
+									'>',
+													
+											'<cite>',
+												$comm['username'],
+											'</cite>',
+										'</a>',
+
+										'<time>',
+											" ",
+											$comm['regDate'],
+										'</time>',										
+									'</header>',
+
+									'<section class= "commentCSS" ',
+									'>',
+									'<p>',
+									$comm['post'],
+									'</p>',
+									'</section>',
+									'</article>',
+								'</li>';
+						}						
+					}							
+					?>			
+					
+				
+					<ul class="pagination">
+					<?php
+					global $currentPage;
+					global $totalNumOfComments;
+					
+					if($totalNumOfComments != 0) {
+					
+					$commentPerPage = 6;
+
+					$pagePerBlock = 2;
+					$currentBlock = ceil($currentPage/$pagePerBlock);
+					$totalPage = ceil($totalNumOfComments/$commentPerPage);
+					$totalBlock = ceil($totalPage/$pagePerBlock);
+				
+					if(1 < $currentBlock) {
+						$prevPage = ($currentBlock-1)*$pagePerBlock;
+						echo'<li><a href ="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$prevPage.'">Prev</a></li>';
+					}
+
+					$startPage =($currentBlock-1)*$pagePerBlock+1;
+					$endPage =$currentBlock*$pagePerBlock;
+					if($endPage > $totalPage) {
+						$endPage = $totalPage;
+					}
+					
+					?>
+					
+					<?php for($i=$startPage; $i<=$endPage; $i++):?>
+						<li> <a href="./index.php?content=lead_edit&lid=<?php echo $selectedLeadID; ?>&page=<?php echo $i; ?>"><?php echo $i; ?> </a> </li>
+					<?php endfor?>
+					
+					<?php
+					if($currentBlock < $totalBlock) {
+						$nextPage = ($currentBlock)*$pagePerBlock+1;
+						echo '<li> <a href="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$nextPage.'">Next</a> <li>';
+					} 
+					}
+					?>
+					</ul>	
+				</div>
+			</div>
+
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<p class="comment-form">
+						<div>
+							<label for="comment">Leave your comment</label>
+						</div>
+
+						<form action="" method="POST">
+							<div>
+								<textarea name="commentBox" id="commentBoxID" autofocus="autofocus" cols="105" rows="8" aria-required="true"></textarea> 
+							</div>
+							<div class="view" style = "margin-left:530px; margin-top: 30px">
+								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary">
+							</div>	
+						</form>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif?>
+</div>
