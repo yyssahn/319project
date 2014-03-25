@@ -32,6 +32,7 @@ if(isset($_POST['submit'])){
 			$subquery = $subquery." pid = ".$pid['pid']." OR";
 		}
 	}
+	// Dynamically create query based on multi-select box choices
 	if (isset($_POST['name'])){
 		foreach($_POST['name'] as $row){
 			$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
@@ -83,6 +84,7 @@ if(isset($_POST['submit'])){
 		}
 	}
 
+	// Removes the trailing WHERE or OR from the query
 	if($subquery == NULL)
 		$query = substr_replace($query, "", -(strlen(' WHERE')));
 	else if(substr($subquery, -strlen('OR')) === 'OR'){
@@ -94,7 +96,7 @@ if(isset($_POST['submit'])){
 	$db->executeStatement($stmt);
 	$result = $db->getResult($db);
 		
-		if($result != NULL){
+	if($result != NULL){
 ?>
 		<div class="well">
 			<div class="row clearfix">

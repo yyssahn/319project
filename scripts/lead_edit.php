@@ -36,7 +36,7 @@
 		$db->bindParameter($db, 'i', $_GET['lid']);
 		$db->executeStatement($stmt);
 		$lead_info = $db->getResult($stmt);
-		
+
 		$sql = "SELECT * FROM CommunityPartner WHERE pid=?";
 		$stmt = $db->prepareStatement($sql);
 		$db->bindParameter($db, 'i', $lead_info[0]['pid']);

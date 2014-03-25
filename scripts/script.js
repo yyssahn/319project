@@ -29,7 +29,7 @@ $(document).ready(function(){
 	        required: true
 	      },
 		  phone:{
-			required: false,s
+			required: false,
 			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
 		  },
 	      email: {

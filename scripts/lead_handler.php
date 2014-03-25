@@ -13,6 +13,12 @@ if(array_key_exists("delete", $_POST)){
 	$db->executeStatement($stmt);
 	
 	if($db->getAffectedRows($stmt) > 0){
+		$sql = "UPDATE User
+					SET activity_count = activity_count + 1
+					WHERE uid=?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindParameter($stmt, 'i', $_SESSION['User_ID']);
+		$db->executeStatement($stmt);
 ?>
 		<div class='alert alert-success'>Lead Successfully Deleted</div>
 		<div class="row">
@@ -140,8 +146,6 @@ else{
 		for($i=1; $i<12; $i++)
 			$param_types[] = 's'; // s = strung
 		$param_types[] = 'i';
-		
-		$_SESSION['lid'] = NULL;
 	}
 		
 	// Bind parameters and execute statement	
@@ -149,6 +153,15 @@ else{
 	$db->executeStatement($stmt);
 
 	if($db->getAffectedRows($stmt) > 0){
+		$sql = "UPDATE CBEL_Lead AS L, User AS U
+					SET L.activity_count = L.activity_count + 1, 
+							U.activity_count = U.activity_count + 1
+					WHERE L. lid=? AND U.uid=?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
+		$db->executeStatement($stmt);
+		
+		$_SESSION['lid'] = NULL; // Makes sure lead is not visible when creating a new lead
 	?>
 		<div class="alert alert-success">Lead Successfully Updated</div>
 		<div class="row">

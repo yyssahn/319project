@@ -2,45 +2,35 @@
 	<h2>Home Mother Fucker!</h2> 
 </div>
 <?php 
-	include('database_helper.php');
-	
-		$db = new DatabaseHelper();
-	$query = "SELECT lead_name, description FROM 
-					(
-						SELECT lead_name, description FROM `cbel_lead` 
-						WHERE `activity_count` > 0 
-						ORDER BY `activity_count` DESC LIMIT 8
-					) AS T1
-					ORDER BY `lead_name` ASC";
-	
-	$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
-		$result = $db->getResult($stmt);
-	
+include('database_helper.php');
 
-//	print_r($result[0]['lead_name']);
-//	echo count($result);
-	$int = 0; 
-//	while ($int < count($result)){
-//		if ($int %2 ==0){
-//			echo $int;
-//			echo($result[$int]['lead_name']);
-//		}else {
-//		echo $int;
-//		echo ($result[$int]['lead_name']);
-//		}
-//		$int++;
-//	}
+$db = new DatabaseHelper();
+
+$query = "SELECT lid, lead_name, description FROM 
+				(
+					SELECT lid, lead_name, description FROM `cbel_lead` 
+					WHERE `activity_count` > 0 
+					ORDER BY `activity_count` DESC LIMIT 8
+				) AS T1
+				ORDER BY `lead_name` ASC";
+
+$stmt = $db->prepareStatement($query);
+$db->executeStatement($stmt);
+$result = $db->getResult($stmt);
+	
 echo '
 	
 <div class="well">
 ';
 
+$int = 0;
 while ($int < count($result)){
+	$lid = $result[$int]['lid'];
 	if ($int %2 == 0){
 		echo'<div class="row clearfix">
 		<div class="col-md-6 column">
-			<div class="panel panel-primary">
+			<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' " 
+									onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
 				<div class="panel-heading">
 					<h3 class="panel-title">'.
 						$result[$int]['lead_name'].'
@@ -56,7 +46,8 @@ while ($int < count($result)){
 		</div>';
 	}else{
 		echo '<div class="col-md-6 column">
-			<div class="panel panel-primary">
+			<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' " 
+									onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
 				<div class="panel-heading">
 					<h3 class="panel-title">'.
 							$result[$int]['lead_name'].'
