@@ -433,7 +433,7 @@
 											$comm['regDate'],
 											
 										'</time>',
-										'<a href = "./commentDelete.php?commentID='.$comm['cid'].'selectedLeadID='.$selectedLeadID.'" >',
+										'<a href = "./commentDelete.php?commentID='.$comm['cid'].'?selectedLeadID='.$selectedLeadID.'" >',
 											' Delete',
 										'</a>',
 										

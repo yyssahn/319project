@@ -4,7 +4,7 @@ USE `cbel_db`;
 --
 -- Host: 127.0.0.1    Database: cbel_db
 -- ------------------------------------------------------
--- Server version	5.6.16
+-- Server version	5.5.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +46,7 @@ CREATE TABLE `categoryoptions` (
 
 LOCK TABLES `categoryoptions` WRITE;
 /*!40000 ALTER TABLE `categoryoptions` DISABLE KEYS */;
-INSERT INTO `categoryoptions` VALUES (1,'One-Time Project','Course-Based Opportunity','Aboriginal Engagement','Aboriginal Engagement','Consultation',NULL,NULL,NULL,'Initial Idea Inputted'),(2,'Recurring Project','Trek Program','Arts - Culture - Heritage','Arts - Culture - Heritage','Curriculum Development',NULL,NULL,NULL,'Assigned Ownership'),(3,'Part of a Multi-Phase Project','Reading Week Project','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Data Gathering and Mapping',NULL,NULL,NULL,'Active Development'),(4,'On-Going Activity','Community Projects','Community and Economic Development','Community and Economic Development','Direct service delivery',NULL,NULL,NULL,'Project request form sent'),(5,NULL,'Community-Based Research','Education - Research','Education - Research','Event',NULL,NULL,NULL,'Referred to partner information session'),(6,NULL,'ISL Pre-Departure','Health - Human Services','Health - Human Services','Fund Development',NULL,NULL,NULL,'Referred to partner scoping session'),(7,NULL,'BEd. Community Field Study','Inclusion - Diversity','Inclusion - Diversity','IT',NULL,NULL,NULL,'In discussions'),(8,NULL,'Arts Internship Program','International','International','Marketing and Communications',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(9,NULL,'Hackathon','IT - Media - Communication','IT - Media - Communication','Program Development',NULL,NULL,NULL,'Referral Confirmed'),(10,NULL,NULL,'Legal - Justice - Human Rights','Legal - Justice - Human Rights','Research - Evaluation and Assessment',NULL,NULL,NULL,'Project/Placement Being Implemented'),(11,NULL,NULL,'Recreation - Sport','Recreation - Sport','Research - Literature Review',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(12,NULL,NULL,'Social Services','Social Services','Research - More formalized data collection',NULL,NULL,NULL,'Archived'),(13,NULL,NULL,'Sustainability - Environment - Animals','Sustainability - Environment - Animals',NULL,NULL,NULL,NULL,'Project Dropped');
+INSERT INTO `categoryoptions` VALUES (1,'One-Time Project','Course-Based Opportunity','Aboriginal Engagement','Aboriginal Engagement','Consultation',NULL,NULL,NULL,'Initial Idea Inputted'),(2,'Recurring Project','Trek Program','Arts - Culture - Heritage','Arts - Culture - Heritage','Curriculum Development',NULL,NULL,NULL,'Assigned Ownership'),(3,'Part of a Multi-Phase Project','Reading Week Project','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Data Gathering and Mapping',NULL,NULL,NULL,'Active Development'),(4,'On-Going Activity','Community Projects','Community and Economic Development','Community and Economic Development','Direct service delivery',NULL,NULL,NULL,'Project request form sent'),(5,NULL,'Community-Based Research','Education - Research','Education - Research','Event',NULL,NULL,NULL,'Referred to partner information session'),(6,NULL,'ISL Pre-Departure','Health - Human Services','Health - Human Services','Fund Development',NULL,NULL,NULL,'Referred to partner scoping session'),(7,NULL,'BEd. Community Field Study','Inclusion - Diversity','Inclusion - Diversity','IT',NULL,NULL,NULL,'In discussions'),(8,NULL,'Arts Internship Program','International','International','Marketing and Communications',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(9,NULL,'Hackathon','IT - Media - Communication','IT - Media - Communication','Program Development',NULL,NULL,NULL,'Referral Confirmed'),(10,NULL,NULL,'Legal - Justice - Human Rights','Legal - Justice - Human Rights','Research - Evaluation and Assessment',NULL,NULL,NULL,'Project/Placement Being Implemented'),(11,NULL,NULL,'Recreation - Sport','Recreation - Sport','Research - Literature Review',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(12,NULL,NULL,'Social Services','Social Services','Research - More formalized data collection',NULL,NULL,NULL,'Archived'),(13,NULL,NULL,'Sustainability - Environment - Animals','Sustainability - Environment - Animals',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `categoryoptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,10 +71,9 @@ CREATE TABLE `cbel_lead` (
   `disciplines` varchar(45) DEFAULT NULL,
   `timeframe` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
-  `activity_count` int(11) DEFAULT '0',
-  PRIMARY KEY (`lid`,`pid`),
-  UNIQUE KEY `lid_UNIQUE` (`lid`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`lid`),
+  UNIQUE KEY `pid_UNIQUE` (`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,8 +82,39 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Archived',15),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',20),(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session',6),(19,1,'Marry Dead Brother\'s Betrothed','Brandon is dead. I must marry Catelyn instead.','One-Time Project','Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',4),(21,11,'Run Away With Lyanna Stark','I want to fuck her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed',4),(22,2,'Be Stupid','I am a horrible and delusional little shit.  Many people want to kill me.','On-Going Activity','Arts Internship Program','Community and Economic Development, Education - Research, Health - Human Services, Inclusion - Diversity','Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development, Education - Research','Curriculum Development, Direct service delivery, Event',NULL,NULL,NULL,'Referred to partner scoping session',9);
+INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Hackathon','Civic Participation - Politics - Democracy, L','Civic Participation - Politics - Democracy, L','Event',NULL,NULL,NULL,'Project/Placement Being Implemented'),(2,2,'Behead Eddard Stark','I am the king! I do what I want.','One-Time Project','Hackathon',NULL,NULL,'Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(3,3,'','','','Course-Based Opportunity, Reading Week Project, Community-Based Research','Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development','Aboriginal Engagement, Arts - Culture - Heritage, Education - Research','Curriculum Development, Data Gathering and Mapping, Event',NULL,NULL,NULL,''),(5,5,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session'),(6,6,'Marry Dead Brother\'s Betrothed','Brandon is dead. I must marry Catelyn instead.','One-Time Project','Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(7,7,'Run Away With Lyanna Stark','I want to fuck her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed'),(8,12,'','','','','','','Data Gathering and Mapping',NULL,NULL,NULL,'');
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
+  `lid` int(11) NOT NULL,
+  `regDate` datetime NOT NULL,
+  `post` text NOT NULL,
+  PRIMARY KEY (`cid`),
+  KEY `_idx` (`username`),
+  KEY `lid_idx` (`lid`),
+  CONSTRAINT `lid` FOREIGN KEY (`lid`) REFERENCES `cbel_lead` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (43,'admin',1,'2014-03-24 15:02:03','As a web producer, I still prefer web designers to design a website for my clients, and developers to code it. Not too comfortable with design by developers.'),(44,'admin',1,'2014-03-24 15:02:27','Couldn&rsquo;t disagree more. If your design is based entirely on diagonals then bootstrap is maybe not a perfect fit. Although, it seems likely you will still have a button someplace and that you would like that button to behave the same way in all browsers and that your button will be composed of colors and gradients that you&rsquo;d like to define using a modern css precomiler that accepts variables for those colors so the similarities between your buttons and other elements can be centrally managed. So yes, you could start from scratch and create that system yourself that does all that but I don&rsquo;t think it has much to do with the goal of a unique visual design.\r\n\r\nMore importantly, a good design is almost useless without a living, HTML and CSS-based style guide. Most projects continue to grow and change after the initial design phase. If you want an agile team where developers can build things without needing to get design involved for every minutia then you need to have some general coding styles and practices in place. A style guide is the answer. So you could spend a few weeks or months creating your own style guide from scratch. Most competent designers would have no problem starting with the Bootstrap style guide and creating something unique and beautiful and likely a heck of a lot more functional and error-free than starting with a blank file, not to mention be a better position for future growth of the design.\r\n\r\nWeb design has stylistic periods just like any living design practice. Sites have been looking all the same long before Bootstrap came into the picture. The nice thing with Bootstrap is that it&rsquo;s much easier for a competent designer to change it when it does start looking all the same because it has all been implemented using well-informed, modern coding practices.'),(45,'admin',1,'2014-03-24 15:04:57','dsfs\r\n\r\nsg'),(46,'admin',1,'2014-03-24 15:05:16','1'),(47,'admin',1,'2014-03-24 15:05:20','2'),(48,'admin',1,'2014-03-24 15:05:25','3'),(49,'admin',1,'2014-03-24 15:05:36','4'),(50,'admin',1,'2014-03-24 15:05:40','5'),(51,'admin',1,'2014-03-24 15:05:43','6'),(52,'admin',1,'2014-03-24 15:05:45','7'),(53,'admin',1,'2014-03-24 15:05:50','8'),(54,'admin',1,'2014-03-24 15:05:55','9'),(55,'admin',1,'2014-03-24 15:06:01','10'),(56,'admin',1,'2014-03-24 15:08:17','test comments:'),(57,'user1',1,'2014-03-24 15:09:12','test comments!!!'),(59,'admin',1,'2014-03-24 20:25:18','test'),(60,'admin',1,'2014-03-25 15:12:50','test123456'),(62,'admin',1,'2014-03-25 15:40:40','fsdfds'),(63,'admin',1,'2014-03-25 15:40:51','dsfs'),(64,'admin',1,'2014-03-25 15:41:31','this is the test now cs319');
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -102,7 +132,7 @@ CREATE TABLE `communitypartner` (
   `phone` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pid`),
   UNIQUE KEY `pid_UNIQUE` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,31 +141,34 @@ CREATE TABLE `communitypartner` (
 
 LOCK TABLES `communitypartner` WRITE;
 /*!40000 ALTER TABLE `communitypartner` DISABLE KEYS */;
-INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','423-423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','666-666-6666'),(3,'China','Huangdi','huangdi@sile.ca','123-456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','111-111-1111'),(7,'Tits','McGee','tits@mcgee.ca',''),(11,'Selfish Fools Who Start Wars','Rhaegar Targaryen','reddragon@fireandblood.ca','456-464-6485');
+INSERT INTO `communitypartner` VALUES (1,'The North','Lord Eddard Stark','winteriscoming@ice.ca','(423)423-2653'),(2,'Assholes Inc.','Joffrey \'Baratheon\'','faggot@shit.ca','(666)666-6666'),(3,'China','Huangdi','huangdi@sile.ca','(123)456-7890'),(4,'Generic Partner','Generic Name','generic@email.ca','(111)111-1111'),(7,'Tits','McGee','',''),(11,'Selfish Fools Who Start Wars','Rhaegar Targaryen','reddragon@fireandblood.ca','4564646'),(12,'','','','');
 /*!40000 ALTER TABLE `communitypartner` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `genkeys`
+-- Table structure for table `tag`
 --
 
-DROP TABLE IF EXISTS `genkeys`;
+DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `genkeys` (
-  `unusedkey` varchar(29) NOT NULL,
-  PRIMARY KEY (`unusedkey`)
+CREATE TABLE `tag` (
+  `uid` int(11) NOT NULL,
+  `lid` int(11) NOT NULL,
+  PRIMARY KEY (`uid`,`lid`),
+  KEY `lid_idx` (`lid`),
+  CONSTRAINT `leadID` FOREIGN KEY (`lid`) REFERENCES `cbel_lead` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userID` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `genkeys`
+-- Dumping data for table `tag`
 --
 
-LOCK TABLES `genkeys` WRITE;
-/*!40000 ALTER TABLE `genkeys` DISABLE KEYS */;
-INSERT INTO `genkeys` VALUES ('123'),('123123'),('1233'),('222'),('dogt46VR'),('eee'),('Fm22bcyM'),('fmq3z0DT'),('gn2F0umS'),('i26WpxpU'),('owE9K6jh'),('rrrrr');
-/*!40000 ALTER TABLE `genkeys` ENABLE KEYS */;
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -154,9 +187,10 @@ CREATE TABLE `user` (
   `lastname` varchar(45) NOT NULL,
   `phonenumber` varchar(14) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `activity_count` int(11) DEFAULT '0',
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+  `activityCount` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,13 +199,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (100,'user1','pass',0,'ass','123','123-123-1234','123@123.c1om',5),(102,'ninja','ninjapass',1,'Lord','Ninja','646-586-4658','64658',5),(104,'fool','evil',0,'Name','Last','666-666-6666','fool@hotmail.com',0),(105,'Stormborn','dracarys',0,'Daenerys','Targaryen','456-465-4544','dragonqueen@khaleesi.ca',1),(106,'The Emperor','dragon',0,'Huangdi','sile','666-666-6667','emperor@gmail.com',5),(107,'123','123',0,'123','123','123-123-1234','123@123.com',6),(108,'1234','123',0,'123','123','123-123-1234','123@123123.COM',4);
+INSERT INTO `user` VALUES (100,'user1','pass',0,'David','Kim','','user1@hotmail.com',4),(101,'user2','swag',0,'John','Park','','user2@hotmail.com',2),(102,'ninja','ninjapass',0,'ninjapass','Ninja','of Awesomeness','ninja@hotmail.com',140),(103,'ninja1421','katana',0,'katana','Ninja','of Awesomeness','ninja1421@hotmail.com',0),(104,'fool','evil',0,'Name','Last','666','fool@hotmail.com',34),(105,'admin','admin',1,'Jacky','Kataki','','admin@hotmail.com',1000);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'cbel_db'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -182,4 +212,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-24 20:07:35
+-- Dump completed on 2014-03-25 16:47:34
