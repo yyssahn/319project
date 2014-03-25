@@ -15,9 +15,10 @@
 	    <script type="text/javascript" src="jqplot/src/plugins/jqplot.pieRenderer.min.js"></script>
 
 		
-		<!-- Our extra css -->
-		<link href="styles.css" rel="stylesheet">
 
+		<!-- For validation plugin -->
+		<link href="style.css" rel="stylesheet">
+		<script src="js/modernizr-2.5.3.min.js"></script>
 	</head>
   
 	<body>

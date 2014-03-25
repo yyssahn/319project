@@ -1,20 +1,30 @@
 <?php
 include('database_helper.php');
+
 $dbhelp = new DatabaseHelper();
+
+$uid = $_SESSION['User_ID'];
+$EmailERR = $phoneERR = "";
+$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
 
 // Database credentials
 $DBServer = "localhost";
 $DBUser = "root";
 $DBPass = "";
 $DBName = "cbel_db";
+$key ="";
  
 // Connect to database
 $conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
 
-if($conn->connect_errno)
-	trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+function isValid($pattern, $value){
+	return preg_match($pattern, $value) ? true : false;
+}
 
-$uid = $_SESSION['User_ID'];
+function mailExists($db, $mail){
+	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail')");
+	return ($resultMail->num_rows != 0);
+}
 
 function deleteAccount($db, $uid){
 	return $result = $db -> query("DELETE FROM user WHERE (uid =  '$uid')");
@@ -25,15 +35,43 @@ function updateInfo($db, $uid, $f, $l, $ph, $e){
 	$query = "UPDATE user 
 		SET firstname = ?, lastname = ?, phonenumber = ?, email = ?
 		WHERE (uid = ?)";
-	$params = array();
-	array_push($params, $f, $l, $ph, $e, $uid);
 	$stmt = $db -> prepareStatement($query);
 
-	$param_types = array();
-	array_push($param_types, 's', 's', 's', 's', 'i');
+	$params = array($f, $l, $ph, $e,$uid, );
+	$param_types = array('s', 's', 's', 's', 'i');
 
 	$db->bindArray($stmt, $param_types, $params);
 	$db->executeStatement($stmt);
+}
+
+function samePassword($pass, $confPass) {
+    return ($pass == $confPass && $pass != NULL);
+}
+
+//Check old pass is correct
+function correctOldPass($dbhelp, $id, $old){
+	$sql = "SELECT username FROM User WHERE uid = ? AND password = ?";
+	$stmt = $dbhelp->prepareStatement($sql);
+	
+	$params = array($id, $old);
+	$param_types = array('i', 's');
+	$dbhelp->bindArray($stmt, $param_types, $params);
+	$dbhelp->executeStatement($stmt);
+	$result = $dbhelp->getResult($stmt);
+	return ($result != NULL);
+}
+
+//Update password in database
+function updatePass($dbhelp, $uid, $p){
+	$query = "UPDATE user 
+		SET password = ?
+		WHERE (uid = ?)";
+	$stmt = $dbhelp -> prepareStatement($query);
+
+	$params = array($p, $uid);
+	$param_types = array('s', 'i');
+	$dbhelp->bindArray($stmt, $param_types, $params);
+	$dbhelp->executeStatement($stmt);
 }
 
 //Delete account
@@ -47,22 +85,51 @@ if (array_key_exists("delSubmit", $_POST)){
 //Update general info.
 if(array_key_exists("Usubmit", $_POST)){
 	$f = $_POST['fpartner'];	$l = $_POST['lpartner'];
-	$p = $_POST['ppartner'];	$e = $_POST['epartner'];
+	$p = $_POST['ppartner'];
+	$e = filter_var($_POST['epartner'], FILTER_SANITIZE_EMAIL);
 
-	updateInfo($dbhelp, $uid, $f, $l, $p, $e );
+	if(!isValid($phonePattern, $p))
+		$phoneERR = "Incorrect phone number entered.";
+
+	if (!filter_var($e, FILTER_VALIDATE_EMAIL)) 
+    	$EmailERR = "Incorrect Email Entered.";
+    if(mailExists($conn, $e))
+    	$EmailERR = "This email already exists.";
+
+	if($phoneERR == $EmailERR)
+		updateInfo($dbhelp, $uid, $f, $l, $p, $e );
 }
 
-$result = $conn->query("SELECT username,firstname,lastname,phonenumber,email FROM user WHERE (uid = '$uid')");
-$row = mysqli_fetch_array($result);
+$sql = "SELECT username,firstname,lastname,phonenumber,email FROM user WHERE uid = ?";
+$stmt = $dbhelp->prepareStatement($sql);
+$dbhelp->bindParameter($stmt, 'i', $uid);
+$dbhelp->executeStatement($stmt);
+$row = $dbhelp->getResult($stmt);
 
 //Get all information about the account.
-$fn = $row['firstname'];
-$ln = $row['lastname'];
-$ph = $row['phonenumber'];
-$e = $row['email'];
-$u = $row['username'];
+$fn = $row[0]['firstname'];
+$ln = $row[0]['lastname'];
+$ph = $row[0]['phonenumber'];
+$e = $row[0]['email'];
+$u = $row[0]['username'];
 
+//Update Password
+if(array_key_exists("Psubmit", $_POST)){
+	$old_pass = $_POST["Opartner"];
+	$new_pass = $_POST["Ppartner"];
 
+	if(samePassword($new_pass, $_POST["CPpartner"])){
+		if(correctOldPass($dbhelp, $uid, $old_pass)){
+			updatePass($dbhelp, $uid, $new_pass);
+			echo "UPDATED SUCCESFULLY!!!!";
+		}
+		else
+			echo "YOU FUCKING STUPID.";
+	}
+	else
+		echo "YOU STUPID.";
+}
+$conn->close();
 ?>
 
 <div class="page-header">
@@ -112,8 +179,9 @@ $u = $row['username'];
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Phone:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="ppartner" placeholder="Enter Text"
-				value="<?php echo htmlspecialchars($ph);?>">					
+				<input type="text" class="form-control" name="ppartner" placeholder="XXX-XXX-XXXX"
+				value="<?php echo htmlspecialchars($ph);?>">
+				<span class = "error"><?php echo $phoneERR; ?></span>					
 			</div>
 		</div>
 	</div>
@@ -124,8 +192,9 @@ $u = $row['username'];
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Email:</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" name="epartner" placeholder="Enter Text"
+				<input type="text" class="form-control" name="epartner" placeholder="abc@email.com"
 				value="<?php echo htmlspecialchars($e);?>">
+				<span class="error"><?php echo $EmailERR;?></span>
 			</div>
 		</div>
 	</div>
@@ -192,66 +261,4 @@ $u = $row['username'];
 	<br>
 
 	</form>
-
 </div>
-
-<?php
-
-function samePassword($pass, $confPass) {
-        return ($pass == $confPass && $pass != NULL);
-}
-
-//Check old pass is correct
-function correctOldPass($c, $id, $old){
-	$result = $c->query("SELECT username FROM user WHERE uid = '$id' AND password = '$old'" );
-	$row = mysqli_fetch_array($result);
-	return ($row != NULL);
-}
-
-//Update password in database
-function updatePass($dbhelp, $uid, $p){
-	$query = "UPDATE user 
-		SET password = ?
-		WHERE (uid = ?)";
-	$params = array();
-	array_push($params, $p, $uid);
-	$stmt = $dbhelp -> prepareStatement($query);
-
-	$param_types = array();
-	array_push($param_types, 's', 'i');
-
-	$dbhelp->bindArray($stmt, $param_types, $params);
-	$dbhelp->executeStatement($stmt);
-}
-
-//Update Password
-if(array_key_exists("Psubmit", $_POST)){
-	$old_pass = $_POST["Opartner"];
-	$new_pass = $_POST["Ppartner"];
-
-	if(samePassword($new_pass, $_POST["CPpartner"])){
-		if(correctOldPass($conn, $uid, $old_pass)){
-			updatePass($dbhelp, $uid, $new_pass);
-			echo "UPDATED SUCCESFULLY!!!!";
-		}
-		else
-			echo "YOU FUCKING STUPID.";
-	}
-	else
-		echo "YOU STUPID.";
-
-}
-
-$conn->close();
-?>
-
-
-
-
-
-
-
-
-
-
-

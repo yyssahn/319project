@@ -13,6 +13,26 @@ if(isset($_POST['submit'])){
 
 	// Need to add community partner search
 	$subquery = NULL;
+	if(isset($_POST['partner'])){
+		$pquery = "SELECT pid FROM CommunityPartner WHERE";
+		$psubquery = '';
+		foreach($_POST['partner'] as $row){
+			$psubquery = $psubquery." community_partner = '".$row."' OR";
+		}
+
+		if(substr($psubquery, -strlen('OR')) === 'OR'){
+			$psubquery = substr_replace($psubquery ,"",-2);
+			$pquery .= $psubquery;
+		}
+
+		$stmt = $db->prepareStatement($pquery);
+		$db->executeStatement($stmt);
+		$pid_results = $db->getResult($stmt);
+		foreach($pid_results as $pid){
+			$subquery = $subquery." pid = ".$pid['pid']." OR";
+		}
+	}
+	// Dynamically create query based on multi-select box choices
 	if (isset($_POST['name'])){
 		foreach($_POST['name'] as $row){
 			$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
@@ -64,18 +84,19 @@ if(isset($_POST['submit'])){
 		}
 	}
 
+	// Removes the trailing WHERE or OR from the query
 	if($subquery == NULL)
 		$query = substr_replace($query, "", -(strlen(' WHERE')));
 	else if(substr($subquery, -strlen('OR')) === 'OR'){
 		$subquery = substr_replace($subquery ,"",-2);
 		$query .= $subquery;
 	}
-	
+
 	$stmt = $db->prepareStatement($query);
 	$db->executeStatement($stmt);
 	$result = $db->getResult($db);
 		
-		if($result != NULL){
+	if($result != NULL){
 ?>
 		<div class="well">
 			<div class="row clearfix">
@@ -130,9 +151,9 @@ else{
 	<hr />
 	<!--Categories  for narrowing search results.  Options are populated from database-->
 	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-		<div class="well">
+		<div class="jumbotron">
 			<div class="row clearfix">
-				<div class="col-md-2">Community Partner:</div>
+				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="partner[]" size="5">
 						<?php
@@ -144,7 +165,7 @@ else{
 					</select>
 				</div>
 				
-				<div class="col-md-2">Idea Name:</div>
+				<label for="name" class="col-md-2 control-label">Idea Name:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="name[]" size="5">
 						<?php
@@ -158,7 +179,7 @@ else{
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">Idea Type:</div>
+				<label for="type" class="col-md-2 control-label">Idea Type:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="type[]" size="5">
 						<?php
@@ -170,7 +191,7 @@ else{
 					</select>
 				</div>
 			
-				<div class="col-md-2">Possible Program Referral:</div>
+				<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="referral[]" size="5">
 						<?php
@@ -184,7 +205,7 @@ else{
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">Organization's Mandate:</div>
+				<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="mandate[]" size="5">
 						<?php
@@ -196,7 +217,7 @@ else{
 					</select>
 				</div>
 				
-				<div class="col-md-2">Focus Area:</div>
+				<label for="focus" class="col-md-2 control-label">Focus Area:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="focus[]" size="5">
 						<?php
@@ -210,7 +231,7 @@ else{
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">Main Activities:</div>
+				<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="activities[]" size="5">
 						<?php
@@ -222,7 +243,7 @@ else{
 					</select>
 				</div>
 				
-				<div class="col-md-2">Delivery Location:</div>
+				<label for="delivery" class="col-md-2 control-label">Delivery Location:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="delivery[]" size="5">
 						<?php
@@ -236,7 +257,7 @@ else{
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">Possible Disciplines:</div>
+				<label for="disciplines" class="col-md-2 control-label">Possible Disciplines::</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="disciplines[]" size="5">
 						<?php
@@ -248,7 +269,7 @@ else{
 					</select>
 				</div>
 				
-				<div class="col-md-2">Timeframe:</div>
+				<label for="timefram" class="col-md-2 control-label">Timeframe:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="timeframe[]" size="5">
 						<?php
@@ -262,7 +283,7 @@ else{
 			</div>
 			
 			<div class="row clearfix">
-				<div class="col-md-2">Current Status:</div>
+				<label for="status" class="col-md-2 control-label">Current Status:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="status[]" size="5">
 						<?php
