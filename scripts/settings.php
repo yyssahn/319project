@@ -26,6 +26,12 @@ function mailExists($db, $mail){
 	return ($resultMail->num_rows != 0);
 }
 
+function mailisYOURS($db, $mail, $uid){
+	$resultMail = $db->query("SELECT * FROM user WHERE (email = '$mail' 
+			AND uid = '$uid')");
+	return ($resultMail->num_rows != 0);
+}
+
 function deleteAccount($db, $uid){
 	return $result = $db -> query("DELETE FROM user WHERE (uid =  '$uid')");
 }
@@ -93,7 +99,7 @@ if(array_key_exists("Usubmit", $_POST)){
 
 	if (!filter_var($e, FILTER_VALIDATE_EMAIL)) 
     	$EmailERR = "Incorrect Email Entered.";
-    if(mailExists($conn, $e))
+    if(mailExists($conn, $e) && !mailisYOURS($conn, $e, $uid))
     	$EmailERR = "This email already exists.";
 
 	if($phoneERR == $EmailERR)
