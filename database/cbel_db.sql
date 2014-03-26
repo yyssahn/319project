@@ -130,8 +130,7 @@ CREATE TABLE `communitypartner` (
   `contact_name` varchar(45) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`pid`),
-  UNIQUE KEY `pid_UNIQUE` (`pid`)
+  PRIMARY KEY (`pid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
