@@ -120,7 +120,7 @@ function categoriesTab(){
 											foreach($listOfSubcats as $subcat) {
 												if (isset($subcat['idea_type'])) { ?>
 													<tr><td><?php print $subcat['idea_type']; ?></td>
-                                                                                                        <td><input type ='button' id ='editOption' value='Edit' onClick='expand_option("<?php print $subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
+                                                                                                        <td><input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print $subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
 														<a href='remove_option.php?optionName=<?php print $subcat['idea_type']; ?>&category=idea_type' class='btn btn-large btn-danger'>Remove</a>
 														</td></tr>
 												<?php }
@@ -172,8 +172,7 @@ function categoriesTab(){
 //            alert(option);
 //        }
 
-        function expand_option(option, category) {
-            var x;
+        function edit_option(option, category) {
 
             var newOptionName=prompt("New Option Name");
 

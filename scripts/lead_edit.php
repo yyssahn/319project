@@ -328,6 +328,79 @@
 		</div>
 	</form>
 	
+<?php
+
+$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
+FROM cbel_lead
+INNER JOIN linked_ids
+ON cbel_lead.lid=linked_ids.lid_link
+WHERE linked_ids.lid_main = ?;";
+$stmt = $db->prepareStatement($sql);
+$db->bindParameter($db, 'i', $_GET['lid']);
+$db->executeStatement($stmt);
+$listOfLinks = $db->getResult($stmt);
+
+$sql = "SELECT lead_name, lid FROM cbel_lead";
+$s = $db->prepareStatement($sql);
+$db->executeStatement($s);
+$listOfLeads = $db->getResult($stmt);
+
+?>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <h2>Similar Leads</h2>
+                    <ul class="list-group">
+                        <?php
+                            foreach($listOfLinks as $link) {
+                                print "<li class='list-group-item'><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
+                                        .$link['lead_name']."</a></li>";
+                            }
+                            ?>
+                    </ul>
+                    
+                    <div class="col-md-4">
+                        <form>
+                        
+                            <select class="form-control" id='leadLink'>
+                                <option>Link Another Lead</option>
+                                <?php
+                                    foreach($listOfLeads as $lead) {
+                                        print "<option value='".$lead['lid']."'>".$lead['lead_name']."</option>";
+                                    }
+                                ?>
+                            </select>
+                        </form>
+                    </div>
+                        <div class="col-md-8">
+                            <input type ="button" value="Link" onClick="link_lead(<?php print $_GET['lid']; ?>)" class="btn btn-large btn-info" >
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+    
+    function link_lead(main) {
+        
+        var x = document.getElementById("leadLink").selectedIndex;
+        var y = document.getElementById("leadLink").options;
+        
+        var link = y[x].value;
+            
+        window.location.href = "link_lead.php?main=" + main + "&link=" + link;
+
+        }
+    
+    </script>
+    
+    <br>
+
 	<?php if(isset($_GET['lid'])) :?> 
 	<div class="container">
 	<div class="row clearfix">
