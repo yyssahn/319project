@@ -1,4 +1,4 @@
-<div class="container" style="height:145%">
+<div class="container" style="height: 145%">
 	<?php 
 		session_start();
 

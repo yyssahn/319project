@@ -2,6 +2,8 @@
 	<h2>Admin Mother Fucker!</h2>
 </div>
 
+
+
 <?php
 include('database_helper.php');
 
@@ -199,32 +201,86 @@ function statisticsTab(){
 	$projectExecute= $db->prepareStatement($allProjectSQL);	
 	$db->executeStatement($projectExecute);
 	$projectResult = $db->getResult($projectExecute);
-	$allProjects = $projectResult[0];
+	$allProjects = $projectResult[0]['count(*)'];
+	
 
 	$droppedExecute= $db->prepareStatement($allDroppedSQL);	
 	$db->executeStatement($droppedExecute);
 	$droppedResult = $db->getResult($droppedExecute);
-	$allDropped = $droppedResult[0];
+	$allDropped = $droppedResult[0]['count(*)'];
 
 	$successedExecute= $db->prepareStatement($allSuccessedSQL);	
 	$db->executeStatement($successedExecute);
 	$successedResult = $db->getResult($successedExecute);
-	$allSuccessed = $successedResult[0];
+	$allSuccessed = $successedResult[0]['count(*)'];
 
+	$OnGoingProjects = $allProjects - ($allSuccessed + $allDropped);
+
+	$SuccessRate = round($allSuccessed / $allProjects, 2)*100;
+	$FailedRate = round($allDropped / $allProjects, 2)*100;
+	$OnGoingRate = 100 - ($SuccessRate + $FailedRate);
 ?>
 	<div class="row" style="padding-top:50px">
 		<div class="col-md-10 column col-md-offset-1">
 			<table class="table">
 				<tbody>
-					<tr class="warning"><td>Projects Completed: <?php  echo $allSuccessed['count(*)'] ?>  <td><td>Projects Dropped: <?php  echo $allDropped['count(*)'] ?> </td><tr>
+					<tr class="warning"><td>Projects Completed: <?php  echo $allSuccessed ?>  <td><td>Projects Dropped: <?php  echo $allDropped ?> <td><td>On-going Projects: <?php echo $OnGoingProjects ?></td><tr>
 
-					<tr class="warning"><td>Projects Attempted: <?php  echo $allProjects['count(*)'] ?> <td><td>Projects Attempted: <?php  echo $allProjects['count(*)'] ?>  </td><tr>
+					<tr class="warning"><td>Projects Attempted: <?php  echo $allProjects ?> <td><td>Projects Attempted: <?php  echo $allProjects ?>  <td><td>Projects Attempted: <?php  echo $allProjects ?></td><tr>
 				
-					<tr class="success"><td>Success Rate:  <?php  echo round($allSuccessed['count(*)'] / $allProjects['count(*)'], 2)*100 ?>%<td><td>Failure Rate:  <?php  echo round($allDropped['count(*)'] / $allProjects['count(*)'], 2)*100 ?>%</td><tr>
+					<tr class="success"><td>Success Rate:  <?php  echo $SuccessRate ?>%<td><td>Failure Rate:  <?php echo $FailedRate ?>% <td><td>On-Going Projects Rate: <?php echo $OnGoingRate ?>% </td><tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
+
+  <html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+		
+	var dropRate = <?php echo ($allDropped); ?>;
+	var successRate = <?php echo ($allSuccessed); ?>;
+	var onGoingRate = <?php echo ($OnGoingProjects); ?>; 
+	
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+		
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Dropped Project Rate', dropRate],
+          ['Succeeded Project Rate',successRate],
+          ['On-Going Project Rate',onGoingRate],
+        ]);
+
+        // Set chart options
+        var options = {'title':'Pie Chart Statistic Rate:',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('statisticChart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+  </head>
+</html>
+
+<div id="statisticChart" style="margin-left: 90px;"></div>
+
 <?php
 }
 //=========================================================================================================================
@@ -260,7 +316,7 @@ function statisticsTab(){
 
 				<div class="tab-pane" id="statistics">
 
-					<?php statisticsTab() ?>
+					<?php statisticsTab(); ?>
 
 				</div>
             </div>
