@@ -12,7 +12,8 @@ function getNotifications($dbhelper, $uid){
 	$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 			FROM cbel_lead L
 			INNER JOIN tag T
-	 		WHERE T.lid = L.lid AND T.uid = ? ";
+	 		WHERE T.lid = L.lid AND T.uid = ? 
+	 			AND (T.seen = 1 OR T.tags = 1 )";
 	$stmt = $dbhelper->prepareStatement($sql);
 
 	$params = array($uid);
@@ -23,8 +24,6 @@ function getNotifications($dbhelper, $uid){
 	return $result;
 }
 
-
-
 ?>
 
 <div class="well">
@@ -32,35 +31,55 @@ function getNotifications($dbhelper, $uid){
 		<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
 			<table class="table">
 				<thead>
-					<tr class="warning"><th>Notification Type</th><th>Notification Text</th></tr>
+					<tr class="warning"><th>New Tags</th><th>Clear</th></tr>
 				</thead>
 				<tbody>
 					<?php
 
 						$notif = getNotifications($dbhelp, $uid);
-						print_r($notif);
-						echo count($notif);
+						//print_r($notif);
+						echo "WE HAVE X = " .count($notif). " notifications" ;
 
 						for($i=0; $i < count($notif); $i++){
 
 							if($notif[$i]['tags'] == 1){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
-								echo "$lids";
 								print "<tr class='info' onmouseover=\"this.style.cursor='pointer' \" 
 									onclick=\"window.location='index.php?content=lead_edit&lid=$lids'\">
 									<td>$string</td><td>Notification TAG {$i}</td></tr>";
-							}
-							if($notif[$i]['seen'] == 1){
-								$string = $notif[$i]['lead_name'];
-								print "<tr class='success'><td>{$string}</td><td>Notification LEAD {$i}</td></tr>";
-
 							}
 								
 						}
 					?>
 				</tbody>
 			</table>
+			<br> <br>
+			<table class="table">
+				<thead>
+					<tr class="warning"><th>New Updates</th><th>Clear</th></tr>
+				</thead>
+				<tbody>
+					<?php
+
+						$notif = getNotifications($dbhelp, $uid);
+						//print_r($notif);
+
+						for($i=0; $i < count($notif); $i++){
+							if($notif[$i]['seen'] == 1 && $notif[$i]['tags'] == 0){
+								$string = $notif[$i]['lead_name'];
+								$lids = $notif[$i]['lid'];
+								print "<tr class='info' onmouseover=\"this.style.cursor='pointer' \" 
+									onclick=\"window.location='index.php?content=lead_edit&lid=$lids'\">
+									<td>$string</td><td>Notification SEEN {$i}</td></tr>";
+							}
+								
+						}
+					?>
+				</tbody>
 		</div>
 	</div>
 </div>
+
+
+
