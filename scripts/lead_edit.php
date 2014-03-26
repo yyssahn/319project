@@ -353,14 +353,15 @@ $listOfLeads = $db->getResult($stmt);
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <h2>Similar Leads</h2>
-                    <ul class="list-group">
+                    <table class="table">
                         <?php
                             foreach($listOfLinks as $link) {
-                                print "<li class='list-group-item'><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
-                                        .$link['lead_name']."</a></li>";
+                                print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
+                                        .$link['lead_name']."</a></td>"
+                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-large btn-danger'>Remove Link</a>";
                             }
                             ?>
-                    </ul>
+                    </table>
                     
                     <div class="col-md-4">
                         <form>
