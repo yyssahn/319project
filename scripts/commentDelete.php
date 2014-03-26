@@ -1,23 +1,43 @@
 <?php
 include ('database_helper.php');
-$selectedCID = $_GET["commentID"];
-$selectedLeadID = $_GET["selectedLeadID"];
 
-echo $selectedCID;
-echo $selectedLeadID;
+$selectedCID = $_GET["commentID"];
+$selectedLead = $_GET["leadID"];
+$currentUser = $_GET["loginUser"];
+$currentPage = $_GET["pg"];
 
 // Connect to database
 $db = new DatabaseHelper();
-	
-// Get  category options
-$sql = "DELETE * FROM comment WHERE cid = '$selectedCID'";
+
+// retrieving currently logged in user information
+$sql = "SELECT admin,username FROM user WHERE username = '$currentUser'";
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
+$currentUser = $db->getResult($db);
+$currentUserAdmin = $currentUser[0]['admin'];
+$currentUsername = $currentUser[0]['username'];
 
-require_once $_SERVER['/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.''];
 
+// retrieving the owner of the selected comment
+$sql = "SELECT username FROM comment WHERE cid = '$selectedCID'";
+$s = $db->prepareStatement($sql);
+$db->executeStatement($s);
+$tempCommentOwner = $db->getResult($db);
+$commentOwner = $tempCommentOwner[0]['username'];
 
+// Only the owner of the comment and admin account can delete the comment
+if($currentUserAdmin == 1 || strcmp($currentUsername, $commentOwner) == 0) {
 
+	$sql = "DELETE FROM comment WHERE cid = '$selectedCID'";
+	$s = $db->prepareStatement($sql);
+	$db->executeStatement($s);
 
+	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage");	
+}else {
+	echo "<script>history.back();alert('You are not allowed to delete this comment!');</script>";
+	
+//	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&deleteComment=0");	
+}
+exit();
 
 ?>

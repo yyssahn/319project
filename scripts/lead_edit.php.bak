@@ -16,13 +16,16 @@
 			font-size: 12px;
 
 	}
+	.deleteCSS{
+			float: right;
+	}
 	</style>
 
 </head>
 <?php
 
 	include('database_helper.php');
-
+	
 	$TelepERR = '';
 	
 	$lead_info = array();
@@ -44,6 +47,20 @@
 			$TelepERR = "Incorrect Input";
 		}
 	} */
+
+/*
+	// Checking whether deleting comment is failed or not ---> might not use this
+	if(isset($_GET['deleteComment'])) {
+		$succeedDeleting = $_GET['deleteComment'];
+		if($succeedDeleting == 0) {
+			$theLead = $_GET['lid'];
+			echo "<script type=\"text/javascript\">\n";
+			echo "alert('You are not allowed to delete this comment!');\n";
+			echo "</script>\n";			
+		}
+	}
+*/
+
 	
 	// Get lead data if lead exists
 	if(isset($_GET['lid'])){
@@ -317,7 +334,18 @@
 		<div class="col-md-12 column">
 			<div class="row clearfix">
 				<div class="col-md-12 column">
-				 	<h2 class="comments-title">Comments</h2> 
+				 	<h2 class="comments-title">Comments 
+					
+					<?php if(isset($_GET['page'])) {
+								$page = $_GET['page'];
+							}else {
+								$page = 1;	
+							}
+							echo "<p>(page:";
+							echo $page;
+							echo ")</p>";
+					?>
+					</h2> 
 					
 					<ol class="commentList">
 					
@@ -353,7 +381,9 @@
 
 					global $db;
 					global $lead_info;
-	
+					
+					$currentUsername = $_SESSION['Input_username'];
+					
 					$selectedLeadID = htmlspecialchars($lead_info[0]['lid']);
 					$sql = "SELECT * FROM comment WHERE lid = '$selectedLeadID'";  
 
@@ -433,7 +463,7 @@
 											$comm['regDate'],
 											
 										'</time>',
-										'<a href = "./commentDelete.php?commentID='.$comm['cid'].'?selectedLeadID='.$selectedLeadID.'" >',
+										'<a href = "./commentDelete.php?commentID='.$comm['cid'].'&leadID='.$selectedLeadID.'&loginUser='.$currentUsername.'&pg='.$currentPage.' "class= "deleteCSS"">',
 											' Delete',
 										'</a>',
 										
@@ -506,7 +536,7 @@
 							<div>
 								<textarea name="commentBox" id="commentBoxID" autofocus="autofocus" cols="105" rows="8" aria-required="true"></textarea> 
 							</div>
-							<div class="view" style = "margin-left:530px; margin-top: 30px">
+							<div class="view" class = "deleteCSS" /*style = "margin-left:530px; margin-top: 30px"*/>
 								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary">
 							</div>	
 						</form>
