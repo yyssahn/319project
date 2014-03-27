@@ -110,7 +110,7 @@ else{
 	}
 	//=======================================================================================================================
 	// Prepare statement
-	
+	$_SESSION['lid'] = 100;
 	if($_SESSION['lid'] == NULL){
 	
 		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
