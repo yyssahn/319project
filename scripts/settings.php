@@ -48,6 +48,19 @@ function updateInfo($db, $uid, $f, $l, $ph, $e){
 
 	$db->bindArray($stmt, $param_types, $params);
 	$db->executeStatement($stmt);
+	
+	if($db->getAffectedRows($stmt) > 0){
+		print "<div class='alert alert-success'>Profile settings have been successfully updated!</div>";
+		print "<noscript>Profile settings have been successfully updated!</noscript>";
+	}
+	else if($db->getAffectedRows($stmt) == 0){
+		print "<div class='alert alert-warning'>You didn't change anything.  Profile settings have not been updated!</div>";
+		print "<noscript>You didn't change anything.  Profile settings have not been updated!</noscript>";
+	}
+	else{
+		print "<div class='alert alert-danger'>Something went wrong  Profile settings have not been updated!</div>";
+		print "<noscript>Something went wrong.  Profile settings have not been updated!</noscript>";
+	}
 }
 
 function samePassword($pass, $confPass) {
@@ -78,6 +91,19 @@ function updatePass($dbhelp, $uid, $p){
 	$param_types = array('s', 'i');
 	$dbhelp->bindArray($stmt, $param_types, $params);
 	$dbhelp->executeStatement($stmt);
+	
+	if($dbhelp->getAffectedRows($stmt) > 0){
+		print "<div class='alert alert-success'>Profile settings have been successfully updated!</div>";
+		print "<noscript>Profile settings have been successfully updated!</noscript>";
+	}
+	else if($dbhelp->getAffectedRows($stmt) == 0){
+		print "<div class='alert alert-warning'>You didn't change anything.  Profile settings have not been updated!</div>";
+		print "<noscript>You didn't change anything.  Profile settings have not been updated!</noscript>";
+	}
+	else{
+		print "<div class='alert alert-danger'>Something went wrong  Profile settings have not been updated!</div>";
+		print "<noscript>Something went wrong.  Profile settings have not been updated!</noscript>";
+	}
 }
 
 //Delete account
@@ -95,10 +121,10 @@ if(array_key_exists("Usubmit", $_POST)){
 	$e = filter_var($_POST['epartner'], FILTER_SANITIZE_EMAIL);
 
 	if(!isValid($phonePattern, $p))
-		$phoneERR = "Incorrect phone number entered.";
+		$phoneERR = "Please use the form XXX-XXX-XXXX";
 
 	if (!filter_var($e, FILTER_VALIDATE_EMAIL)) 
-    	$EmailERR = "Incorrect Email Entered.";
+    	$EmailERR = "Please use the form email@domain.ca";
     if(mailExists($conn, $e) && !mailisYOURS($conn, $e, $uid))
     	$EmailERR = "This email already exists.";
 
@@ -127,13 +153,12 @@ if(array_key_exists("Psubmit", $_POST)){
 	if(samePassword($new_pass, $_POST["CPpartner"])){
 		if(correctOldPass($dbhelp, $uid, $old_pass)){
 			updatePass($dbhelp, $uid, $new_pass);
-			echo "UPDATED SUCCESFULLY!!!!";
 		}
 		else
-			echo "YOU FUCKING STUPID.";
+			echo "Please input the old password correctly";
 	}
 	else
-		echo "YOU STUPID.";
+		echo "Your passwords must match";
 }
 $conn->close();
 ?>
@@ -141,9 +166,8 @@ $conn->close();
 <div class="page-header">
 	<h2>Settings Mother Fucker!</h2>
 </div>
-<!-- Need to SHOW PROPER ERROR MESSAGES ! NOT JUST U STUPID! 
-	Need to add checks for phone and email. -->
-<form method = "POST" action = "index.php?content=settings">
+
+<form id="form" method = "POST" action = "index.php?content=settings">
 <div class="well">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -160,7 +184,7 @@ $conn->close();
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">First Name:</label>
-			<div class="col-md-8">
+			<div class="col-md-8 controls">
 				<input type="text" class="form-control" name="fpartner" placeholder="Enter Text"
 				 value="<?php echo htmlspecialchars($fn);?>">
 			</div>
@@ -172,7 +196,7 @@ $conn->close();
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Last Name:</label>
-			<div class="col-md-8">
+			<div class="col-md-8 controls">
 				<input type="text" class="form-control" name="lpartner" placeholder="Enter Text"
 				 value="<?php echo htmlspecialchars($ln);?>">
 			</div>
@@ -184,10 +208,10 @@ $conn->close();
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label">Phone:</label>
-			<div class="col-md-8">
-				<input type="text" class="form-control" name="ppartner" placeholder="XXX-XXX-XXXX"
+			<div class="col-md-8 controls">
+				<input type="text" class="form-control" name="ppartner" id="phone" placeholder="XXX-XXX-XXXX"
 				value="<?php echo htmlspecialchars($ph);?>">
-				<span class = "error"><?php echo $phoneERR; ?></span>					
+				<span class = "error"><noscript><?php echo $phoneERR; ?></noscript></span>					
 			</div>
 		</div>
 	</div>
@@ -200,7 +224,7 @@ $conn->close();
 			<div class="col-md-8">
 				<input type="text" class="form-control" name="epartner" placeholder="abc@email.com"
 				value="<?php echo htmlspecialchars($e);?>">
-				<span class="error"><?php echo $EmailERR;?></span>
+				<span class="error"><noscript><?php echo $EmailERR;?></noscript></span>
 			</div>
 		</div>
 	</div>

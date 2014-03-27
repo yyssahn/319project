@@ -76,6 +76,10 @@ class DatabaseHelper{
 		return $this->stmt->affected_rows;
 	}
 	
+	public function getNumRows($stmt){
+		return $this->stmt->num_rows;
+	}
+	
 	public function closeConnection($conn){
 		$this->conn->close();
 	}

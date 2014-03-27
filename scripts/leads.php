@@ -109,12 +109,14 @@ if(isset($_POST['submit'])){
 							<?php
 								foreach($result as $row){
 									$lid = $row['lid'];
+									if($row['lead_name'] != NULL){
 							?>
 								<tr class='info' onmouseover="this.style.cursor='pointer' " 
 									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
 									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
 								</tr>
 							<?php
+									}
 								}
 							?>
 						</tbody>

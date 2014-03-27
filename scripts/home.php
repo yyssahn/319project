@@ -51,7 +51,7 @@ while ($int < count($result)){
 				<div class="panel-heading">
 					<h3 class="panel-title">'.
 							$result[$int]['lead_name'].'
-				</h3>
+					</h3>
 				</div>
 				<div class="panel-body">'.
 					$result[$int]['description'].'</div>

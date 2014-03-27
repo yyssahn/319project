@@ -19,6 +19,26 @@
 		<!-- For validation plugin -->
 		<link href="style.css" rel="stylesheet">
 		<script src="js/modernizr-2.5.3.min.js"></script>
+		
+		<!-- For lead comments -->
+		<style type="text/css">
+			.commentList{
+						width: 600px;
+						margin-top: 100 auto;		
+						
+						}
+			
+			.commentCSS{
+					border-bottom: 2px solid #eee;
+					margin-bottom: 0.5em;
+					font-family: Verdana, Geneva, sans-serif;
+					font-size: 12px;
+
+			}
+			.deleteCSS{
+					float: right;
+			}
+	</style>
 	</head>
   
 	<body>

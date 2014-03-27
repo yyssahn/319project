@@ -28,7 +28,11 @@ $(document).ready(function(){
 	      	minlength: 2,
 	        required: true
 	      },
-		  phone:{
+		  phone: {
+			required: false,
+			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
+		  },
+		  ppartner:{
 			required: false,
 			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
 		  },
@@ -43,7 +47,43 @@ $(document).ready(function(){
 		  description: {
 	        minlength: 2,
 	        required: true
-	      }
+	      },
+		  fpartner: {
+			minlength: 2,
+	        required: true
+		  },
+		  lpartner: {
+			minlength: 2,
+	        required: true
+		  },
+		  Fname: {
+			minlength: 2,
+	        required: true
+		  },
+		  Lname: {
+			minlength: 2,
+	        required: true
+		  },
+		  user: {
+			minlength: 2,
+	        required: true
+		  },
+		  pswd: {
+			minlength: 2,
+	        required: true
+		  },
+		  confirmpswd: {
+			minlength: 2,
+	        required: true
+		  },
+		  emailAddr: {
+			minlength: 2,
+	        required: true
+		  },
+		  signupkey: {
+			minlength: 2,
+	        required: true
+		  }
 	    },
 			highlight: function(element) {
 				$(element).closest('.control-group').removeClass('success').addClass('error');
