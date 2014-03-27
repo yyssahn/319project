@@ -261,39 +261,19 @@ if(array_key_exists("submit", $_POST)){
 		</div>
 		
 		<div class="row">
-			<label for="disciplines" class="col-md-2 control-label">Possible Disciplines:</label>
-			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="disciplines[]" size="5">
-					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
-						foreach($categories as $row){
-							$selected = 'selected';
-							if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
-								$selected = 'selected';
-							}
-							if($row['disciplines'] != NULL)
-								echo "<option value='{$row['disciplines']}' $selected >".$row['disciplines']."</option>";
-						}
-					?>
-				</select>
-			</div>
 			
-			<label for="timeframe" class="col-md-2 control-label">Timeframe:</label>
-			<div class="col-md-4">
-				<select class="form-control" name="timeframe">
-					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
-						foreach($categories as $row){
-							$selected = 'selected';
-							if(strpos($lead_info[0]['timeframe'], $row['timeframe']) !== false){
-								$selected = 'selected';
-							}
-							if($row['timeframe'] != NULL)
-								echo "<option value='{$row['timeframe']}' $selected >".$row['timeframe']."</option>";
-						}
-					?>
-				</select>
-			</div>
+			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
+				<div class="col-md-4">
+								<input type="date" class="form-control" name="startdate" id="staredate" placeholder="Enter Starting Date"
+							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
+		
+				</div>
+				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+				<div class="col-md-4">
+								<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline"
+							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['enddate']);?>">
+		
+				</div>
 		</div>
 		
 		<div class="row">
@@ -314,7 +294,26 @@ if(array_key_exists("submit", $_POST)){
 					?>
 				</select>
 			</div>
+			<label for="disciplines" class="col-md-2 control-label">Possible Disciplines:</label>
+			<div class="col-md-4">
+				<select multiple="multiple" class="form-control" name="disciplines[]" size="5">
+					<?php
+						// Populate each option from database. Automatically selects options that associated with the lead
+						foreach($categories as $row){
+							$selected = 'selected';
+							if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
+								$selected = 'selected';
+							}
+							if($row['disciplines'] != NULL)
+								echo "<option value='{$row['disciplines']}' $selected >".$row['disciplines']."</option>";
+						}
+					?>
+				</select>
+			</div>
 			
+			
+		</div>
+		<div class="row">		
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">
 				<div class="radio-inline">

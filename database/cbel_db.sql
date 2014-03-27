@@ -69,7 +69,8 @@ CREATE TABLE `cbel_lead` (
   `main_activities` varchar(200) DEFAULT NULL,
   `location` varchar(45) DEFAULT NULL,
   `disciplines` varchar(45) DEFAULT NULL,
-  `timeframe` varchar(45) DEFAULT NULL,
+  `startdate` date DEFAULT NULL,
+  `enddate` date DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `activity_count` int(11) DEFAULT '0',
   PRIMARY KEY (`lid`)
@@ -82,7 +83,12 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Community-Based Research, Hackathon','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Event',NULL,NULL,NULL,'Archived',16),(2,2,'Behead Eddard Stark','I am the king! I do what I want. Blah.','One-Time Project','Hackathon','','','Event',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',21),(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,'Referred to partner information session',6),(19,1,'Marry Dead Brother\'s Betrothed','Brandon is deaf. I must marry Catelyn instead.','One-Time Project','Course-Based Opportunity, Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',5),(21,11,'Run Away With Lyanna Stark','I want to court her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,'Referral Confirmed',4),(22,12,'Lead Test','Lead Test DEscript','Part of a Multi-Phase Project','Course-Based Opportunity','Social Services','Education - Research','Consultation',NULL,NULL,NULL,'Initial Idea Inputted',0);
+INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Community-Based Research, Hackathon','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Event',NULL,NULL,NULL,NULL,'Archived',16),
+(2,2,'Behead Eddard Stark','I am the king! I do what I want. Blah.','One-Time Project','Hackathon','','','Event',NULL,NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',21),
+(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,NULL,'Referred to partner information session',6),
+(19,1,'Marry Dead Brothers Betrothed','Brandon is deaf. I must marry Catelyn instead.','One-Time Project','Course-Based Opportunity, Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',5),
+(21,11,'Run Away With Lyanna Stark','I want to court her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,NULL,'Referral Confirmed',4),
+(22,12,'Lead Test','Lead Test DEscript','Part of a Multi-Phase Project','Course-Based Opportunity','Social Services','Education - Research','Consultation',NULL,NULL,NULL,NULL,'Initial Idea Inputted',0);
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
