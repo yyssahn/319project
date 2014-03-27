@@ -37,7 +37,7 @@ function getNotifications($dbhelper, $uid){
 					<?php
 
 						$notif = getNotifications($dbhelp, $uid);
-						echo "WE HAVE X = " .count($notif). " notifications" ;
+						$_SESSION['notifications'] = count($notif);
 
 						for($i=0; $i < count($notif); $i++){
 

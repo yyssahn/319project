@@ -16,10 +16,12 @@
 // $n = $result[0]. " " .$result[1];
 
 if (!isset($_GET['content'])) {
-
-$_GET['content'] = NULL;
-
+	$_GET['content'] = NULL;
 }
+if(!isset($_SESSION['notifications']))
+	$notifs = 0;
+else
+	$notifs = $_SESSION['notifications'];
 
 ?>
 
@@ -35,7 +37,8 @@ $_GET['content'] = NULL;
 			</li>
 
 			<li <?php if($_GET['content'] == 'notifications'){ ?> class="active" <?php } ?>>
-				<a class="navbar-brand" href="index.php?content=notifications">Notifications</a>
+				<a class="navbar-brand" href="index.php?content=notifications">Notifications
+					<span class="badge"><?php print $notifs ?></a>
 			</li>
 
 			<li <?php if($_GET['content'] == 'settings'){ ?> class="active" <?php } ?>>
