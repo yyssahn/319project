@@ -25,14 +25,29 @@
 <?php
 
 	include('database_helper.php');
+	include('notification_helper.php');
+
+	$nh =  new NotificationHelper();
 	
 	$TelepERR = '';
+	$lidNotif = $_GET["lid"];
+	$tagNotif = $_GET["tags"];
+	echo $tagNotif;
+	$seenNotif = $_GET["seen"];
+	echo $seenNotif;
+
 	
 	$lead_info = array();
 	$partner_info = array();
 	
 	// Connect to database
 	$db = new DatabaseHelper();
+
+
+	if($tagNotif == 1 )
+		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
+	if($seenNotif == 1)
+		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
 	
 	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";

@@ -31,13 +31,12 @@ function getNotifications($dbhelper, $uid){
 		<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
 			<table class="table">
 				<thead>
-					<tr class="warning"><th>New Tags</th><th>Clear</th></tr>
+					<tr class="warning"><th>New Tags</th></tr>
 				</thead>
 				<tbody>
 					<?php
 
 						$notif = getNotifications($dbhelp, $uid);
-						//print_r($notif);
 						echo "WE HAVE X = " .count($notif). " notifications" ;
 
 						for($i=0; $i < count($notif); $i++){
@@ -45,9 +44,12 @@ function getNotifications($dbhelper, $uid){
 							if($notif[$i]['tags'] == 1){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
-								print "<tr class='info' onmouseover=\"this.style.cursor='pointer' \" 
-									onclick=\"window.location='index.php?content=lead_edit&lid=$lids'\">
-									<td>$string</td><td>Notification TAG {$i}</td></tr>";
+
+								print "<tr class='info' 
+											onmouseover=\"this.style.cursor='pointer' \"
+											onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=1&seen=1'\">
+									
+									<td>$string</td></tr>";
 							}
 								
 						}
@@ -57,21 +59,20 @@ function getNotifications($dbhelper, $uid){
 			<br> <br>
 			<table class="table">
 				<thead>
-					<tr class="warning"><th>New Updates</th><th>Clear</th></tr>
+					<tr class="warning"><th>New Updates</th></tr>
 				</thead>
 				<tbody>
 					<?php
 
 						$notif = getNotifications($dbhelp, $uid);
-						//print_r($notif);
 
 						for($i=0; $i < count($notif); $i++){
 							if($notif[$i]['seen'] == 1 && $notif[$i]['tags'] == 0){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
 								print "<tr class='info' onmouseover=\"this.style.cursor='pointer' \" 
-									onclick=\"window.location='index.php?content=lead_edit&lid=$lids'\">
-									<td>$string</td><td>Notification SEEN {$i}</td></tr>";
+									onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=0&seen=1'\">
+									<td>$string</td></tr>";
 							}
 								
 						}
