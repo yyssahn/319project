@@ -1,10 +1,11 @@
 <?php
+error_reporting(0);
 include('database_helper.php');
 
 $db = new DatabaseHelper();
 
 // Variables for inserting into database
-$referral = $mandate = $focus = $activities = NULL;
+$referral = $mandate = $focus = $activities = 		$location = $disciplines = $startdate = $enddate=NULL;
 
 if(array_key_exists("delete", $_POST)){
 	$sql = "DELETE FROM CBEL_LEAD WHERE lid = ?";
@@ -74,8 +75,11 @@ else{
 	if(isset($_POST['disciplines'])){
 		$disciplines = $_POST['disciplines'];
 	}
-	if(isset($_POST['timeframe'])){
-		$timeframe = $_POST['timeframe'];
+	if(isset($_POST['startdate'])){
+		$startdate = $_POST['startdate'];
+	}
+	if(isset($_POST['enddate'])){
+		$enddate=$_POST['enddate'];
 	}
 	//=======================================================================================================================
 	// Get pid to be associated with lead
@@ -114,25 +118,25 @@ else{
 	if($_SESSION['lid'] == NULL){
 	
 		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
-						disciplines, timeframe, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+						disciplines, startdate,enddate, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 						
 		$stmt = $db->prepareStatement($sql);
 
 		// Set array of parameters to be bound
 		$params = array();
-		array_push($params, $pid, $HTTP_POST_VARS['lead_name'], $HTTP_POST_VARS['description'], $HTTP_POST_VARS['idea_type'], $referral, $mandate, $focus, 		
-							$activities, $location, $disciplines, $timeframe, $HTTP_POST_VARS['status']);	
+		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+							$activities, $location, $disciplines, $startdate,$enddate, $_POST['status']);	
 
 		// Set array of types of parameters to be bound				
 		$param_types = array();
 		$param_types[0] = 'i';
-		for($i=1; $i<12; $i++)
+		for($i=1; $i<13; $i++)
 			$param_types[] = 's'; // s = strung
 	}
 	else if($_SESSION['lid'] != NULL){
 		$sql = "UPDATE CBEL_Lead 
 					SET pid=?, lead_name=?, description=?, idea_type=?, referral=?, mandate=?, focus=?, main_activities=?, 		
-						location=?, disciplines=?, timeframe=?, status=?
+						location=?, disciplines=?, startdate=?, enddate=?, status=?
 					WHERE lid=?";
 					
 		$stmt = $db->prepareStatement($sql);
@@ -140,12 +144,12 @@ else{
 		// Set array of parameters to be bound
 		$params = array();
 		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
-							$activities, $_POST['delivery'], $_POST['disciplines'], $_POST['timeframe'], $_POST['status'], $_SESSION['lid']);	
+							$activities, $location, $disciplines, $startdate, $enddate, $_POST['status'], $_SESSION['lid']);	
 							
 		// Set array of types of parameters to be bound				
 		$param_types = array();
 		$param_types[0] = 'i';
-		for($i=1; $i<12; $i++)
+		for($i=1; $i<13; $i++)
 			$param_types[] = 's'; // s = strung
 		$param_types[] = 'i';
 	}

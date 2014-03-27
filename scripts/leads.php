@@ -73,16 +73,20 @@ if(isset($_POST['submit'])){
 			$subquery = $subquery." disciplines LIKE '%".$row."%' OR";	
 		}
 	}
-	if (isset($_POST['timeframe'])){
-		foreach($_POST['timeframe'] as $row){
-			$subquery = $subquery." timeframe LIKE '%".$row."%' OR";	
-		}
-	}
 	if (isset($_POST['status'])){
 		foreach($_POST['status'] as $row){
 			$subquery = $subquery." status LIKE '%".$row."%' OR";	
 		}
 	}
+	if ($_POST['startdate']!="" && $_POST['enddate']==""){
+	$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
+	}else if ($_POST['enddate']!="" && $_POST['startdate']==""){
+			$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
+	}else if ($_POST['startdate']!="" && $_POST['enddate']!=""){
+	
+	$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0) OR";
+	}
+	
 
 	// Removes the trailing WHERE or OR from the query
 	if($subquery == NULL)
@@ -270,22 +274,7 @@ else{
 						?>
 					</select>
 				</div>
-				
-				<label for="timefram" class="col-md-2 control-label">Timeframe:</label>
-				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="timeframe[]" size="5">
-						<?php
-							foreach($categories as $row){
-								if($row['timeframe'] != NULL)
-									echo "<option value='{$row['timeframe']}'>".$row['timeframe']."</option>";
-							}
-						?>
-					</select>
-				</div>
-			</div>
-			
-			<div class="row clearfix">
-				<label for="status" class="col-md-2 control-label">Current Status:</label>
+					<label for="status" class="col-md-2 control-label">Current Status:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="form-control" name="status[]" size="5">
 						<?php
@@ -296,6 +285,25 @@ else{
 						?>
 					</select>
 				</div>
+			</div>
+			<div class="row clearfix">
+							
+			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
+				<div class="col-md-4">
+								<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date"
+							>
+		
+				</div>
+				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+				<div class="col-md-4">
+								<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline"
+							>
+		
+				</div>	
+			
+			
+			
+			
 			</div>
 		</div>	
 		
