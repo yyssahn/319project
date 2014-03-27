@@ -26,13 +26,12 @@ class NotificationHelper{
 	public function turnon($db, $uid, $lid){
 		$query ="UPDATE tag
 				SET seen = 1
-				WHERE uid ='$uid' AND lid = '$lid' AND seen = 0" ;
+				WHERE lid = '$lid' AND seen = 0" ;
 		$stmt = $db->prepareStatement($query);
 		$db->executeStatement($stmt);
 	}
 	public function turnonTag($db, $uid, $lid){
-		$query ="INSERT 
-				 INTO tag
+		$query ="INSERT INTO tag
 				 VALUES ('$uid', '$lid', 1, 1)";
 		$stmt = $db->prepareStatement($query);
 		$db->executeStatement($stmt);
