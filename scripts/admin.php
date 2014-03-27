@@ -101,6 +101,7 @@ function categoriesTab(){
             <tbody>
                 <tr><td>
 					<div class="panel-group" id="accordion">
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
@@ -111,36 +112,45 @@ function categoriesTab(){
 							</div>
 							<div id="collapseOne" class="panel-collapse collpase collapse">
 								<div class="panel-body">
-                                                                    <form name = "option_form" method = "post" action = "">	
-									<table class="table table-condensed">
-										<?php
-											$sql = "SELECT idea_type FROM categoryoptions";
-											$stmt = $db->prepareStatement($sql);
-											$db->executeStatement($stmt);
-											$listOfSubcats = $db->getResult($stmt);
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT idea_type FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['idea_type'])) { ?>
+														<tr>
+															<td><?php print $subcat['idea_type']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['idea_type']; ?>
+																	&category=idea_type' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
 											
-											foreach($listOfSubcats as $subcat) {
-												if (isset($subcat['idea_type'])) { ?>
-													<tr><td><?php print $subcat['idea_type']; ?></td>
-                                                                                                        <td><input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print $subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
-														<a href='remove_option.php?optionName=<?php print $subcat['idea_type']; ?>&category=idea_type' class='btn btn-large btn-danger'>Remove</a>
-														</td></tr>
-												<?php }
-											} ?>
-										
-										<tr>
-											<td>
-                                                                                                <input type="text" name="optionName" class="form-control" id="optionName" placeholder="Option Name">
-											</td>
-											<td>
-												 <input type ="button" id ="addOption" value="Add Option" onClick="optionForm_add(this.form,'idea_type')" class="btn btn-large btn-success" contenteditable="true">
-											</td>
-										</tr>
-									</table>
-                                                                    </form>
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'idea_type')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
 								</div>
 							</div>
 						</div>
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
@@ -151,10 +161,384 @@ function categoriesTab(){
 							</div>
 							<div id="collapseTwo" class="panel-collapse collpase collapse">
 								<div class="panel-body">
-									Hidden Content 1
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT referral FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['referral'])) { ?>
+														<tr>
+															<td><?php print $subcat['referral']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['referral']; ?>", "referral")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['referral']; ?>
+																	&category=referral' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'referral')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
 								</div>
 							</div>
 						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Organization's Mandate
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT mandate FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['mandate'])) { ?>
+														<tr>
+															<td><?php print $subcat['mandate']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['mandate']; ?>", "mandate")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['mandate']; ?>
+																	&category=mandate' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'mandate')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Focus Area
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT focus FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['focus'])) { ?>
+														<tr>
+															<td><?php print $subcat['focus']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['focus']; ?>", "focus")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['focus']; ?>
+																	&category=focus' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'focus')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Main Activities
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT main_activities FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['main_activities'])) { ?>
+														<tr>
+															<td><?php print $subcat['main_activities']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['main_activities']; ?>", "main_activities")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['main_activities']; ?>
+																	&category=main_activities' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'main_activities')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Delivery Location
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT location FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['location'])) { ?>
+														<tr>
+															<td><?php print $subcat['location']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['location']; ?>", "location")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['location']; ?>
+																	&category=location' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'location')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Possible Disciplines
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT disciplines FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['disciplines'])) { ?>
+														<tr>
+															<td><?php print $subcat['disciplines']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['disciplines']; ?>", "disciplines")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['disciplines']; ?>
+																	&category=disciplines' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'disciplines')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Timeframe
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT timeframe FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['timeframe'])) { ?>
+														<tr>
+															<td><?php print $subcat['timeframe']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['timeframe']; ?>", "timeframe")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['timeframe']; ?>
+																	&category=timeframe' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'timeframe')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class ="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+										Current Status
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collpase collapse">
+								<div class="panel-body">
+                                    <form name = "option_form" method = "post" action = "">	
+										<table class="table table-condensed">
+											<?php
+												$sql = "SELECT status FROM categoryoptions";
+												$stmt = $db->prepareStatement($sql);
+												$db->executeStatement($stmt);
+												$listOfSubcats = $db->getResult($stmt);
+
+												foreach($listOfSubcats as $subcat) {
+													if (isset($subcat['status'])) { ?>
+														<tr>
+															<td><?php print $subcat['status']; ?></td>
+															<td>
+																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
+																	$subcat['status']; ?>", "status")' class='btn btn-large btn-info'>
+																<a href='remove_option.php?optionName=<?php print $subcat['status']; ?>
+																	&category=status' class='btn btn-large btn-danger'>Remove</a>
+															</td>
+														</tr>
+													<?php }
+												} ?>
+											
+											<tr>
+												<td>
+													<input type="text" name="optionName" class="form-control" id="optionName" 
+														placeholder="Option Name">
+												</td>
+												<td>
+													 <input type ="button" id ="addOption" value="Add Option" 
+																onClick="optionForm_add(this.form,'status')" class="btn btn-large btn-success" 
+																contenteditable="true">
+												</td>
+											</tr>
+										</table>
+                                    </form>
+								</div>
+							</div>
+						</div>
+						
 					</div>
                 </td></tr>
             </tbody>

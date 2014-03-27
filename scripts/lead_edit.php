@@ -318,10 +318,10 @@ if(array_key_exists("submit", $_POST)){
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">
 				<div class="radio-inline">
-						<input type="radio" name="tag" value="1" checked>Yes &nbsp;&nbsp;&nbsp;
+						<input type="radio" name="tag" value="yes" checked>Yes &nbsp;&nbsp;&nbsp;
 				</div>
 				<div class="radio-inline">
-						<input type="radio" name="tag" value="2">No
+						<input type="radio" name="tag" value="no">No
 				</div>
 			</div>
 		</div>
