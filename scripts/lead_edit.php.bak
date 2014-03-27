@@ -36,17 +36,11 @@
 
 	if(isset($_GET["tags"])) {
 		$tagNotif = $_GET["tags"];
-		
-	if($tagNotif == 1 )
-		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
 		echo $tagNotif;
 	}
 	
 	if (isset($_GET["seen"])) {
 		$seenNotif = $_GET["seen"];
-			
-	if($seenNotif == 1)
-		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
 		echo $seenNotif;
 	}
 
@@ -57,6 +51,11 @@
 	// Connect to database
 	$db = new DatabaseHelper();
 
+
+	if($tagNotif == 1 )
+		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
+	if($seenNotif == 1)
+		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
 	
 	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";
