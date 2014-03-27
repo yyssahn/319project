@@ -31,11 +31,12 @@
 	
 	$TelepERR = '';
 	$lidNotif = $_GET["lid"];
-	$tagNotif = $_GET["tags"];
-	echo $tagNotif;
-	$seenNotif = $_GET["seen"];
-	echo $seenNotif;
+	$tagNotif = $seenNotif = 0;
 
+	if(isset($_GET["tags"]))
+		$tagNotif = $_GET["tags"];
+	if (isset($_GET["seen"]))
+		$seenNotif = $_GET["seen"];
 	
 	$lead_info = array();
 	$partner_info = array();
