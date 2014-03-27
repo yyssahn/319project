@@ -1,8 +1,8 @@
 CREATE DATABASE  IF NOT EXISTS `cbel_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `cbel_db`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.13, for osx10.6 (i386)
 --
--- Host: localhost    Database: cbel_db
+-- Host: 127.0.0.1    Database: cbel_db
 -- ------------------------------------------------------
 -- Server version	5.6.16
 
@@ -190,7 +190,7 @@ CREATE TABLE `linked_ids` (
 
 LOCK TABLES `linked_ids` WRITE;
 /*!40000 ALTER TABLE `linked_ids` DISABLE KEYS */;
-INSERT INTO `linked_ids` VALUES (1,18),(1,21),(1,22),(1,22),(18,21);
+INSERT INTO `linked_ids` VALUES (1,18),(1,21),(1,22),(1,22),(18,21),(22,18);
 /*!40000 ALTER TABLE `linked_ids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,6 +204,8 @@ DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
   `uid` int(11) NOT NULL,
   `lid` int(11) NOT NULL,
+  `seen` int(1) DEFAULT '0',
+  `tags` int(1) DEFAULT '0',
   PRIMARY KEY (`uid`,`lid`),
   KEY `lid_idx` (`lid`),
   CONSTRAINT `leadID` FOREIGN KEY (`lid`) REFERENCES `cbel_lead` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -217,6 +219,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES (101,18,1,0),(102,2,1,0),(102,18,1,1),(102,21,1,1),(102,22,1,0);
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,4 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-26  3:59:07
+-- Dump completed on 2014-03-26 22:50:45

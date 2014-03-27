@@ -1,4 +1,19 @@
 <?php
+// // Database credentials
+// $DBServer = "localhost";
+// $DBUser = "root";
+// $DBPass = "";
+// $DBName = "cbel_db";
+ 
+// // Connect to database
+// $conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+
+// $uid = $_SESSION["User_ID"];
+// $result = $conn->query("SELECT firstname,lastname FROM user WHERE uid = '$uid'");
+// $result = $result->fetch_row();
+
+// //Get Name of about the account.
+// $n = $result[0]. " " .$result[1];
 
 if (!isset($_GET['content'])) {
 

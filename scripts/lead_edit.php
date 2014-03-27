@@ -3,19 +3,66 @@
 </div>
 
 <?php
-
-include('database_helper.php');
-
-$lead_info = array();
-$partner_info = array();
-$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
-$phoneERR = $emailERR = '';
-
-function isValid($pattern, $value){
-	return preg_match($pattern, $value) ? true : false;
-}
 // Connect to database
-$db = new DatabaseHelper();
+	include('database_helper.php');
+	include('notification_helper.php');
+
+	function isValid($pattern, $value){
+		return preg_match($pattern, $value) ? true : false;
+	
+	}
+	// Connect to database
+	$db = new DatabaseHelper();
+	
+	$nh =  new NotificationHelper();
+	$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
+	$phoneERR = $emailERR = '';
+
+	$TelepERR = '';
+	if(isset($_GET["lid"])) {
+		$lidNotif = $_GET["lid"];
+	}
+	$tagNotif = $seenNotif = 0;
+
+	if(isset($_GET["tags"]))
+		$tagNotif = $_GET["tags"];
+	if (isset($_GET["seen"]))
+		$seenNotif = $_GET["seen"];
+	
+	$lead_info = array();
+	$partner_info = array();
+
+	if($tagNotif == 1 )
+		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
+	if($seenNotif == 1)
+		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
+	
+	// Get  category options
+	$sql = "SELECT * FROM CategoryOptions";
+	$s = $db->prepareStatement($sql);
+	$db->executeStatement($s);
+	$categories = $db->getResult($db);
+/*	
+	// Enforce phone number formatting
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
+		if(!isValid($phonePattern, $_POST['phone'])){
+			$TelepERR = "Incorrect Input";
+		}
+	} */
+
+/*
+	// Checking whether deleting comment is failed or not ---> might not use this
+	if(isset($_GET['deleteComment'])) {
+		$succeedDeleting = $_GET['deleteComment'];
+		if($succeedDeleting == 0) {
+			$theLead = $_GET['lid'];
+			echo "<script type=\"text/javascript\">\n";
+			echo "alert('You are not allowed to delete this comment!');\n";
+			echo "</script>\n";			
+		}
+	}
+*/
 
 // Get  category options
 $sql = "SELECT * FROM CategoryOptions";
@@ -312,11 +359,6 @@ $db->bindParameter($db, 'i', $_GET['lid']);
 $db->executeStatement($stmt);
 $listOfLinks = $db->getResult($stmt);
 
-$sql = "SELECT lead_name, lid FROM cbel_lead";
-$s = $db->prepareStatement($sql);
-$db->executeStatement($s);
-$listOfLeads = $db->getResult($stmt);
-
 ?>
 
 <div class="well">
@@ -325,14 +367,27 @@ $listOfLeads = $db->getResult($stmt);
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <h2>Similar Leads</h2>
-                    <ul class="list-group">
+                    <table class="table">
                         <?php
+						if(isset($_GET['lid'])) {
+							$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
+									FROM cbel_lead
+									INNER JOIN linked_ids
+									ON cbel_lead.lid=linked_ids.lid_link
+									WHERE linked_ids.lid_main = ?;";
+									$stmt = $db->prepareStatement($sql);
+									$db->bindParameter($db, 'i', $_GET['lid']);
+									$db->executeStatement($stmt);
+									$listOfLinks = $db->getResult($stmt);
+							
                             foreach($listOfLinks as $link) {
-                                print "<li class='list-group-item'><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
-                                        .$link['lead_name']."</a></li>";
+                                print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
+                                        .$link['lead_name']."</a></td>"
+                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-large btn-danger'>Remove Link</a>";
                             }
-                            ?>
-                    </ul>
+						}
+                        ?>
+                    </table>
                     
                     <div class="col-md-4">
                         <form>
@@ -414,6 +469,8 @@ $listOfLeads = $db->getResult($stmt);
 
 							$stml= $db->prepareStatement($sql);	
 							$db->executeStatement($stml);
+
+							$nh->turnon($db, $_SESSION["User_ID"], $selectedLeadID);
 	
 							echo "<script type=\"text/javascript\">\n";
 							echo "document.commentBoxID.value = \"\";\n";
