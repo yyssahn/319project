@@ -1,5 +1,6 @@
 <?php
 include ('database_helper.php');
+include('notification_helper.php');
 
 $selectedCID = $_GET["commentID"];
 $selectedLead = $_GET["leadID"];
@@ -10,12 +11,13 @@ $currentPage = $_GET["pg"];
 $db = new DatabaseHelper();
 
 // retrieving currently logged in user information
-$sql = "SELECT admin,username FROM user WHERE username = '$currentUser'";
+$sql = "SELECT admin,username,uid FROM user WHERE username = '$currentUser'";
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
 $currentUser = $db->getResult($db);
 $currentUserAdmin = $currentUser[0]['admin'];
 $currentUsername = $currentUser[0]['username'];
+$currentUserID = $currentUser[0]['uid'];
 
 
 // retrieving the owner of the selected comment
@@ -31,6 +33,10 @@ if($currentUserAdmin == 1 || strcmp($currentUsername, $commentOwner) == 0) {
 	$sql = "DELETE FROM comment WHERE cid = '$selectedCID'";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
+	
+	$nh = new NotificationHelper();
+	$nh->turnon($db, $currentUserID, $selectedLead);	
+
 
 	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage");	
 }else {

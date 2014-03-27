@@ -30,26 +30,15 @@
 	$nh =  new NotificationHelper();
 	
 	$TelepERR = '';
-	
-	
-	$lidNotif = $_GET["lid"];
+	if(isset($_GET["lid"])) {
+		$lidNotif = $_GET["lid"];
+	}
+	$tagNotif = $seenNotif = 0;
 
-	if(isset($_GET["tags"])) {
+	if(isset($_GET["tags"]))
 		$tagNotif = $_GET["tags"];
-		
-	if($tagNotif == 1 )
-		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
-		echo $tagNotif;
-	}
-	
-	if (isset($_GET["seen"])) {
+	if (isset($_GET["seen"]))
 		$seenNotif = $_GET["seen"];
-			
-	if($seenNotif == 1)
-		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
-		echo $seenNotif;
-	}
-
 	
 	$lead_info = array();
 	$partner_info = array();
@@ -57,6 +46,11 @@
 	// Connect to database
 	$db = new DatabaseHelper();
 
+
+	if($tagNotif == 1 )
+		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
+	if($seenNotif == 1)
+		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
 	
 	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";
@@ -354,20 +348,10 @@
 	
 <?php
 
-$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
-FROM cbel_lead
-INNER JOIN linked_ids
-ON cbel_lead.lid=linked_ids.lid_link
-WHERE linked_ids.lid_main = ?;";
-$stmt = $db->prepareStatement($sql);
-$db->bindParameter($db, 'i', $_GET['lid']);
-$db->executeStatement($stmt);
-$listOfLinks = $db->getResult($stmt);
-
 $sql = "SELECT lead_name, lid FROM cbel_lead";
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
-$listOfLeads = $db->getResult($stmt);
+$listOfLeads = $db->getResult($db);
 
 ?>
 
@@ -379,12 +363,24 @@ $listOfLeads = $db->getResult($stmt);
                     <h2>Similar Leads</h2>
                     <table class="table">
                         <?php
+						if(isset($_GET['lid'])) {
+							$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
+									FROM cbel_lead
+									INNER JOIN linked_ids
+									ON cbel_lead.lid=linked_ids.lid_link
+									WHERE linked_ids.lid_main = ?;";
+									$stmt = $db->prepareStatement($sql);
+									$db->bindParameter($db, 'i', $_GET['lid']);
+									$db->executeStatement($stmt);
+									$listOfLinks = $db->getResult($stmt);
+							
                             foreach($listOfLinks as $link) {
                                 print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
                                         .$link['lead_name']."</a></td>"
                                         ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-large btn-danger'>Remove Link</a>";
                             }
-                            ?>
+						}
+                        ?>
                     </table>
                     
                     <div class="col-md-4">
@@ -467,6 +463,8 @@ $listOfLeads = $db->getResult($stmt);
 
 							$stml= $db->prepareStatement($sql);	
 							$db->executeStatement($stml);
+
+							$nh->turnon($db, $_SESSION["User_ID"], $selectedLeadID);
 	
 							echo "<script type=\"text/javascript\">\n";
 							echo "document.commentBoxID.value = \"\";\n";
