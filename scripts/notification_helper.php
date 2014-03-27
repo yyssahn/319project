@@ -31,9 +31,9 @@ class NotificationHelper{
 		$db->executeStatement($stmt);
 	}
 	public function turnonTag($db, $uid, $lid){
-		$query ="UPDATE tag
-				SET tags = 1
-				WHERE uid ='$uid' AND lid = '$lid' AND tags = 0" ;
+		$query ="INSERT 
+				 INTO tag
+				 VALUES ('$uid', '$lid', 1, 1)";
 		$stmt = $db->prepareStatement($query);
 		$db->executeStatement($stmt);
 	}
