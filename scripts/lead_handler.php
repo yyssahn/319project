@@ -118,8 +118,8 @@ else{
 
 		// Set array of parameters to be bound
 		$params = array();
-		array_push($params, $pid, $HTTP_POST_VARS['lead_name'], $HTTP_POST_VARS['description'], $HTTP_POST_VARS['idea_type'], $referral, $mandate, $focus, 		
-							$activities, $location, $disciplines, $timeframe, $HTTP_POST_VARS['status']);	
+		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+							$activities, $location, $disciplines, $timeframe, $_POST['status']);	
 
 		// Set array of types of parameters to be bound				
 		$param_types = array();
