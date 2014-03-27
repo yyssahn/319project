@@ -23,6 +23,20 @@ class NotificationHelper{
 		$stmt = $db->prepareStatement($query);
 		$db->executeStatement($stmt);
 	}
+	public function turnon($db, $uid, $lid){
+		$query ="UPDATE tag
+				SET seen = 1
+				WHERE uid ='$uid' AND lid = '$lid' AND seen = 0" ;
+		$stmt = $db->prepareStatement($query);
+		$db->executeStatement($stmt);
+	}
+	public function turnonTag($db, $uid, $lid){
+		$query ="UPDATE tag
+				SET tags = 1
+				WHERE uid ='$uid' AND lid = '$lid' AND tags = 0" ;
+		$stmt = $db->prepareStatement($query);
+		$db->executeStatement($stmt);
+	}
 
 	public function getUnnotified($str){
 		$query = "SELECT idea_name FROM notification WHERE username = '".$str."' AND notification = 1";
@@ -36,15 +50,7 @@ class NotificationHelper{
 		$stmt = $this->db->prepareStatement($query);
 		$this->db->executeStatement($stmt);
 	}
-	public function turnon($username, $idea_name){
-		$query ='UPDATE notification
-		SET notification = 1
-		WHERE username ="'.$username.'" AND idea_name = "'.$idea_name.'" AND notification = 0' ;
-		$stmt = $this->db->prepareStatement($query);
-		$this->db->executeStatement($stmt);	
-	
-	}
-	
+
 	function getNotifications($dbhelper, $uid){
 		$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 				FROM cbel_lead L
