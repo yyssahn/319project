@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2>Admin Mother Fucker!</h2>
+	<h2>Admin Page</h2>
 </div>
 
 <?php

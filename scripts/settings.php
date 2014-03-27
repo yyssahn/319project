@@ -1,3 +1,7 @@
+<div class="page-header">
+	<h2>Settings Page</h2>
+</div>
+
 <?php
 include('database_helper.php');
 
@@ -162,10 +166,6 @@ if(array_key_exists("Psubmit", $_POST)){
 }
 $conn->close();
 ?>
-
-<div class="page-header">
-	<h2>Settings Mother Fucker!</h2>
-</div>
 
 <form id="form" method = "POST" action = "index.php?content=settings">
 <div class="well">

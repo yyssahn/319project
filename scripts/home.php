@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2>Home Mother Fucker!</h2> 
+	<h2>Home Page</h2> 
 </div>
 <?php 
 include('database_helper.php');

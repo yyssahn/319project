@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2>Lead Edit Page Mother Fucker!</h2>
+	<h2>Lead Edit Page</h2>
 </div>
 
 <?php

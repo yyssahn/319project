@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2>Notifications Mother Fucker!</h2>
+	<h2>Notifications Page</h2>
 </div>
 
 <?php
