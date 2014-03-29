@@ -1,4 +1,5 @@
 <?php
+session_start();
 include ('database_helper.php');
 include('notification_helper.php');
 
@@ -38,11 +39,12 @@ if($currentUserAdmin == 1 || strcmp($currentUsername, $commentOwner) == 0) {
 	$nh->turnon($db, $currentUserID, $selectedLead);	
 
 
-	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage");	
+	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage#commentList");	
 }else {
-	echo "<script>history.back();alert('You are not allowed to delete this comment!');</script>";
-	
-//	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&deleteComment=0");	
+	$_SESSION['failedDeleting'] = 1;
+	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage&failed=''#commentList");	
+
+	//	echo "<script>history.back();alert('You are not allowed to delete this comment!');</script>";
 }
 exit();
 

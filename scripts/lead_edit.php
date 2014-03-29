@@ -2,6 +2,16 @@
 	<h2>Lead Edit Page</h2>
 </div>
 
+<head>
+	<script>
+	function focusCommentBox() {
+		document.getElementById('commentBoxID').focus();
+	}
+
+	</script>
+
+</head>
+
 <?php
 // Connect to database
 	include('database_helper.php');
@@ -51,18 +61,19 @@
 		}
 	} */
 
-/*
-	// Checking whether deleting comment is failed or not ---> might not use this
-	if(isset($_GET['deleteComment'])) {
-		$succeedDeleting = $_GET['deleteComment'];
-		if($succeedDeleting == 0) {
-			$theLead = $_GET['lid'];
+	// Checking whether deleting comment is failed or not
+	if(isset($_GET['failed'])) {
+
+		$failedDeleting = $_SESSION['failedDeleting'];
+		if($failedDeleting == 1) {
+			$_SESSION['failedDeleting'] = 0;
+
 			echo "<script type=\"text/javascript\">\n";
 			echo "alert('You are not allowed to delete this comment!');\n";
 			echo "</script>\n";			
 		}
 	}
-*/
+
 
 // Get  category options
 $sql = "SELECT * FROM CategoryOptions";
@@ -442,7 +453,7 @@ $listOfLeads = $db->getResult($stmt);
 					?>
 					</h2> 
 					
-					<ol class="commentList">
+					<ol id="commentList" class="commentList">
 					
 					<?php
 					if(isset($_POST['commentSubmit'])) {
@@ -468,7 +479,7 @@ $listOfLeads = $db->getResult($stmt);
 							$nh->turnon($db, $_SESSION["User_ID"], $selectedLeadID);
 	
 							echo "<script type=\"text/javascript\">\n";
-							echo "document.commentBoxID.value = \"\";\n";
+							echo "document.commentBox.value = \"\";\n";
 							echo "</script>\n";
 						}	
 					}
@@ -540,7 +551,7 @@ $listOfLeads = $db->getResult($stmt);
 									'>',
 												
 									'<header>',
-										'<a href = "" title = ',
+										'<a href = "#commentList" title = ',
 										$commentedUser[0]['email'],
 												
 									'>',	
@@ -596,7 +607,7 @@ $listOfLeads = $db->getResult($stmt);
 				
 					if(1 < $currentBlock) {
 						$prevPage = ($currentBlock-1)*$pagePerBlock;
-						echo'<li><a href ="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$prevPage.'">Prev</a></li>';
+						echo'<li><a href ="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$prevPage.'#commentList">Prev</a></li>';
 					}
 
 					$startPage =($currentBlock-1)*$pagePerBlock+1;
@@ -608,13 +619,13 @@ $listOfLeads = $db->getResult($stmt);
 					?>
 					
 					<?php for($i=$startPage; $i<=$endPage; $i++):?>
-						<li> <a href="./index.php?content=lead_edit&lid=<?php echo $selectedLeadID; ?>&page=<?php echo $i; ?>"><?php echo $i; ?> </a> </li>
+						<li> <a href="./index.php?content=lead_edit&lid=<?php echo $selectedLeadID; ?>&page=<?php echo $i; ?>#commentList"><?php echo $i; ?> </a> </li>
 					<?php endfor?>
 					
 					<?php
 					if($currentBlock < $totalBlock) {
 						$nextPage = ($currentBlock)*$pagePerBlock+1;
-						echo '<li> <a href="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$nextPage.'">Next</a> <li>';
+						echo '<li> <a href="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$nextPage.'#commentList">Next</a> <li>';
 					} 
 					}
 					?>
@@ -631,7 +642,7 @@ $listOfLeads = $db->getResult($stmt);
 
 						<form action="" method="POST">
 							<div>
-								<textarea name="commentBox" id="commentBoxID" autofocus="autofocus" cols="105" rows="8" aria-required="true"></textarea> 
+								<textarea name="commentBox" id="commentBoxID" cols="105" rows="8" aria-required="true"></textarea> 
 							</div>
 							<div class="view" class = "deleteCSS" /*style = "margin-left:530px; margin-top: 30px"*/>
 								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary">
