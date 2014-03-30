@@ -1,17 +1,21 @@
 <?php
-error_reporting(0);
+//error_reporting(0);
 include('database_helper.php');
+//include('notification_helper.php');
 
 $db = new DatabaseHelper();
+$nh = new NotificationHelper();
 
 // Variables for inserting into database
-$referral = $mandate = $focus = $activities = 		$location = $disciplines = $startdate = $enddate=NULL;
+$tagSelf = $referral = $mandate = $focus = $activities = $location = $disciplines = $startdate = $enddate=NULL;
 
 if(array_key_exists("delete", $_POST)){
 	$sql = "DELETE FROM CBEL_LEAD WHERE lid = ?";
 	$stmt = $db->prepareStatement($sql);
 	$db->bindParameter($stmt, 'i', $_SESSION['lid']);
 	$db->executeStatement($stmt);
+
+	$nh->delLeadTag($_SESSION['lid']);
 	
 	if($db->getAffectedRows($stmt) > 0){
 		$sql = "UPDATE User
@@ -81,6 +85,10 @@ else{
 	if(isset($_POST['enddate'])){
 		$enddate=$_POST['enddate'];
 	}
+	if(isset($_POST['Ytag']))
+  		$tagSelf = 1;
+  	elseif(isset($_POST['Ntag']))
+   		$tagSelf = 0;
 	//=======================================================================================================================
 	// Get pid to be associated with lead
 	$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
@@ -164,6 +172,10 @@ else{
 		$stmt = $db->prepareStatement($sql);
 		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
 		$db->executeStatement($stmt);
+		if($tagSelf == 1 )
+			$nh->turnonTag($_SESSION['User_ID'], $_SESSION['lid']);
+		if($tagSelf == 0)
+			$nh->removeTag($_SESSION['User_ID'], $_SESSION['lid']);
 		
 		$_SESSION['lid'] = NULL; // Makes sure lead is not visible when creating a new lead
 	?>

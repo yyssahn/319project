@@ -14,6 +14,8 @@
 
 // //Get Name of about the account.
 // $n = $result[0]. " " .$result[1];
+include('notification_helper.php');
+$nh = new NotificationHelper();
 
 if (!isset($_GET['content'])) {
 	$_GET['content'] = NULL;
@@ -21,7 +23,7 @@ if (!isset($_GET['content'])) {
 if(!isset($_SESSION['notifications']))
 	$notifs = 0;
 else
-	$notifs = $_SESSION['notifications'];
+	$notifs = $nh->getNumberNotif($_SESSION["User_ID"]);
 
 ?>
 

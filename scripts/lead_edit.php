@@ -5,24 +5,23 @@
 <?php
 // Connect to database
 	include('database_helper.php');
-	include('notification_helper.php');
 
 	function isValid($pattern, $value){
 		return preg_match($pattern, $value) ? true : false;
 	
 	}
-	// Connect to database
+
 	$db = new DatabaseHelper();
-	
 	$nh =  new NotificationHelper();
+
 	$phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
 	$phoneERR = $emailERR = '';
 
 	$TelepERR = '';
+	$lidNotif =	$tagNotif = $seenNotif = 0;
 	if(isset($_GET["lid"])) {
 		$lidNotif = $_GET["lid"];
 	}
-	$tagNotif = $seenNotif = 0;
 
 	if(isset($_GET["tags"]))
 		$tagNotif = $_GET["tags"];
@@ -33,9 +32,9 @@
 	$partner_info = array();
 
 	if($tagNotif == 1 )
-		$nh->turnoffTag($db,$_SESSION["User_ID"], $lidNotif);
+		$nh->turnoffTag($_SESSION["User_ID"], $lidNotif);
 	if($seenNotif == 1)
-		$nh->turnoff($db,$_SESSION["User_ID"],$lidNotif);
+		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
 	
 	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";
@@ -323,12 +322,24 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">		
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">
+				<?php
+				if($nh->isTag($_SESSION["User_ID"], $lidNotif)){
+				?>
 				<div class="radio-inline">
-						<input type="radio" name="tag" value="yes" checked>Yes &nbsp;&nbsp;&nbsp;
+						<input type="radio" name="Ytag" checked>Yes &nbsp;&nbsp;&nbsp;
 				</div>
 				<div class="radio-inline">
-						<input type="radio" name="tag" value="no">No
+						<input type="radio" name="Ntag" >No
 				</div>
+				<?php }
+				else { ?>
+				<div class="radio-inline">
+						<input type="radio" name="Ytag" >Yes &nbsp;&nbsp;&nbsp;
+				</div>
+				<div class="radio-inline">
+						<input type="radio" name="Ntag" >No
+				</div> 
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -476,7 +487,7 @@ $listOfLinks = $db->getResult($stmt);
 							$stml= $db->prepareStatement($sql);	
 							$db->executeStatement($stml);
 
-							$nh->turnon($db, $_SESSION["User_ID"], $selectedLeadID);
+							$nh->turnon($selectedLeadID);
 	
 							echo "<script type=\"text/javascript\">\n";
 							echo "document.commentBoxID.value = \"\";\n";

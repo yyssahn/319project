@@ -1,70 +1,112 @@
 <?php
 
 class NotificationHelper{
-	//private $db;
+
+	//Database Credentials
+	private $DBServer;
+	private $DBUse;
+	private $DBPass;
+	private $DBName;
+
+	// Needed to prepare and execute statement
+	private $conn;
 	 
 	/*Connect to database */
-	//public function __construct(){
-	//	$this->db = new Databasehelper();
-	//}
+	public function __construct(){
+		$DBServer = "localhost";
+		$DBUser = "root";
+		$DBPass = "";
+		$DBName = "cbel_db";
+		
+		$this->conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+		if($this->conn->connect_error)
+			trigger_error('Database connection failed: '  . $this->conn->connect_error, E_USER_ERROR);
+			
+		return $this->conn;
+	}
+
 	
-	/* Prepare statement */
-	public function turnoff($db,$uid, $lid){
+	// Turns a notification off. For a given user.
+	public function turnoff($uid, $lid){
 		$query ="UPDATE tag
 				SET seen = 0
 				WHERE uid ='$uid' AND lid = '$lid' AND seen = 1" ;
-		$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
+		$this->conn->query($query);
 	}
-	public function turnoffTag($db, $uid, $lid){
+	// Turns off a tag notification for a new user
+	public function turnoffTag($uid, $lid){
 		$query ="UPDATE tag
-				SET tags = 0
+				SET tags = 0, seen = 0
 				WHERE uid ='$uid' AND lid = '$lid' AND tags = 1" ;
-		$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
+		$this->conn->query($query);
 	}
-	public function turnon($db, $uid, $lid){
+
+	// Updates and provdes notifcations to all users that are tagged on a lead.
+	public function turnon($lid){
 		$query ="UPDATE tag
 				SET seen = 1
 				WHERE lid = '$lid' AND seen = 0" ;
-		$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
+		$this->conn->query($query);
 	}
-	public function turnonTag($db, $uid, $lid){
+
+	// tags a new person on that lead or themselves.
+	public function turnonTag($uid, $lid){
 		$query ="INSERT INTO tag
 				 VALUES ('$uid', '$lid', 1, 1)";
-		$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
+		$this->conn->query($query);
 	}
 
-	public function getUnnotified($str){
-		$query = "SELECT idea_name FROM notification WHERE username = '".$str."' AND notification = 1";
-		$stmt = $this->db ->prepareStatement($query);
-		$this->db ->executeStatement($stmt);			
-		
-		return $this->db->getResult();
-	}
-	public function createNotification($un ,$idea_name){
-		$query = 'INSERT INTO `notification`(`idea_name`, `username`, `notification`) VALUES ("'.$idea_name.'","'.$un.'","")';
-		$stmt = $this->db->prepareStatement($query);
-		$this->db->executeStatement($stmt);
+	//Checks if the user is already tagged
+	public function isTag($uid,$lid){
+		$sql = "SELECT count(*)
+				From tag
+				Where uid = '$uid' AND lid = '$lid'";
+		 $result = $this->conn->query($sql);
+		 $row = $result->fetch_row();
+    	 return ($row[0] != 0);
 	}
 
-	function getNotifications($dbhelper, $uid){
+	// Allows users to untag themselves from a lead
+	// They will no longer receiver updates.
+	public function removeTag($uid, $lid){
+
+		$query ="DELETE
+				FROM tag
+				WHERE uid = '$uid' AND lid = '$lid'" ;
+		$this->conn->query($query);
+	}
+
+	//Remove that lead Notificaiton
+	public function delLeadTag($lid){
+
+		$query ="DELETE
+			FROM tag
+			WHERE lid = '$lid'" ;
+		$this->conn->query($query);
+	}
+
+	// Allows the user to get the number of notifcation they currently have
+	public function getNumberNotif($uid){
+
+		$sql = "SELECT count(*)
+				From tag
+				Where uid = '$uid' AND (seen = 1 or tags = 1)";
+		 $result = $this->conn->query($sql);
+		 $row = $result->fetch_row();
+    	 return $row[0];
+	}
+
+	function getNotifications($uid){
 		$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 				FROM cbel_lead L
 				INNER JOIN tag T
-		 		WHERE T.lid = L.lid AND T.uid = ? 
+		 		WHERE T.lid = L.lid AND T.uid = '$uid' 
 		 			AND (T.seen = 1 OR T.tags = 1 )";
-		$stmt = $dbhelper->prepareStatement($sql);
 
-		$params = array($uid);
-		$param_types = array('s');
-		$dbhelper->bindArray($stmt, $param_types, $params);
-		$dbhelper->executeStatement($stmt);
-		$result = $dbhelper->getResult($stmt);
-		return $result;
+		$this->conn->query($sql);
+		return $this->conn->fetch_all(MYSQLI_ASSOC);
 	}
+
 }
 
 ?>
