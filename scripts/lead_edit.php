@@ -2,6 +2,16 @@
 	<h2>Lead Edit Page</h2>
 </div>
 
+<head>
+	<script>
+	function focusCommentBox() {
+		document.getElementById('commentBoxID').focus();
+	}
+
+	</script>
+
+</head>
+
 <?php
 // Connect to database
 	include('database_helper.php');
@@ -50,18 +60,19 @@
 		}
 	} */
 
-/*
-	// Checking whether deleting comment is failed or not ---> might not use this
-	if(isset($_GET['deleteComment'])) {
-		$succeedDeleting = $_GET['deleteComment'];
-		if($succeedDeleting == 0) {
-			$theLead = $_GET['lid'];
+	// Checking whether deleting comment is failed or not
+	if(isset($_GET['failed'])) {
+
+		$failedDeleting = $_SESSION['failedDeleting'];
+		if($failedDeleting == 1) {
+			$_SESSION['failedDeleting'] = 0;
+
 			echo "<script type=\"text/javascript\">\n";
 			echo "alert('You are not allowed to delete this comment!');\n";
 			echo "</script>\n";			
 		}
 	}
-*/
+
 
 // Get  category options
 $sql = "SELECT * FROM CategoryOptions";
@@ -87,6 +98,7 @@ if(isset($_GET['lid'])){
 }
 
 if(array_key_exists("submit", $_POST)){
+
 	if(!isValid($phonePattern, $_POST['phone']))
 		$phoneERR = "Please use the form XXX-XXX-XXXX";
 
@@ -358,7 +370,7 @@ if(array_key_exists("submit", $_POST)){
 ?>
 		<div class="col-md-offset-11">
 			<input type="submit" class="btn btn-large btn-primary" name="submit" value="Submit">
-			<input type="hidden" name="submit" value="submit">
+				<input type="hidden" name="submit" value="submit">
 		</div>
 	</div>
 </form>
@@ -366,6 +378,8 @@ if(array_key_exists("submit", $_POST)){
 <?php
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //=========================================================================================================================
+
+
 $sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
 FROM cbel_lead
 INNER JOIN linked_ids
@@ -376,9 +390,14 @@ $db->bindParameter($db, 'i', $_GET['lid']);
 $db->executeStatement($stmt);
 $listOfLinks = $db->getResult($stmt);
 
+$sql = "SELECT lead_name, lid FROM cbel_lead";
+$s = $db->prepareStatement($sql);
+$db->executeStatement($s);
+$listOfLeads = $db->getResult($stmt);
+
 ?>
 
-<div class="well">
+<div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
@@ -386,24 +405,12 @@ $listOfLinks = $db->getResult($stmt);
                     <h2>Similar Leads</h2>
                     <table class="table">
                         <?php
-						if(isset($_GET['lid'])) {
-							$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
-									FROM cbel_lead
-									INNER JOIN linked_ids
-									ON cbel_lead.lid=linked_ids.lid_link
-									WHERE linked_ids.lid_main = ?;";
-									$stmt = $db->prepareStatement($sql);
-									$db->bindParameter($db, 'i', $_GET['lid']);
-									$db->executeStatement($stmt);
-									$listOfLinks = $db->getResult($stmt);
-							
                             foreach($listOfLinks as $link) {
                                 print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
                                         .$link['lead_name']."</a></td>"
                                         ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-large btn-danger'>Remove Link</a>";
                             }
-						}
-                        ?>
+                            ?>
                     </table>
                     
                     <div class="col-md-4">
@@ -464,7 +471,7 @@ $listOfLinks = $db->getResult($stmt);
 					?>
 					</h2> 
 					
-					<ol class="commentList">
+					<ol id="commentList" class="commentList">
 					
 					<?php
 					if(isset($_POST['commentSubmit'])) {
@@ -490,7 +497,7 @@ $listOfLinks = $db->getResult($stmt);
 							$nh->turnon($selectedLeadID);
 	
 							echo "<script type=\"text/javascript\">\n";
-							echo "document.commentBoxID.value = \"\";\n";
+							echo "document.commentBox.value = \"\";\n";
 							echo "</script>\n";
 						}	
 					}
@@ -562,7 +569,7 @@ $listOfLinks = $db->getResult($stmt);
 									'>',
 												
 									'<header>',
-										'<a href = "" title = ',
+										'<a href = "#commentList" title = ',
 										$commentedUser[0]['email'],
 												
 									'>',	
@@ -618,7 +625,7 @@ $listOfLinks = $db->getResult($stmt);
 				
 					if(1 < $currentBlock) {
 						$prevPage = ($currentBlock-1)*$pagePerBlock;
-						echo'<li><a href ="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$prevPage.'">Prev</a></li>';
+						echo'<li><a href ="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$prevPage.'#commentList">Prev</a></li>';
 					}
 
 					$startPage =($currentBlock-1)*$pagePerBlock+1;
@@ -630,13 +637,13 @@ $listOfLinks = $db->getResult($stmt);
 					?>
 					
 					<?php for($i=$startPage; $i<=$endPage; $i++):?>
-						<li> <a href="./index.php?content=lead_edit&lid=<?php echo $selectedLeadID; ?>&page=<?php echo $i; ?>"><?php echo $i; ?> </a> </li>
+						<li> <a href="./index.php?content=lead_edit&lid=<?php echo $selectedLeadID; ?>&page=<?php echo $i; ?>#commentList"><?php echo $i; ?> </a> </li>
 					<?php endfor?>
 					
 					<?php
 					if($currentBlock < $totalBlock) {
 						$nextPage = ($currentBlock)*$pagePerBlock+1;
-						echo '<li> <a href="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$nextPage.'">Next</a> <li>';
+						echo '<li> <a href="http://'.$_SERVER['HTTP_HOST'].'/project/scripts/index.php?content=lead_edit&lid='.$selectedLeadID.'&page='.$nextPage.'#commentList">Next</a> <li>';
 					} 
 					}
 					?>
@@ -653,7 +660,7 @@ $listOfLinks = $db->getResult($stmt);
 
 						<form action="" method="POST">
 							<div>
-								<textarea name="commentBox" id="commentBoxID" autofocus="autofocus" cols="105" rows="8" aria-required="true"></textarea> 
+								<textarea name="commentBox" id="commentBoxID" cols="105" rows="8" aria-required="true"></textarea> 
 							</div>
 							<div class="view" class = "deleteCSS" /*style = "margin-left:530px; margin-top: 30px"*/>
 								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary">

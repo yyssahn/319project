@@ -1,3 +1,17 @@
+<head>
+
+	<script language ="javascript">
+	
+	
+	function enterFunction(event) {
+		if(event.keyCode == 13) {
+			document.getElementById('searchButton').click();
+		}
+	}
+	</script>
+
+</head>
+
 <?php
 // // Database credentials
 // $DBServer = "localhost";
@@ -16,6 +30,24 @@
 // $n = $result[0]. " " .$result[1];
 include('notification_helper.php');
 $nh = new NotificationHelper();
+
+if(isset($_POST['searchLead'])) {
+	$searchBoxContent = $_POST['searchBox'];
+
+	if(strlen(trim($searchBoxContent)) < 1) {
+		echo "<script type=\"text/javascript\">\n";
+		echo "alert('Please fill in the search box!');\n";
+		echo "</script>\n";
+
+	}else {
+		echo $searchBoxContent;
+		header("Location: ./searchByType.php?searchContent=$searchBoxContent");
+	
+
+
+	}
+}
+
 
 if (!isset($_GET['content'])) {
 	$_GET['content'] = NULL;
@@ -59,11 +91,12 @@ else
 		</ul>
 			
 	</div>
-	
+<form action="" method="POST">	
 	<div class="col-md-6">
-		<input type="text" class="form-control" placeholder="Search for Lead by Name">
+		<input type="text" name="searchBox" class="form-control" onkeypress="enterFunction(event);" placeholder="Search for Lead by Name">
 	</div>
 
-	<button type="submit" class="btn btn-default">Search</button>
+	<button type="submit" name="searchLead" id="searchButton" class="btn btn-default">Search</button>
+</form>
 </nav>
 

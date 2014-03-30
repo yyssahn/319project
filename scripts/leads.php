@@ -2,139 +2,15 @@
 	<h2>Leads Page</h2>
 </div>
 
-<?php
+<?php 
 include('database_helper.php');
 
 // Connect to database
 $db = new DatabaseHelper();
-	
-if(isset($_POST['submit'])){
-	$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
-
-	// Need to add community partner search
-	$subquery = NULL;
-	if(isset($_POST['partner'])){
-		$pquery = "SELECT pid FROM CommunityPartner WHERE";
-		$psubquery = '';
-		foreach($_POST['partner'] as $row){
-			$psubquery = $psubquery." community_partner = '".$row."' OR";
-		}
-
-		if(substr($psubquery, -strlen('OR')) === 'OR'){
-			$psubquery = substr_replace($psubquery ,"",-2);
-			$pquery .= $psubquery;
-		}
-
-		$stmt = $db->prepareStatement($pquery);
-		$db->executeStatement($stmt);
-		$pid_results = $db->getResult($stmt);
-		foreach($pid_results as $pid){
-			$subquery = $subquery." pid = ".$pid['pid']." OR";
-		}
-	}
-	// Dynamically create query based on multi-select box choices
-	if (isset($_POST['name'])){
-		foreach($_POST['name'] as $row){
-			$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['type'])){
-		foreach($_POST['type'] as $row){
-			$subquery = $subquery." idea_type LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['referral'])){
-		foreach($_POST['referral'] as $row){
-			$subquery = $subquery." referral LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['mandate'])){
-		foreach($_POST['mandate'] as $row){
-			$subquery = $subquery." mandate LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['focus'])){
-		foreach($_POST['focus'] as $row){
-			$subquery = $subquery." focus LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['activities'])){
-		foreach($_POST['activities'] as $row){
-			$subquery = $subquery." main_activities LIKE '%".$row."%' OR";		
-		}
-	}
-	if (isset($_POST['delivery'])){
-		foreach($_POST['delivery'] as $row){
-			$subquery = $subquery." delivery_location LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['disciplines'])){
-		foreach($_POST['disciplines'] as $row){
-			$subquery = $subquery." disciplines LIKE '%".$row."%' OR";	
-		}
-	}
-	if (isset($_POST['status'])){
-		foreach($_POST['status'] as $row){
-			$subquery = $subquery." status LIKE '%".$row."%' OR";	
-		}
-	}
-	if ($_POST['startdate']!="" && $_POST['enddate']==""){
-	$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
-	}else if ($_POST['enddate']!="" && $_POST['startdate']==""){
-			$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
-	}else if ($_POST['startdate']!="" && $_POST['enddate']!=""){
-	
-	$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0) OR";
-	}
-	
-
-	// Removes the trailing WHERE or OR from the query
-	if($subquery == NULL)
-		$query = substr_replace($query, "", -(strlen(' WHERE')));
-	else if(substr($subquery, -strlen('OR')) === 'OR'){
-		$subquery = substr_replace($subquery ,"",-2);
-		$query .= $subquery;
-	}
-
-	$stmt = $db->prepareStatement($query);
-	$db->executeStatement($stmt);
-	$result = $db->getResult($db);
 		
-	if($result != NULL){
-?>
-		<div class="well">
-			<div class="row clearfix">
-				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
-					<table class="table table-striped table-hover">
-						<thead>
-							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
-						</thead>
-						<tbody>
-							<?php
-								foreach($result as $row){
-									$lid = $row['lid'];
-									if($row['lead_name'] != NULL){
-							?>
-								<tr class='info' onmouseover="this.style.cursor='pointer' " 
-									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
-									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
-								</tr>
-							<?php
-									}
-								}
-							?>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-<?php
-	}
-	else{
-		print "<div class='alert alert-danger'>There are no leads that match the given criteria</div>";
-	}	
-}
-else{
+// before searching step:
+if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
+
 	// Get  category options
 	$sql = "SELECT * FROM CategoryOptions";
 	$stmt = $db->prepareStatement($sql);
@@ -290,32 +166,26 @@ else{
 							
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
-								<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date"
-								onchange="changedVal();"
-							>
-							<script type="text/javascript">
-									function changedVal() {
+					<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date" onchange="changedVal();">
+						<script type="text/javascript">
+							function changedVal() {
 							var NameValue = document.forms["form"]["startdate"].value;
 							document.forms["form"]["enddate"].min = NameValue;
-    }</script>
-							</input>
-		
+							}
+						</script>
+					</input>
 				</div>
+				
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
 						
 				<div class="col-md-4">
-								<input type="date" class="form-control" name="enddate" id="enddate" 
-								 placeholder="Enter Deadline" 
-							><script type="text/javascript">
+					<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline">
+						<script type="text/javascript">
 								
-    </script>
-							</input>
-		
+						</script>
+					</input>
 				</div>	
-			
-			
-			
-			
+					
 			</div>
 		</div>	
 		
@@ -326,6 +196,140 @@ else{
 			</div>
 		</div>
 	</form>
+
 <?php 
-} 
+}else {	
+	// search by filter
+	if(isset($_POST['submit'])) {
+		$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
+
+		// Need to add community partner search
+		$subquery = NULL;
+		if(isset($_POST['partner'])){
+			$pquery = "SELECT pid FROM CommunityPartner WHERE";
+			$psubquery = '';
+			foreach($_POST['partner'] as $row){
+				$psubquery = $psubquery." community_partner = '".$row."' OR";
+			}
+
+			if(substr($psubquery, -strlen('OR')) === 'OR'){
+				$psubquery = substr_replace($psubquery ,"",-2);
+				$pquery .= $psubquery;
+			}
+
+			$stmt = $db->prepareStatement($pquery);
+			$db->executeStatement($stmt);
+			$pid_results = $db->getResult($stmt);
+			foreach($pid_results as $pid){
+				$subquery = $subquery." pid = ".$pid['pid']." OR";
+			}
+		}
+		// Dynamically create query based on multi-select box choices
+		if (isset($_POST['name'])){
+			foreach($_POST['name'] as $row){
+				$subquery = $subquery." lead_name LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['type'])){
+			foreach($_POST['type'] as $row){
+				$subquery = $subquery." idea_type LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['referral'])){
+			foreach($_POST['referral'] as $row){
+				$subquery = $subquery." referral LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['mandate'])){
+			foreach($_POST['mandate'] as $row){
+				$subquery = $subquery." mandate LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['focus'])){
+			foreach($_POST['focus'] as $row){
+				$subquery = $subquery." focus LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['activities'])){
+			foreach($_POST['activities'] as $row){
+				$subquery = $subquery." main_activities LIKE '%".$row."%' OR";		
+			}
+		}
+		if (isset($_POST['delivery'])){
+			foreach($_POST['delivery'] as $row){
+				$subquery = $subquery." delivery_location LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['disciplines'])){
+			foreach($_POST['disciplines'] as $row){
+				$subquery = $subquery." disciplines LIKE '%".$row."%' OR";	
+			}
+		}
+		if (isset($_POST['status'])){
+			foreach($_POST['status'] as $row){
+				$subquery = $subquery." status LIKE '%".$row."%' OR";	
+			}
+		}
+		if ($_POST['startdate']!="" && $_POST['enddate']==""){
+		$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
+		}else if ($_POST['enddate']!="" && $_POST['startdate']==""){
+				$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
+		}else if ($_POST['startdate']!="" && $_POST['enddate']!=""){
+		
+		$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0) OR";
+		}
+
+		// Removes the trailing WHERE or OR from the query
+		if($subquery == NULL)
+			$query = substr_replace($query, "", -(strlen(' WHERE')));
+		else if(substr($subquery, -strlen('OR')) === 'OR'){
+			$subquery = substr_replace($subquery ,"",-2);
+			$query .= $subquery;
+		}
+
+		$stmt = $db->prepareStatement($query);
+		$db->executeStatement($stmt);
+		$result = $db->getResult($db);
+
+		
+	// search by search bar
+	}else { 
+		$result = $_SESSION['matchings'];
+	}
+	
+	if($result != NULL){
 ?>
+		<div class="well">
+			<div class="row clearfix">
+				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
+						</thead>
+						<tbody>
+							<?php
+								foreach($result as $row){
+									$lid = $row['lid'];
+									if($row['lead_name'] != NULL){
+							?>
+								<tr class='info' onmouseover="this.style.cursor='pointer' " 
+									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
+									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
+								</tr>
+							<?php
+									}
+								}
+							?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+<?php
+	}
+	else{
+		print "<div class='alert alert-danger'>There are no leads that match the given criteria</div>";
+	}	
+}
+?>
+
