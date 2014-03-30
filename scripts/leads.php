@@ -156,7 +156,7 @@ else{
 	<div class='well'><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></div>
 	<hr />
 	<!--Categories  for narrowing search results.  Options are populated from database-->
-	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" name="form">
 		<div class="jumbotron">
 			<div class="row clearfix">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
@@ -291,13 +291,25 @@ else{
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
 								<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date"
+								onchange="changedVal();"
 							>
+							<script type="text/javascript">
+									function changedVal() {
+							var NameValue = document.forms["form"]["startdate"].value;
+							document.forms["form"]["enddate"].min = NameValue;
+    }</script>
+							</input>
 		
 				</div>
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+						
 				<div class="col-md-4">
-								<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline"
-							>
+								<input type="date" class="form-control" name="enddate" id="enddate" 
+								 placeholder="Enter Deadline" 
+							><script type="text/javascript">
+								
+    </script>
+							</input>
 		
 				</div>	
 			

@@ -97,7 +97,7 @@ if(array_key_exists("submit", $_POST)){
 
 }
 ?>
-<form id="form" action="index.php?content=lead_handler" method="POST">
+<form name="form"id="form" action="index.php?content=lead_handler" method="POST">
 	<h4><strong>Community Partner:</strong></h4>
 	<hr />
 	<div class="jumbotron">
@@ -264,8 +264,15 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
-								<input type="date" class="form-control" name="startdate" id="staredate" placeholder="Enter Starting Date"
+								<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date"
 							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
+								<script type="text/javascript">
+								function changedVal() {
+							document.forms["form"]["enddate"].min = document.forms["form"]["startdate"].value;
+							
+							}
+							</script>
+							</input>
 		
 				</div>
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
