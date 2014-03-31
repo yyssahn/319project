@@ -10,6 +10,12 @@ class NotificationHelper{
 
 	// Needed to prepare and execute statement
 	private $conn;
+	private $message = "There are update(s) to lead : ";
+	private $subject = " Update!";
+	private $Tsubject = "New Tag: ";
+	private $Tmessage = "You have been tagged in lead : ";
+	private $from = "From: ccel_t8@yahoo.ca";
+	private $to = "ccel_t8@yahoo.ca ,";
 	 
 	/*Connect to database */
 	public function __construct(){
@@ -47,6 +53,7 @@ class NotificationHelper{
 				SET seen = 1
 				WHERE lid = '$lid' AND seen = 0" ;
 		$this->conn->query($query);
+		$this->mailSpecificsUpdate($lid);
 	}
 
 	// tags a new person on that lead or themselves.
@@ -54,6 +61,7 @@ class NotificationHelper{
 		$query ="INSERT INTO tag
 				 VALUES ('$uid', '$lid', 1, 1)";
 		$this->conn->query($query);
+		$this->mailTags($uid, $lid);
 	}
 
 	//Checks if the user is already tagged
@@ -87,7 +95,7 @@ class NotificationHelper{
 
 	// Allows the user to get the number of notifcation they currently have
 	public function getNumberNotif($uid){
-
+		//$this->spamMail();
 		$sql = "SELECT count(*)
 				From tag
 				Where uid = '$uid' AND (seen = 1 or tags = 1)";
@@ -95,18 +103,59 @@ class NotificationHelper{
 		 $row = $result->fetch_row();
     	 return $row[0];
 	}
-
-	function getNotifications($uid){
+	// gets all notifcaitiong for a specific user
+	public function getNotifications($uid){
 		$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 				FROM cbel_lead L
 				INNER JOIN tag T
 		 		WHERE T.lid = L.lid AND T.uid = '$uid' 
 		 			AND (T.seen = 1 OR T.tags = 1 )";
 
-		$this->conn->query($sql);
-		return $this->conn->fetch_all(MYSQLI_ASSOC);
+		$result = $this->conn->query($sql);
+		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
+	public function updateMail($to){
+		mail($to, $this->subject , $this->message,  $this->from);
+	}
+	public function mailSpecificsUpdate($lid){
+		$query = "SELECT lead_name
+					FROM cbel_lead
+					Where lid = '$lid'";
+
+		$result = $this->conn->query($query);
+		$result = $result->fetch_row();
+		$this->message = $this->message. "" .$result[0];
+		$this->subject = $result[0]. "" .$this->subject;
+
+		$query ="SELECT U.email
+				FROM user U, tag T
+				WHERE lid = '$lid' AND U.uid = T.uid " ;
+		$result = $this->conn->query($query);
+		while ($row = $result->fetch_row()) {
+        	$this->to = $this->to. "" .$row[0]. " , ";
+    	}
+    	$this->updateMail($this->to);
+	}
+	public function mailTags($uid,$lid){
+		$query = "SELECT lead_name
+					FROM cbel_lead
+					Where lid = '$lid'";
+
+		$result = $this->conn->query($query);
+		$result = $result->fetch_row();
+		$this->Tmessage = $this->Tmessage. "" .$result[0];
+		$this->Tsubject = $this->Tsubject. "" .$result[0];
+
+		$query ="SELECT U.email
+				FROM user U
+				WHERE U.uid = '$uid'" ;
+		$result = $this->conn->query($query);
+		while ($row = $result->fetch_row()) {
+        	$this->to = $this->to. "" .$row[0]. " , ";
+    	}
+		mail($this->to, $this->Tsubject , $this->Tmessage,  $this->from);
+	}
 }
 
 ?>
