@@ -126,7 +126,7 @@ else{
 	if($_SESSION['lid'] == NULL){
 	
 		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
-						disciplines, startdate,enddate, status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						disciplines, startdate,enddate, status, timestamp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL)";
 						
 		$stmt = $db->prepareStatement($sql);
 
@@ -167,11 +167,12 @@ else{
 	$db->executeStatement($stmt);
 
 	if($db->getAffectedRows($stmt) > 0){
-		$sql = "UPDATE CBEL_Lead AS L, User AS U
+				$sql = "UPDATE CBEL_Lead AS L, User AS U
 					SET L.activity_count = L.activity_count + 1, 
 							U.activity_count = U.activity_count + 1
+						, L.timestamp=CURRENT_TIMESTAMP
 					WHERE L. lid=? AND U.uid=?";
-		$stmt = $db->prepareStatement($sql);
+					$stmt = $db->prepareStatement($sql);
 		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
 		$db->executeStatement($stmt);
 		if($tagSelf == 1 )

@@ -73,6 +73,7 @@ CREATE TABLE `cbel_lead` (
   `enddate` date DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `activity_count` int(11) DEFAULT '0',
+  `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`lid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -83,12 +84,12 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Community-Based Research, Hackathon','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Event',NULL,NULL,NULL,NULL,'Archived',16),
-(2,2,'Behead Eddard Stark','I am the king! I do what I want. Blah.','One-Time Project','Hackathon','','','Event',NULL,NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',21),
-(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,NULL,'Referred to partner information session',6),
-(19,1,'Marry Dead Brothers Betrothed','Brandon is deaf. I must marry Catelyn instead.','One-Time Project','Course-Based Opportunity, Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',5),
-(21,11,'Run Away With Lyanna Stark','I want to court her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,NULL,'Referral Confirmed',4),
-(22,12,'Lead Test','Lead Test DEscript','Part of a Multi-Phase Project','Course-Based Opportunity','Social Services','Education - Research','Consultation',NULL,NULL,NULL,NULL,'Initial Idea Inputted',0);
+INSERT INTO `cbel_lead` VALUES (1,1,'Rebel Against Aerys Targaryen','The Mad King must die','One-Time Project','Community-Based Research, Hackathon','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Event',NULL,NULL,NULL,NULL,'Archived',16,NULL),
+(2,2,'Behead Eddard Stark','I am the king! I do what I want. Blah.','One-Time Project','Hackathon','','','Event',NULL,NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv',21,NULL),
+(18,2,'fjasl;','fjal;ksjfkl;sdaj','One-Time Project','Trek Program, Community Projects','Arts - Culture - Heritage, Education - Research','Civic Participation - Politics - Democracy, Community and Economic Development','Curriculum Development, Direct service delivery',NULL,NULL,NULL,NULL,'Referred to partner information session',6,NULL),
+(19,1,'Marry Dead Brothers Betrothed','Brandon is deaf. I must marry Catelyn instead.','One-Time Project','Course-Based Opportunity, Community Projects','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Consultation, Event',NULL,NULL,NULL,NULL,'Idea Referred (Pending Confirmation)',5,NULL),
+(21,11,'Run Away With Lyanna Stark','I want to court her. It shall be done.','One-Time Project','Trek Program','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Arts - Culture - Heritage, Civic Participation - Politics - Democracy','Data Gathering and Mapping, Event',NULL,NULL,NULL,NULL,'Referral Confirmed',4,NULL),
+(22,12,'Lead Test','Lead Test DEscript','Part of a Multi-Phase Project','Course-Based Opportunity','Social Services','Education - Research','Consultation',NULL,NULL,NULL,NULL,'Initial Idea Inputted',0,NULL);
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,3 +272,5 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2014-03-27 12:07:03
+
+DROP EVENT `SomeEvent`; CREATE DEFINER=`root`@`localhost` EVENT `SomeEvent` ON SCHEDULE EVERY 1 DAY STARTS '2014-03-30 00:00:00' ENDS '2014-04-05 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `cbel_lead` SET `activity_count`=0 WHERE TIMESTAMPDIFF(DAY, CURRENT_TIMESTAMP, `timestamp`) <= -7
