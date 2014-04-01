@@ -36,7 +36,7 @@ if($currentUserAdmin == 1 || strcmp($currentUsername, $commentOwner) == 0) {
 	$db->executeStatement($s);
 	
 	$nh = new NotificationHelper();
-	$nh->turnon($db, $currentUserID, $selectedLead);	
+	$nh->turnon($selectedLead);	
 
 
 	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage#commentList");	
