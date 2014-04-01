@@ -2,9 +2,10 @@
 	<h2>Admin Page</h2>
 </div>
 
-
-
 <?php
+
+if ($_SESSION['isAdmin']) {
+
 include('database_helper.php');
 
 // Connect to the Database
@@ -707,3 +708,5 @@ function statisticsTab(){
         </div>
     </div>
 </div>
+
+<?php } else { echo "ACCESS DENIED"; } ?>
