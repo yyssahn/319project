@@ -301,7 +301,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 ?>
 		<div class="well">
 			<div class="row clearfix">
-				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
+				<div class="col-md-10 col-md-offset-1" style="height:60%; overflow:scroll">
 					<table class="table table-striped table-hover">
 						<thead>
 							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
@@ -332,4 +332,3 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	}	
 }
 ?>
-

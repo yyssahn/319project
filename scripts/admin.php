@@ -577,7 +577,7 @@ function statisticsTab(){
 	// Query database
 	$allProjectSQL = "SELECT count(*) FROM cbel_lead";
 
-	$allDroppedSQL = "SELECT count(*) FROM cbel_lead WHERE status = 'Project Dropped'";
+	$allDroppedSQL = "SELECT count(*) FROM cbel_lead WHERE status = 'Dropped'";
 
 	$allSuccessedSQL = "SELECT count(*) FROM cbel_lead 
 										WHERE status = 'Project/Placement Completed (Ready for Archiving)' OR status = 'Archived'";

@@ -46,7 +46,7 @@ CREATE TABLE `categoryoptions` (
 
 LOCK TABLES `categoryoptions` WRITE;
 /*!40000 ALTER TABLE `categoryoptions` DISABLE KEYS */;
-INSERT INTO `categoryoptions` VALUES (1,'One-Time Project','Course-Based Opportunity','Aboriginal Engagement','Aboriginal Engagement','Consultation','UBC','Science',NULL,'Initial Idea Inputted'),(2,'Recurring Project','Trek Program','Arts - Culture - Heritage','Arts - Culture - Heritage','Curriculum Development','University Hill Elementary','Engineering',NULL,'Assigned Ownership'),(3,'Part of a Multi-Phase Project','Reading Week Project','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Data Gathering and Mapping','St. George\'s School','Arts',NULL,'Active Development'),(4,'On-Going Activity','Community Projects','Community and Economic Development','Community and Economic Development','Direct service delivery','Little People Preschool','Fine Arts',NULL,'Project request form sent'),(5,'Something','Community-Based Research','Education - Research','Education - Research','Event','Pitch \'N Put','Kinesiology',NULL,'Referred to partner information session'),(6,NULL,'ISL Pre-Departure','Health - Human Services','Health - Human Services','Fund Development','VIking Sailing Club',NULL,NULL,'Referred to partner scoping session'),(7,NULL,'BEd. Community Field Study','Inclusion - Diversity','Inclusion - Diversity','IT','Kitsilano Community Center',NULL,NULL,'In discussions'),(8,NULL,'Arts Internship Program','International','International','Marketing and Communications',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(9,NULL,'Hackathon','IT - Media - Communication','IT - Media - Communication','Program Development',NULL,NULL,NULL,'Referral Confirmed'),(10,NULL,NULL,'Legal - Justice - Human Rights','Legal - Justice - Human Rights','Research - Evaluation and Assessment',NULL,NULL,NULL,'Project/Placement Being Implemented'),(11,NULL,NULL,'Recreation - Sport','Recreation - Sport','Research - Literature Review',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(12,NULL,NULL,'Social Services','Social Services','Research - More formalized data collection',NULL,NULL,NULL,'Archived'),(13,NULL,NULL,'Sustainability - Environment - Animals','Sustainability - Environment - Animals',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `categoryoptions` VALUES (1,'One-Time Project','Course-Based Opportunity','Aboriginal Engagement','Aboriginal Engagement','Consultation','UBC','Science',NULL,'Initial Idea Inputted'),(2,'Recurring Project','Trek Program','Arts - Culture - Heritage','Arts - Culture - Heritage','Curriculum Development','University Hill Elementary','Engineering',NULL,'Assigned Ownership'),(3,'Part of a Multi-Phase Project','Reading Week Project','Civic Participation - Politics - Democracy','Civic Participation - Politics - Democracy','Data Gathering and Mapping','St. George\'s School','Arts',NULL,'Active Development'),(4,'On-Going Activity','Community Projects','Community and Economic Development','Community and Economic Development','Direct service delivery','Little People Preschool','Fine Arts',NULL,'Project request form sent'),(5,'Something','Community-Based Research','Education - Research','Education - Research','Event','Pitch \'N Put','Kinesiology',NULL,'Referred to partner information session'),(6,NULL,'ISL Pre-Departure','Health - Human Services','Health - Human Services','Fund Development','VIking Sailing Club',NULL,NULL,'Referred to partner scoping session'),(7,NULL,'BEd. Community Field Study','Inclusion - Diversity','Inclusion - Diversity','IT','Kitsilano Community Center',NULL,NULL,'In discussions'),(8,NULL,'Arts Internship Program','International','International','Marketing and Communications',NULL,NULL,NULL,'Idea Referred (Pending Confirmation)'),(9,NULL,'Hackathon','IT - Media - Communication','IT - Media - Communication','Program Development',NULL,NULL,NULL,'Referral Confirmed'),(10,NULL,NULL,'Legal - Justice - Human Rights','Legal - Justice - Human Rights','Research - Evaluation and Assessment',NULL,NULL,NULL,'Project/Placement Being Implemented'),(11,NULL,NULL,'Recreation - Sport','Recreation - Sport','Research - Literature Review',NULL,NULL,NULL,'Project/Placement Completed (Ready for Archiv'),(12,NULL,NULL,'Social Services','Social Services','Research - More formalized data collection',NULL,NULL,NULL,'Archived'),(13,NULL,NULL,'Sustainability - Environment - Animals','Sustainability - Environment - Animals',NULL,NULL,NULL,NULL,'Dropped');
 /*!40000 ALTER TABLE `categoryoptions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,7 +75,7 @@ CREATE TABLE `cbel_lead` (
   `activity_count` int(11) DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`lid`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,6 +84,7 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
+INSERT INTO `cbel_lead` VALUES (23,21,'Website Development','Still needs to be developed: Maintenance of  website (ongoing? One time project?)\r\n','On-Going Activity',NULL,'IT - Media - Communication','IT - Media - Communication','IT','Array',NULL,'0000-00-00','0000-00-00','',1,'2014-04-01 18:59:06'),(24,13,'Fitness','Engagement Studios part 2: to carry on the work of a previous group of CHD students who created a plan for a sustainable health and fitness program for individuals with developmental disabilities who are accessing the 4 Day Programs delivered by Comm','',NULL,'Community and Economic Development, Health - Human Services, Recreation - Sport','Health - Human Services, Recreation - Sport','Event',NULL,NULL,'0000-00-00','0000-00-00','',1,'2014-04-01 18:31:28'),(25,15,'CST','A brochure detailing community services and supports for the  Community Schools Team (CST) and Community Partner 3 and developed for use by teachers who don\'t live in the area and are unaware of local resources that can support their students and fam','On-Going Activity','Community Projects','Community and Economic Development','Education - Research',NULL,NULL,NULL,'0000-00-00','0000-00-00','',0,'2014-04-01 18:33:00'),(26,16,'Foodbank','1. Research community organizations in Richmond and the populations they serve and then identify which ones serve populations that are likely not accessing the Foodbank but could benefit from it\r\n','Part of a Multi-Phase Project',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Archived',2,'2014-04-01 18:59:42'),(27,17,'Open House','Agency focused open house at Community Partner 2\r\n','One-Time Project',NULL,'Community and Economic Development','Community and Economic Development','Direct service delivery, Event',NULL,NULL,'0000-00-00','0000-00-00','Dropped',2,'2014-04-01 18:49:00'),(28,18,'Sustainable Social Media','Still needs more development: Research, test, assess, and recommend any new social media trends and tools for future application; Monitor/track similar social media activity and respond in a timely manner; Help develop a sustainable social media plan','',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Initial Idea Inputted',0,'2014-04-01 18:50:57'),(29,28,'Aboriginal Open House','Open house in March for community to learn more about the organization\r\n','One-Time Project',NULL,'Aboriginal Engagement, Community and Economic Development','Aboriginal Engagement, Community and Economic Development',NULL,NULL,NULL,'2014-03-01','0000-00-00','',0,'2014-04-01 18:52:30'),(30,19,'Art Show','Have students work with staff to create a plan to showcase art created by residents in all Community Partner 6 program areas. For example: Photography Club, Galliano Camping Trip working with 2 artists (jewellery & water colour), Garden Boxes with, p','One-Time Project',NULL,NULL,'Aboriginal Engagement','Event','Array',NULL,'0000-00-00','0000-00-00','',0,'2014-04-01 18:54:14');
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,6 +190,7 @@ CREATE TABLE `linked_ids` (
 
 LOCK TABLES `linked_ids` WRITE;
 /*!40000 ALTER TABLE `linked_ids` DISABLE KEYS */;
+INSERT INTO `linked_ids` VALUES (26,27),(27,26);
 /*!40000 ALTER TABLE `linked_ids` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,13 +250,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (106,'kieran','kieran',1,'Kieran','Harrison','456-456-4568','something@email.com',0),(107,'yoonsung','yoonsung',0,'Yoonsung','Ahn','456-456-4862','clyde@email.com',0),(108,'bobby','bobby',1,'Bobby','Lau','875-462-4896','bobby@email.com',0),(109,'taranbir','taranbir',0,'Taranbir','Bhullar','468-268-4568','td@email.com',0),(110,'chiho','chiho',0,'ChiHo','Won','285-564-8546','david@email.com',0);
+INSERT INTO `user` VALUES (106,'kieran','kieran',1,'Kieran','Harrison','456-456-4568','something@email.com',6),(107,'yoonsung','yoonsung',0,'Yoonsung','Ahn','456-456-4862','clyde@email.com',0),(108,'bobby','bobby',1,'Bobby','Lau','875-462-4896','bobby@email.com',0),(109,'taranbir','taranbir',0,'Taranbir','Bhullar','468-268-4568','td@email.com',0),(110,'chiho','chiho',0,'ChiHo','Won','285-564-8546','david@email.com',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'cbel_db'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -265,4 +263,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-04-01  2:42:11
+-- Dump completed on 2014-04-01 12:00:50
