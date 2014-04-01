@@ -183,7 +183,7 @@ if(array_key_exists("submit", $_POST)){
 		
 			<label for="email" class="col-md-2 control-label">Contact Email:</label>
 			<div class="col-md-4">
-					<input type="email" class="form-control" name="email" name="email" placeholder="Enter Valid Email Address"
+					<input type="email" class="form-control" name="email" id="email" placeholder="Enter Valid Email Address"
 						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
 			</div>
 			
@@ -198,6 +198,8 @@ if(array_key_exists("submit", $_POST)){
 				existingPartner.onchange = function(){
 					var str = this.value;
 					var values = str.split(",");
+					
+					
 					partner.value = values[0];
 					contact.value = values[1];
 					phone.value = values[2];
