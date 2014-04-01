@@ -80,9 +80,15 @@ $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
 $categories = $db->getResult($db);
 
+// Get  existing community partners
+$sql = "SELECT * FROM CommunityPartner ORDER BY community_partner";
+$s = $db->prepareStatement($sql);
+$db->executeStatement($s);
+$partners = $db->getResult($db);
+
 // Get lead data if lead exists
 if(isset($_GET['lid'])){
-	$_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
+	$lid = $_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
 	
 	$sql = "SELECT * FROM CBEL_Lead WHERE lid=?";
 	$stmt = $db->prepareStatement($sql);
@@ -95,6 +101,27 @@ if(isset($_GET['lid'])){
 	$db->bindParameter($db, 'i', $lead_info[0]['pid']);
 	$db->executeStatement($stmt);
 	$partner_info = $db->getResult($stmt);
+	
+?>
+
+<div class="well">
+	<input type="button" class="btn btn-large btn-info" value="Export Lead" id="export"  onclick="exportLead()">
+	<script>
+		function exportLead(){
+			var lids = ["<?php print $lid; ?>"];
+			$.ajax({
+				type: "POST",
+				url: "export_handler.php",
+				data: {lids: lids},
+				success: function(result){
+					alert(result);
+				}
+			});
+		}
+	</script>
+</div>
+	
+<?php
 }
 
 if(array_key_exists("submit", $_POST)){
@@ -104,13 +131,33 @@ if(array_key_exists("submit", $_POST)){
 
 	if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
     	$emailERR = "Please use the form email@domain.ca";
-		
-
 }
 ?>
 <form name="form"id="form" action="index.php?content=lead_handler" method="POST">
 	<h4><strong>Community Partner:</strong></h4>
 	<hr />
+	
+	<div class="jumbotron">
+		<div class="row">
+			<label for="existingPartner" class="col-md-2 control-label">Existing Partner:</label>
+			<div class="col-md-8">
+				<select class="form-control" name="existingPartner" id="existingPartner"placeholder="Select One">
+					<?php
+						// Populate each option from database. Automatically selects options that associated with the lead
+						echo "<option>".NULL."</option>";
+						foreach($partners as $row){
+							if($row['contact_name'] != NULL){
+								echo "<option value='{$row['community_partner']}".','."{$row['contact_name']}".','."{$row['phone']}".','."{$row['email']}' 
+											$selected >".$row['community_partner']." - ".
+												$row['contact_name']."</option>";
+							}
+						}
+					?>
+				</select>
+			</div>	
+		</div>
+	</div>
+	
 	<div class="jumbotron">
 		<div class="row">
 			<label for="partner" class="control-label col-md-2">Community Partner:</label>
@@ -121,7 +168,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="contact_name" class="col-md-2 control-label">Contact Name:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="contact_name" placeholder="Enter Contact Name"
+					<input type="text" class="form-control" name="contact_name" id="contact_name"placeholder="Enter Contact Name"
 						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
 			</div>
 		</div>
@@ -129,16 +176,34 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="phone" class="col-md-2 control-label">Contact Phone:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="phone" placeholder="Enter Valid Phone Number"
+					<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
 						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
 					<span class="error"><?php echo $phoneERR;?></span>
 			</div>
 		
 			<label for="email" class="col-md-2 control-label">Contact Email:</label>
 			<div class="col-md-4">
-					<input type="email" class="form-control" name="email" placeholder="Enter Valid Email Address"
+					<input type="email" class="form-control" name="email" name="email" placeholder="Enter Valid Email Address"
 						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
 			</div>
+			
+			<!-- Automatically fill partner information if partner selected from select box -->
+			<script>
+				var partner = document.getElementById('partner');
+				var contact = document.getElementById('contact_name');
+				var phone = document.getElementById('phone');
+				var email = document.getElementById('email');
+				var existingPartner = document.getElementById('existingPartner');
+
+				existingPartner.onchange = function(){
+					var str = this.value;
+					var values = str.split(",");
+					partner.value = values[0];
+					contact.value = values[1];
+					phone.value = values[2];
+					email.value = values[3];
+				}
+			</script>
 		</div>
 	</div>
 

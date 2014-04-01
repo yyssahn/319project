@@ -1,0 +1,126 @@
+<?php
+require_once 'database_helper.php';
+
+class ExportLead{
+	private $db;
+	private $stmt;
+	
+	function __construct(){
+		global $db;
+		$db = new DatabaseHelper();
+	}
+	
+	private function getFile($type){
+		if($type == "lead"){
+			$filename =  "../tmp/CBEL Project Info - ";
+		}
+		else if($type == "partner"){
+			$filename =  "../tmp/Community Partner Info - ";
+		}
+		$date = date('d-M-Y');
+		return $filename.$date." .csv";
+	}
+	
+	private function getLeadData($lids){
+		global $db;
+		
+		// Dynamically build query based on array of lids
+		$sql = "SELECT lid, C.pid, community_partner, contact_name, email, lead_name, description, idea_type, referral, mandate,  
+									focus, main_activities, location, disciplines, startdate, enddate
+					FROM CBEL_Lead C, CommunityPartner P 
+					WHERE (C.pid = P.pid) AND (";
+		foreach($lids as $row){
+			$sql .= "lid = ".$row." OR ";
+		}
+		if(substr($sql, -strlen('OR ')) === 'OR '){
+			$sql = substr_replace($sql ,")",-3);
+		}	
+		
+		$stmt = $db->prepareStatement($sql);
+		$db->executeStatement($stmt);
+		
+		return $results = $db->getResult($stmt);
+	}
+	
+	/* From http://biostall.com/php-snippet-deleting-files-older-than-x-days */
+	public function deleteOldCSVs(){
+		$days = 1;  
+		$path = '../tmp/';  
+		  
+		// Open the directory  
+		if ($handle = opendir($path))  {  
+			// Loop through the directory  
+			while (false !== ($file = readdir($handle)))  {  
+				// Check the file we're doing is actually a file  
+				if (is_file($path.$file))  {  
+					// Check if the file is older than X days old  
+					if (filemtime($path.$file) < ( time() - ( $days * 24 * 60 * 60 ) ) )  {  
+						// Do the deletion  
+						unlink($path.$file);  
+					}  
+				}  
+			}  
+		} 
+	}
+	
+		public function partnerToCSV($pid){
+		global $db;
+		$file = $this->getFile("partner");
+		
+		$sql = "SELECT  pid, community_partner, contact_name, email, phone FROM CommunityPartner WHERE pid = ?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindParameter($stmt, 'i', $pid);
+		$db->executeStatement($stmt);
+		$result = $db->getResult($stmt);
+		
+		// Add headers csv columns
+		if(( !file_exists($file)) || (filesize($file) == 0) ){
+			$fp = fopen($file, 'w');
+			$headers = array("ID", "Community Partner", "Contact Name", "Contact Email", "Contact Phone");
+			fputcsv($fp, $headers);
+		}
+		
+		$fp = fopen($file, 'a');
+		fputcsv($fp, $result[0]);
+		
+		fclose($fp);
+	}
+	
+	public function exportToCSV($lids){
+		$results = $this->getLeadData($lids);
+		
+		if($results){
+			$file = $this->getFile("lead");
+			
+			// Add headers csv columns
+			if(( !file_exists($file)) || (filesize($file) == 0) ){
+				$fp = fopen($file, 'w');
+				$headers = array("LID", "PID", "Community Partner", "Contact Name", "Contact Email", "LeadName", "Description", 
+											"Type", "Referral", "Mandate", "Focus", "MainActivities", "Location", "Disciplines", "StartDate", "EndDate");
+				fputcsv($fp, $headers);
+			}
+
+			// Add selected leads to csv
+			$fp = fopen($file, 'a');
+			foreach($results as $row){
+				fputcsv($fp, $row);
+				$this->partnerToCSV($row['pid']);
+			}
+
+			fclose($fp);
+			
+			//deleteOldCSVs();  Access forbidden...
+			
+			print("Data successfully saved to CSV.  It is available for download through the Leads menu");
+		}
+	}
+	
+	public function getPartnerCSV(){
+		print $this->getFile("partner");
+	}
+	
+	public function getLeadCSV(){
+		print $this->getFile("lead");
+	}
+}
+?>
