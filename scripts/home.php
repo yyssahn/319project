@@ -23,16 +23,21 @@ $stmt2 = $db->prepareStatement($query2);
 $db->executeStatement($stmt2);
 $result2 = $db->getResult($stmt2);
 
-print_r($result2);
 
 	
 echo '
 	
-<div class="well">
-<h3> Popular Leads</h3>
-';
+<div class="well">';
+
+
 
 $int = 0;
+if (count($result)==0){
+?>
+<h3> There are no leads that are active</h3>
+<?php
+}else{
+echo '<h3> Popular Leads</h3>';
 while ($int < count($result)){
 	$lid = $result[$int]['lid'];
 	if ($int %2 == 0){
@@ -77,11 +82,18 @@ while ($int < count($result)){
 	
 		
 	echo '</div>';
-?>
+}
+	?>
 
-<h3>Urgent Leads</h3>
+
 <?php
 $int = 0;
+if (count($result2)==0){
+?>
+<h3>There are no Urgent Leads</h3>
+<?php
+}else{
+echo '<h3>Urgent Leads</h3>';
 while ($int < count($result2)){
 	$lid = $result2[$int]['lid'];
 	if ($int %2 == 0){
@@ -123,7 +135,7 @@ while ($int < count($result2)){
 	$int++;
 }
 
-	
+	}
 		
 	echo '</div>';
 ?>

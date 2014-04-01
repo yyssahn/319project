@@ -279,8 +279,9 @@ if(array_key_exists("submit", $_POST)){
 							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
 								<script type="text/javascript">
 								function changedVal() {
-							document.forms["form"]["enddate"].min = document.forms["form"]["startdate"].value;
-							
+							var NameValue = document.forms["form"]["startdate"].value;
+							document.forms["form"]["enddate"].min = NameValue;
+							document.forms["form"]["enddate"].vali
 							}
 							</script>
 							</input>
@@ -288,9 +289,16 @@ if(array_key_exists("submit", $_POST)){
 				</div>
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
 				<div class="col-md-4">
-								<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline"
-							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['enddate']);?>">
-		
+								<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline"
+							<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
+							<script type="text/javascript">
+								function some() {
+							alert(document.forms["form"]["enddate"].min);
+							alert(document.forms["form"]["enddate"].value);
+							}
+							</script>
+							
+							</input>
 				</div>
 		</div>
 		
