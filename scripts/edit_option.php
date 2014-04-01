@@ -1,4 +1,8 @@
 <?php
+
+session_start();
+if ($_SESSION['isAdmin']) {
+    
 include('database_helper.php');
 
 // Connecting to database server
@@ -23,4 +27,6 @@ $result = $conn->query($sql);
 // if succeeds go back to admin panel
 header("Location: index.php?content=admin");
 die();
+
+} else { echo "ACCESS DENIED"; }
 ?>

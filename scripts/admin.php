@@ -2,9 +2,10 @@
 	<h2>Admin Page</h2>
 </div>
 
-
-
 <?php
+
+if ($_SESSION['isAdmin']) {
+
 include('database_helper.php');
 
 // Connect to the Database
@@ -252,12 +253,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
 										Focus Area
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseFour" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -301,12 +302,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
 										Main Activities
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseFive" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -349,12 +350,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
 										Delivery Location
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseSix" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -397,12 +398,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">
 										Possible Disciplines
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseSeven" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -445,12 +446,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
 										Timeframe
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseEight" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -493,12 +494,12 @@ function categoriesTab(){
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseNine">
 										Current Status
 									</a>
 								</h4>
 							</div>
-							<div id="collapseThree" class="panel-collapse collpase collapse">
+							<div id="collapseNine" class="panel-collapse collpase collapse">
 								<div class="panel-body">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
@@ -707,3 +708,5 @@ function statisticsTab(){
         </div>
     </div>
 </div>
+
+<?php } else { echo "ACCESS DENIED"; } ?>
