@@ -326,7 +326,7 @@ if(array_key_exists("submit", $_POST)){
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
-							$selected = 'selected';
+							$selected = '';
 							if(strpos($lead_info[0]['location'], $row['location']) !== false){
 								$selected = 'selected';
 							}
@@ -348,7 +348,7 @@ if(array_key_exists("submit", $_POST)){
 								function changedVal() {
 							var NameValue = document.forms["form"]["startdate"].value;
 							document.forms["form"]["enddate"].min = NameValue;
-							document.forms["form"]["enddate"].vali
+							document.forms["form"]["enddate"].value;
 							}
 							</script>
 							</input>
@@ -393,7 +393,7 @@ if(array_key_exists("submit", $_POST)){
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
-							$selected = 'selected';
+							$selected = '';
 							if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
 								$selected = 'selected';
 							}
@@ -472,7 +472,7 @@ $listOfLeads = $db->getResult($stmt);
 
 ?>
 
-<div class="container">
+<div class="container" style="margin-top:15px">
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
