@@ -74,10 +74,18 @@ else{
 
 	// To get rid of warnings
 	if(isset($_POST['delivery'])){
-		$location = $_POST['delivery'];
+		$i=0;
+		for(; $i<count($_POST['delivery'])-1; $i++){
+			$location .= $_POST['delivery'][$i].", ";
+		}
+		$location .= $_POST['delivery'][$i];
 	}
 	if(isset($_POST['disciplines'])){
-		$disciplines = $_POST['disciplines'];
+		$i=0;
+		for(; $i<count($_POST['disciplines'])-1; $i++){
+			$disciplines .= $_POST['disciplines'][$i].", ";
+		}
+		$disciplines .= $_POST['disciplines'][$i];
 	}
 	if(isset($_POST['startdate'])){
 		$startdate = $_POST['startdate'];
@@ -85,10 +93,15 @@ else{
 	if(isset($_POST['enddate'])){
 		$enddate=$_POST['enddate'];
 	}
-	if(isset($_POST['Ytag']))
-  		$tagSelf = 1;
-  	elseif(isset($_POST['Ntag']))
-   		$tagSelf = 0;
+  	if(isset($_POST['Ntag'])){
+   		
+		if ($_POST['Ntag']==2){
+		$tagSelf=2;
+		}else{
+		$tagSelf=1;
+		}
+		
+		}
 	//=======================================================================================================================
 	// Get pid to be associated with lead
 	$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
@@ -165,7 +178,16 @@ else{
 	// Bind parameters and execute statement	
 	$db->bindArray($stmt, $param_types, $params);
 	$db->executeStatement($stmt);
-
+	if($tagSelf!=NULL){
+	
+		if($tagSelf == 1 ){
+			
+			$nh->turnonTag($_SESSION['User_ID'], $_SESSION['lid']);
+			} else
+		if($tagSelf == 2){
+			$nh->removeTag($_SESSION['User_ID'], $_SESSION['lid']);
+		}
+	}
 	if($db->getAffectedRows($stmt) > 0){
 				$sql = "UPDATE CBEL_Lead AS L, User AS U
 					SET L.activity_count = L.activity_count + 1, 
@@ -175,10 +197,6 @@ else{
 					$stmt = $db->prepareStatement($sql);
 		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
 		$db->executeStatement($stmt);
-		if($tagSelf == 1 )
-			$nh->turnonTag($_SESSION['User_ID'], $_SESSION['lid']);
-		if($tagSelf == 0)
-			$nh->removeTag($_SESSION['User_ID'], $_SESSION['lid']);
 		
 		$_SESSION['lid'] = NULL; // Makes sure lead is not visible when creating a new lead
 	?>

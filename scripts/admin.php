@@ -601,9 +601,19 @@ function statisticsTab(){
 
 	$OnGoingProjects = $allProjects - ($allSuccessed + $allDropped);
 
-	$SuccessRate = round($allSuccessed / $allProjects, 2)*100;
-	$FailedRate = round($allDropped / $allProjects, 2)*100;
-	$OnGoingRate = 100 - ($SuccessRate + $FailedRate);
+	if ($allProjects == 0) {
+		$SuccessRate =	0;
+		$FailedRate = 0;
+		$OnGoingRate = 0;
+	
+		
+	}else {
+		$SuccessRate = round($allSuccessed / $allProjects, 2)*100;
+		$FailedRate = round($allDropped / $allProjects, 2)*100;
+		$OnGoingRate = 100 - ($SuccessRate + $FailedRate);
+	}
+	
+
 ?>
 	<div class="row" style="padding-top:50px">
 		<div class="col-md-10 column col-md-offset-1">
@@ -618,7 +628,7 @@ function statisticsTab(){
 			</table>
 		</div>
 	</div>
-
+<?php if($allProjects != 0) { ?>
   <html>
   <head>
     <!--Load the AJAX API-->
@@ -660,11 +670,12 @@ function statisticsTab(){
         chart.draw(data, options);
       }
     </script>
-
   </head>
 </html>
 
 <div id="statisticChart" style="margin-left: 90px;"></div>
+
+<?php } ?>
 
 <?php
 }
