@@ -415,7 +415,9 @@ if(array_key_exists("submit", $_POST)){
 				?> checked <?php } ?> >Yes &nbsp;&nbsp;&nbsp;
 				</div>
 				<div class="radio-inline">
-						<input type="radio" name="Ntag" value="2">No
+						<input type="radio" name="Ntag" value="2"<?php
+				if(!($nh->isTag($_SESSION["User_ID"], $lidNotif))){
+				?> checked <?php } ?>>No
 				</div> 
 			</div>
 		</div>
