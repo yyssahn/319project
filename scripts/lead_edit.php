@@ -409,24 +409,14 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">		
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">
-				<?php
+				<div class="radio-inline">
+						<input type="radio" name="Ntag" value="1" <?php
 				if($nh->isTag($_SESSION["User_ID"], $lidNotif)){
-				?>
-				<div class="radio-inline">
-						<input type="radio" name="Ytag" checked>Yes &nbsp;&nbsp;&nbsp;
+				?> checked <?php } ?> >Yes &nbsp;&nbsp;&nbsp;
 				</div>
 				<div class="radio-inline">
-						<input type="radio" name="Ntag" >No
-				</div>
-				<?php }
-				else { ?>
-				<div class="radio-inline">
-						<input type="radio" name="Ytag" >Yes &nbsp;&nbsp;&nbsp;
-				</div>
-				<div class="radio-inline">
-						<input type="radio" name="Ntag" >No
+						<input type="radio" name="Ntag" value="2">No
 				</div> 
-				<?php } ?>
 			</div>
 		</div>
 	</div>

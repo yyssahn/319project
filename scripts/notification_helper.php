@@ -36,14 +36,14 @@ class NotificationHelper{
 	public function turnoff($uid, $lid){
 		$query ="UPDATE tag
 				SET seen = 0
-				WHERE uid ='$uid' AND lid = '$lid' AND seen = 1" ;
+				WHERE uid ='".$uid."' AND lid = '".$lid."' AND seen = 1" ;
 		$this->conn->query($query);
 	}
 	// Turns off a tag notification for a new user
 	public function turnoffTag($uid, $lid){
 		$query ="UPDATE tag
 				SET tags = 0, seen = 0
-				WHERE uid ='$uid' AND lid = '$lid' AND tags = 1" ;
+				WHERE uid ='".$uid."' AND lid = '".$lid."' AND tags = 1" ;
 		$this->conn->query($query);
 	}
 
@@ -51,15 +51,17 @@ class NotificationHelper{
 	public function turnon($lid){
 		$query ="UPDATE tag
 				SET seen = 1
-				WHERE lid = '$lid' AND seen = 0" ;
+				WHERE lid = '.$lid.' AND seen = 0" ;
 		$this->conn->query($query);
 		$this->mailSpecificsUpdate($lid);
 	}
 
 	// tags a new person on that lead or themselves.
 	public function turnonTag($uid, $lid){
-		$query ="INSERT INTO tag
-				 VALUES ('$uid', '$lid', 1, 1)";
+		
+		$query ="INSERT INTO tag (`uid`, `lid`, `seen`, `tags`) 
+				 VALUES ('".$uid."', '".$lid."', '1', '1')";
+		
 		$this->conn->query($query);
 		$this->mailTags($uid, $lid);
 	}
@@ -68,7 +70,7 @@ class NotificationHelper{
 	public function isTag($uid,$lid){
 		$sql = "SELECT count(*)
 				From tag
-				Where uid = '$uid' AND lid = '$lid'";
+				Where uid = '".$uid."' AND lid = '".$lid."'";
 		 $result = $this->conn->query($sql);
 		 $row = $result->fetch_row();
     	 return ($row[0] != 0);
@@ -77,10 +79,10 @@ class NotificationHelper{
 	// Allows users to untag themselves from a lead
 	// They will no longer receiver updates.
 	public function removeTag($uid, $lid){
-
+		
 		$query ="DELETE
 				FROM tag
-				WHERE uid = '$uid' AND lid = '$lid'" ;
+				WHERE uid = '".$uid."' AND lid = '".$lid."'" ;
 		$this->conn->query($query);
 	}
 
@@ -89,7 +91,7 @@ class NotificationHelper{
 
 		$query ="DELETE
 			FROM tag
-			WHERE lid = '$lid'" ;
+			WHERE lid = '".$lid."'" ;
 		$this->conn->query($query);
 	}
 
@@ -98,7 +100,7 @@ class NotificationHelper{
 		//$this->spamMail();
 		$sql = "SELECT count(*)
 				From tag
-				Where uid = '$uid' AND (seen = 1 or tags = 1)";
+				Where uid = '".$uid."' AND (seen = 1 or tags = 1)";
 		 $result = $this->conn->query($sql);
 		 $row = $result->fetch_row();
     	 return $row[0];
@@ -108,7 +110,7 @@ class NotificationHelper{
 		$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 				FROM cbel_lead L
 				INNER JOIN tag T
-		 		WHERE T.lid = L.lid AND T.uid = '$uid' 
+		 		WHERE T.lid = L.lid AND T.uid = '".$uid."' 
 		 			AND (T.seen = 1 OR T.tags = 1 )";
 
 		$result = $this->conn->query($sql);
@@ -121,7 +123,7 @@ class NotificationHelper{
 	public function mailSpecificsUpdate($lid){
 		$query = "SELECT lead_name
 					FROM cbel_lead
-					Where lid = '$lid'";
+					Where lid = '".$lid."'";
 
 		$result = $this->conn->query($query);
 		$result = $result->fetch_row();
@@ -130,7 +132,7 @@ class NotificationHelper{
 
 		$query ="SELECT U.email
 				FROM user U, tag T
-				WHERE lid = '$lid' AND U.uid = T.uid " ;
+				WHERE lid = '".$lid."' AND U.uid = T.uid " ;
 		$result = $this->conn->query($query);
 		while ($row = $result->fetch_row()) {
         	$this->to = $this->to. "" .$row[0]. " , ";
@@ -140,7 +142,7 @@ class NotificationHelper{
 	public function mailTags($uid,$lid){
 		$query = "SELECT lead_name
 					FROM cbel_lead
-					Where lid = '$lid'";
+					Where lid = '".$lid."'";
 
 		$result = $this->conn->query($query);
 		$result = $result->fetch_row();
@@ -149,7 +151,7 @@ class NotificationHelper{
 
 		$query ="SELECT U.email
 				FROM user U
-				WHERE U.uid = '$uid'" ;
+				WHERE U.uid = '".$uid."'" ;
 		$result = $this->conn->query($query);
 		while ($row = $result->fetch_row()) {
         	$this->to = $this->to. "" .$row[0]. " , ";
