@@ -30,18 +30,12 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	$names = $db->getResult($db);
 ?>
 	<!--Categories  for narrowing search results.  Options are populated from database-->
-	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-		<div class='well'>
-			<input type="submit" class="btn btn-large btn-success" name="searchAll" value="View All Leads" />
-			<input type="hidden" name="submit" value="submit" />
-		</div>
-		<hr />
-	
+	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">	
 		<div class="jumbotron">
 			<div class="row clearfix">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="partner[]" size="5">
+					<select multiple="multiple" class="multiselect" id="widebutton" name="partner[]">
 						<?php
 							foreach($partners as $row){
 								if($row['community_partner'] != NULL)
@@ -53,7 +47,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="name" class="col-md-2 control-label">Idea Name:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="name[]" size="5">
+					<select multiple="multiple" class="multiselect" name="name[]" size="5">
 						<?php
 							foreach($names as $row){
 								if($row['lead_name'] != NULL)
@@ -67,7 +61,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="type" class="col-md-2 control-label">Idea Type:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="type[]" size="5">
+					<select multiple="multiple" class="multiselect" name="type[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['idea_type'] != NULL)
@@ -79,7 +73,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			
 				<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="referral[]" size="5">
+					<select multiple="multiple" class="multiselect" name="referral[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['referral'] != NULL)
@@ -93,7 +87,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="mandate[]" size="5">
+					<select multiple="multiple" class="multiselect" name="mandate[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['mandate'] != NULL)
@@ -105,7 +99,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="focus" class="col-md-2 control-label">Focus Area:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="focus[]" size="5">
+					<select multiple="multiple" class="multiselect" name="focus[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['focus'] != NULL)
@@ -119,7 +113,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="activities[]" size="5">
+					<select multiple="multiple" class="multiselect" name="activities[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['main_activities'] != NULL)
@@ -131,7 +125,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="delivery" class="col-md-2 control-label">Delivery Location:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="delivery[]" size="5">
+					<select multiple="multiple" class="multiselect" name="delivery[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['delivery_location'] != NULL)
@@ -145,7 +139,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="disciplines" class="col-md-2 control-label">Possible Disciplines::</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="disciplines[]" size="5">
+					<select multiple="multiple" class="multiselect" name="disciplines[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['disciplines'] != NULL)
@@ -156,7 +150,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 					<label for="status" class="col-md-2 control-label">Current Status:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="form-control" name="status[]" size="5">
+					<select multiple="multiple" class="multiselect" name="status[]" size="5">
 						<?php
 							foreach($categories as $row){
 								if($row['referral'] != NULL)
@@ -300,11 +294,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 
 		
 	// search by search bar
-	}else if(isset($_POST['searchAll'])){
-		$query = "SELECT * FROM CBEL_Lead";
-		$stmt = $db->prepareStatement($query);
-		$db->executeStatement($stmt);
-		$result = $db->getResult($db);
 	}else { 
 		$result = $_SESSION['matchings'];
 	}
@@ -313,11 +302,11 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 ?>
 		<div class="well">
 			<div class="row clearfix">
-				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
+				<div class="col-md-10 col-md-offset-1" style="height:150%; overflow:scroll">
 					<table class="table table-striped table-hover">
 						<?php
 							// If Search button is clicked, show table with clickable entries that show lead details
-							if(isset($_POST['search'])){
+							if(isset($_POST['submit'])){
 						?>
 								<thead>
 									<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
@@ -338,6 +327,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 							}
 							// If Export button is clicked, show table where entries have check boxes for selecting leads to be exported
 							else if(isset($_POST['export'])){
+								print("fdsa");
 						?>
 								<thead>
 									<tr class="warning"><th>Lead Name</th><th>Lead Description</th><th>Export</th></tr>

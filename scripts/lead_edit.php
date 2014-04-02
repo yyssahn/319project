@@ -141,7 +141,7 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="existingPartner" class="col-md-2 control-label">Existing Partner:</label>
 			<div class="col-md-8">
-				<select class="form-control" name="existingPartner" id="existingPartner"placeholder="Select One">
+				<select class="form-control" name="existingPartner" id="example21" placeholder="Select One">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						echo "<option>".NULL."</option>";
@@ -193,12 +193,11 @@ if(array_key_exists("submit", $_POST)){
 				var contact = document.getElementById('contact_name');
 				var phone = document.getElementById('phone');
 				var email = document.getElementById('email');
-				var existingPartner = document.getElementById('existingPartner');
+				var existingPartner = document.getElementById('example21');
 
 				existingPartner.onchange = function(){
 					var str = this.value;
 					var values = str.split(",");
-					
 					
 					partner.value = values[0];
 					contact.value = values[1];
@@ -230,10 +229,9 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="idea_type" class="col-md-2 control-label">Idea Type:</label>
 			<div class="col-md-4">
-				<select class="form-control" name="idea_type" placeholder="Select One">
+				<select class="form-control" name="idea_type" id="example40">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
-						echo "<option>".NULL."</option>";
 						foreach($categories as $row){
 							$selected = '';
 							if(strpos($lead_info[0]['idea_type'], $row['idea_type']) !== false){
@@ -250,7 +248,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="referral[]" size="5">
+				<select multiple="multiple" class="multiselect" name="referral[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -269,7 +267,7 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="mandate[]" size="5">
+				<select multiple="multiple" class="multiselect" name="mandate[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -286,7 +284,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="focus" class="col-md-2 control-label">Focus Area:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="focus[]" size="5">
+				<select multiple="multiple" class="multiselect" name="focus[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -305,7 +303,7 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="activities[]" size="5">
+				<select multiple="multiple" class="multiselect" name="activities[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -322,7 +320,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="delivery" class="col-md-2 control-label">Delivery Location:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="delivery[]" size="5">
+				<select multiple="multiple" class="multiselect" name="delivery[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -372,10 +370,9 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="status" class="col-md-2 control-label">Current Status</label>
 			<div class="col-md-4">
-				<select class="form-control" name="status">
+				<select class="form-control" name="status"  id="example41">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
-						echo "<option>".NULL."</option>";
 						foreach($categories as $row){
 							$selected = '';
 							if(strpos($lead_info[0]['status'], $row['status']) !== false){
@@ -389,7 +386,7 @@ if(array_key_exists("submit", $_POST)){
 			</div>
 			<label for="disciplines" class="col-md-2 control-label">Possible Disciplines:</label>
 			<div class="col-md-4">
-				<select multiple="multiple" class="form-control" name="disciplines[]" size="5">
+				<select multiple="multiple" class="multiselect" name="disciplines[]" size="5">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
