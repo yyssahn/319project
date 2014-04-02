@@ -195,6 +195,7 @@ else{
 						, L.timestamp=CURRENT_TIMESTAMP
 					WHERE L. lid=? AND U.uid=?";
 					$stmt = $db->prepareStatement($sql);
+					$nh->turnon($_SESSION['lid']);
 		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
 		$db->executeStatement($stmt);
 		

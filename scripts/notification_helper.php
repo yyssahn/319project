@@ -51,7 +51,7 @@ class NotificationHelper{
 	public function turnon($lid){
 		$query ="UPDATE tag
 				SET seen = 1
-				WHERE lid = '.$lid.' AND seen = 0" ;
+				WHERE lid = '".$lid."' AND seen = 0" ;
 		$this->conn->query($query);
 		$this->mailSpecificsUpdate($lid);
 	}
