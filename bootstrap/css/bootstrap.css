@@ -4770,6 +4770,9 @@ a.list-group-item-danger.active:focus {
 }
 .panel-body {
   padding: 15px;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  height:140px;
 }
 .panel-heading {
   padding: 10px 15px;

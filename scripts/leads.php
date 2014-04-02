@@ -29,10 +29,14 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	$db->executeStatement($s);
 	$names = $db->getResult($db);
 ?>
-	<div class='well'><a href='index.php?content=lead_edit' class='btn btn-large btn-success'>Create a Lead</a></div>
-	<hr />
 	<!--Categories  for narrowing search results.  Options are populated from database-->
-	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" name="form">
+	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+		<div class='well'>
+			<input type="submit" class="btn btn-large btn-success" name="searchAll" value="View All Leads" />
+			<input type="hidden" name="submit" value="submit" />
+		</div>
+		<hr />
+	
 		<div class="jumbotron">
 			<div class="row clearfix">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
@@ -177,7 +181,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 				
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
-						
 				<div class="col-md-4">
 					<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline">
 						<script type="text/javascript">
@@ -190,9 +193,13 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		</div>	
 		
 		<div class="row clearfix">
+			<div class="col-md-1 col-md-offset-10">
+				<input type="submit" class="btn btn-large btn-info" name="export" value="Export">
+				<input type="hidden" name="submit" value="submit" />
+			</div>
 			<div class="col-md-offset-11">
-				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Submit">
-				<input type="hidden" name="submit" value="submit">
+				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Search" />
+				<input type="hidden" name="submit" value="submit" />
 			</div>
 		</div>
 	</form>
@@ -293,6 +300,11 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 
 		
 	// search by search bar
+	}else if(isset($_POST['searchAll'])){
+		$query = "SELECT * FROM CBEL_Lead";
+		$stmt = $db->prepareStatement($query);
+		$db->executeStatement($stmt);
+		$result = $db->getResult($db);
 	}else { 
 		$result = $_SESSION['matchings'];
 	}
@@ -301,28 +313,93 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 ?>
 		<div class="well">
 			<div class="row clearfix">
-				<div class="col-md-10 col-md-offset-1" style="height:60%; overflow:scroll">
+				<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
 					<table class="table table-striped table-hover">
-						<thead>
-							<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
-						</thead>
-						<tbody>
-							<?php
+						<?php
+							// If Search button is clicked, show table with clickable entries that show lead details
+							if(isset($_POST['search'])){
+						?>
+								<thead>
+									<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
+								</thead>
+								<tbody>
+						<?php
 								foreach($result as $row){
 									$lid = $row['lid'];
 									if($row['lead_name'] != NULL){
-							?>
-								<tr class='info' onmouseover="this.style.cursor='pointer' " 
-									onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
-									<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
-								</tr>
-							<?php
+						?>
+										<tr class='info' onmouseover="this.style.cursor='pointer' " 
+											onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
+											<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
+										</tr>
+						<?php
 									}
 								}
-							?>
+							}
+							// If Export button is clicked, show table where entries have check boxes for selecting leads to be exported
+							else if(isset($_POST['export'])){
+						?>
+								<thead>
+									<tr class="warning"><th>Lead Name</th><th>Lead Description</th><th>Export</th></tr>
+								</thead>
+								<tbody>
+								<form onsubmit="getLids(this); return false;">
+						<?php
+								foreach($result as $row){
+									$lid = $row['lid'];
+									if($row['lead_name'] != NULL){
+						?>
+									<tr class='info'>
+										<td><?php print $row['lead_name']; ?></td>
+										<td><?php print $row['description'] ?></td>
+										<td><input type="checkbox" name="exLeads[]" value="<?php print $lid; ?>" class="export"></td>
+									</tr>
+						<?php
+									}
+								}
+
+							}
+						?>
 						</tbody>
 					</table>
 				</div>
+				<?php
+					if(isset($_POST['export'])){
+				?>
+						<div class="row">
+							<div class="col-md-offset-10">
+								<input type="submit" class="btn btn-large btn-info" value="Export Leads">
+							</div>
+						</div>
+						</form>
+						<script>
+							function getLids(){
+								var checkedValues = $('input:checkbox:checked').map(function(){
+									return this.value;
+								}).get();
+								
+								if(checkedValues.length <= 0){
+									alert("No leads selected!");
+								}
+								else{
+									exportLead(checkedValues)
+								}
+							}
+							
+							function exportLead(lids){
+								$.ajax({
+									type: "POST",
+									url: "export_handler.php",
+									data: {lids: lids},
+									success: function(result){
+										alert(result);
+									}
+								});
+							}
+						</script>
+					<?php
+					}
+					?>
 			</div>
 		</div>
 <?php

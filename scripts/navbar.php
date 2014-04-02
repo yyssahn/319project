@@ -14,7 +14,10 @@
 			url: "export_handler.php",
 			data: {lead: 'lead'},
 			success: function(filename){
-				window.location=filename;
+					window.location=filename;
+			},
+			error: function(filename){
+				alert("Please export at least one CBEL Lead to the CSV");
 			}
 		});
 	}

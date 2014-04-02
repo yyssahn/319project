@@ -18,6 +18,7 @@ class ExportLead{
 			$filename =  "../tmp/Community Partner Info - ";
 		}
 		$date = date('d-M-Y');
+		
 		return $filename.$date." .csv";
 	}
 	
@@ -116,11 +117,21 @@ class ExportLead{
 	}
 	
 	public function getPartnerCSV(){
-		print $this->getFile("partner");
+		if(file_exists(getFile("partner"))){
+			print $this->getFile("partner");
+		}
+		else{
+			print NULL;
+		}
 	}
 	
 	public function getLeadCSV(){
-		print $this->getFile("lead");
+		if(file_exists(getFile("lead"))){
+			print $this->getFile("lead");
+		}
+		else{
+			print NULL;
+		}
 	}
 }
 ?>
