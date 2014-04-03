@@ -480,7 +480,7 @@ $listOfLeads = $db->getResult($stmt);
                     <div class="col-md-4">
                         <form>
                         
-                            <select class="form-control" id='leadLink'>
+                            <select class="form-control" id='example22'>
                                 <option>Link Another Lead</option>
                                 <?php
                                     foreach($listOfLeads as $lead) {
@@ -503,8 +503,8 @@ $listOfLeads = $db->getResult($stmt);
     
     function link_lead(main) {
         
-        var x = document.getElementById("leadLink").selectedIndex;
-        var y = document.getElementById("leadLink").options;
+        var x = document.getElementById("example22").selectedIndex;
+        var y = document.getElementById("example22").options;
         
         var link = y[x].value;
             

@@ -82,6 +82,21 @@
                             $('#example21').multiselect('deselect', values);
                         }
 					});
+					$('#example22').multiselect({
+						includeSelectAllOption: true,
+						enableFiltering: true,
+						buttonWidth: '300px',
+						onChange: function(option, checked) {
+                            var values = [];
+                            $('#example22 option').each(function() {
+                                if ($(this).val() !== option.val()) {
+                                    values.push($(this).val());
+                                }
+                            });
+                            
+                            $('#example22').multiselect('deselect', values);
+                        }
+					});
 					$('#example40').multiselect({
                         onChange: function(option, checked) {
                             var values = [];
