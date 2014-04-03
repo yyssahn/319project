@@ -443,7 +443,7 @@ if(array_key_exists("submit", $_POST)){
 <?php
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //=========================================================================================================================
-
+if (isset($_GET['lid'])) {
 
 $sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
 FROM cbel_lead
@@ -499,6 +499,7 @@ $listOfLeads = $db->getResult($stmt);
         </div>
     </div>
 </div>
+<?php } ?>
 
 <script language="javascript">
     
