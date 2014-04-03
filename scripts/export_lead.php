@@ -117,21 +117,11 @@ class ExportLead{
 	}
 	
 	public function getPartnerCSV(){
-		if(file_exists(getFile("partner"))){
-			print $this->getFile("partner");
-		}
-		else{
-			print NULL;
-		}
+		print $this->getFile("partner");
 	}
 	
 	public function getLeadCSV(){
-		if(file_exists(getFile("lead"))){
-			print $this->getFile("lead");
-		}
-		else{
-			print NULL;
-		}
+		print $this->getFile("lead");
 	}
 }
 ?>

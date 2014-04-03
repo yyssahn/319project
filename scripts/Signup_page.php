@@ -170,11 +170,22 @@ if(array_key_exists("createNewACC" , $_POST)){
   		<meta charset="utf-8">
   		<title>Signup Page</title>
 		
-		<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="../bootstrap/js/jquery-2.1.0.min.js"></script>
+		
+		<!-- Bootstrap -->
+		<link href="../bootstrap/css/bootstrap-3.1.1.css" rel="stylesheet">
+		<script src="../bootstrap/js/bootstrap-3.1.1.min.js"></script>
+		
+		<!-- For validation plugin -->
+		<link href="style.css" rel="stylesheet">
+		<script src="js/modernizr-2.5.3.min.js"></script>
+		<script src="../bootstrap/js/jquery.validate.min.js"></script>
+		<script src="script.js"></script>	
 	</head>
 	
 	<body>
-		<div class="container" style="height: 650px">
+		<div class="container" style="overflow:hidden">
 			<div class="page-header">
 				<h1>Sign Up Page</h1>
 			</div>

@@ -148,7 +148,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 						?>
 					</select>
 				</div>
-					<label for="status" class="col-md-2 control-label">Current Status:</label>
+				
+				<label for="status" class="col-md-2 control-label">Current Status:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" name="status[]" size="5">
 						<?php
@@ -160,40 +161,32 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					</select>
 				</div>
 			</div>
-			<div class="row clearfix">
-							
-			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
+			<div class="row clearfix">			
+				<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
 					<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date" onchange="changedVal();">
 						<script type="text/javascript">
 							function changedVal() {
-							var NameValue = document.forms["form"]["startdate"].value;
-							document.forms["form"]["enddate"].min = NameValue;
+								var NameValue = document.forms['form']['startdate'].value;
+								document.forms['form']['enddate'].min = NameValue;
 							}
 						</script>
-					</input>
 				</div>
 				
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
 				<div class="col-md-4">
 					<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline">
-						<script type="text/javascript">
-								
-						</script>
-					</input>
-				</div>	
-					
+				</div>		
 			</div>
 		</div>	
 		
 		<div class="row clearfix">
 			<div class="col-md-1 col-md-offset-10">
-				<input type="submit" class="btn btn-large btn-info" name="export" value="Export">
-				<input type="hidden" name="submit" value="submit" />
+				<input type="submit" class="btn btn-large btn-primary" name="export" value="Search" />			
 			</div>
+
 			<div class="col-md-offset-11">
-				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Search" />
-				<input type="hidden" name="submit" value="submit" />
+				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Search" />				
 			</div>
 		</div>
 	</form>
@@ -201,7 +194,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 <?php 
 }else {	
 	// search by filter
-	if(isset($_POST['submit'])) {
+	if(isset($_POST['submit']) || isset($_POST['export'])) {
 		$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
 
 		// Need to add community partner search
@@ -292,7 +285,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		$db->executeStatement($stmt);
 		$result = $db->getResult($db);
 
-		
 	// search by search bar
 	}else { 
 		$result = $_SESSION['matchings'];
@@ -347,7 +339,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 						<?php
 									}
 								}
-
 							}
 						?>
 						</tbody>
