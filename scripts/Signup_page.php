@@ -128,9 +128,18 @@ function checkKey($db, $k){
 	return ($key_results[0]['count(*)'] == 1);
 }
 
-function deleteKey($db, $key){
-	$db->query("DELETE FROM genkeys WHERE (unusedkey = '$key')");
-	return($db->affected_rows == 1);
+// Taranbir commenting this out for now, writing my own
+//function deleteKey($db, $key){
+//	$db->query("DELETE FROM genkeys WHERE (unusedkey = '$key')");
+//	return($db->affected_rows == 1);
+//}
+
+function deleteKey($key) {
+    $db = new DatabaseHelper();
+    $sql = "DELETE FROM genkeys WHERE unusedkey=?";
+    $stmt = $db->prepareStatement($sql);
+    $db->bindParameter($stmt, 's', $key);
+    $db->executeStatement($stmt);
 }
 
 function isValid($pattern, $value){
@@ -147,6 +156,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 				if(checkKey($dbHelper, $key)){
 					runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
 					// if(deleteKey($dbHelper, $key)){
+                                        deleteKey($key);
 						print "<div class='alert alert-success'>Account created successfully.  You will be taken to the login page</div>";
 		    			header('Refresh: 5; login_page.html');
     			}
