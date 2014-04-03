@@ -141,10 +141,10 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="existingPartner" class="col-md-2 control-label">Existing Partner:</label>
 			<div class="col-md-8">
-				<select class="form-control" name="existingPartner" id="example21" placeholder="Select One">
+				<select class="form-control" name="existingPartner" id="existing" placeholder="Select One">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
-						echo "<option>".NULL."</option>";
+						print "<option>Please Select One</option>";
 						foreach($partners as $row){
 							if($row['contact_name'] != NULL){
 								echo "<option value='{$row['community_partner']}".','."{$row['contact_name']}".','."{$row['phone']}".','."{$row['email']}' 
@@ -193,7 +193,7 @@ if(array_key_exists("submit", $_POST)){
 				var contact = document.getElementById('contact_name');
 				var phone = document.getElementById('phone');
 				var email = document.getElementById('email');
-				var existingPartner = document.getElementById('example21');
+				var existingPartner = document.getElementById('existing');
 
 				existingPartner.onchange = function(){
 					var str = this.value;
@@ -221,7 +221,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			<label for="description" class="col-md-2 control-label">Description:</label>
 			<div class="col-md-4">
-					<textarea class="form-control" name="description" rows="4" placeholder="Enter a Brief Description of the 
+					<textarea class="form-control" name="description" rows="6" placeholder="Enter a Brief Description of the 
 						Lead"><?php if($lead_info) echo htmlspecialchars($lead_info[0]['description']);?></textarea>
 			</div>
 		</div>
@@ -229,7 +229,7 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="idea_type" class="col-md-2 control-label">Idea Type:</label>
 			<div class="col-md-4">
-				<select class="form-control" name="idea_type" id="example40">
+				<select class="form-control" name="idea_type">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -370,7 +370,7 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row">
 			<label for="status" class="col-md-2 control-label">Current Status</label>
 			<div class="col-md-4">
-				<select class="form-control" name="status"  id="example41">
+				<select class="form-control" name="status">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -426,7 +426,8 @@ if(array_key_exists("submit", $_POST)){
 	if(isset($_GET['lid'])){ 
 ?>
 		<div class="col-md-1">
-			<input type="submit" class="btn btn-large btn-danger" name="delete" value="Delete Lead">
+			<input type="submit" class="btn btn-large btn-danger" name="delete" value="Delete Lead" 
+					onclick="return confirm('Are you sure?');">
 			<input type="hidden" name="submit" value="submit">
 		</div>
 <?php
@@ -477,12 +478,12 @@ $listOfLeads = $db->getResult($stmt);
                             ?>
                     </table>
                     
-                    <div class="col-md-4">
+                    <div class="col-md-4 dropup">
                         <form>
                         
-                            <select class="form-control" id='example22'>
-                                <option>Link Another Lead</option>
+                            <select class="form-control" id='link'>
                                 <?php
+									print "<option>Please Select One</option>";
                                     foreach($listOfLeads as $lead) {
                                         print "<option value='".$lead['lid']."'>".$lead['lead_name']."</option>";
                                     }
@@ -503,8 +504,8 @@ $listOfLeads = $db->getResult($stmt);
     
     function link_lead(main) {
         
-        var x = document.getElementById("example22").selectedIndex;
-        var y = document.getElementById("example22").options;
+        var x = document.getElementById("link").selectedIndex;
+        var y = document.getElementById("link").options;
         
         var link = y[x].value;
             

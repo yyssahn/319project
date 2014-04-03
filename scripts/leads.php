@@ -47,7 +47,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="name" class="col-md-2 control-label">Idea Name:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="name[]" size="5">
+					<select multiple="multiple" class="multiselect" name="name[]">
 						<?php
 							foreach($names as $row){
 								if($row['lead_name'] != NULL)
@@ -61,7 +61,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="type" class="col-md-2 control-label">Idea Type:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="type[]" size="5">
+					<select multiple="multiple" class="multiselect" name="type[]">
 						<?php
 							foreach($categories as $row){
 								if($row['idea_type'] != NULL)
@@ -73,7 +73,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			
 				<label for="referral" class="col-md-2 control-label">Possible Program Referral:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="referral[]" size="5">
+					<select multiple="multiple" class="multiselect" name="referral[]">
 						<?php
 							foreach($categories as $row){
 								if($row['referral'] != NULL)
@@ -87,7 +87,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="mandate[]" size="5">
+					<select multiple="multiple" class="multiselect" name="mandate[]">
 						<?php
 							foreach($categories as $row){
 								if($row['mandate'] != NULL)
@@ -99,7 +99,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="focus" class="col-md-2 control-label">Focus Area:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="focus[]" size="5">
+					<select multiple="multiple" class="multiselect" name="focus[]">
 						<?php
 							foreach($categories as $row){
 								if($row['focus'] != NULL)
@@ -113,7 +113,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="activities[]" size="5">
+					<select multiple="multiple" class="multiselect" name="activities[]">
 						<?php
 							foreach($categories as $row){
 								if($row['main_activities'] != NULL)
@@ -125,7 +125,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="delivery" class="col-md-2 control-label">Delivery Location:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="delivery[]" size="5">
+					<select multiple="multiple" class="multiselect" name="delivery[]">
 						<?php
 							foreach($categories as $row){
 								if($row['delivery_location'] != NULL)
@@ -139,7 +139,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			<div class="row clearfix">
 				<label for="disciplines" class="col-md-2 control-label">Possible Disciplines::</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="disciplines[]" size="5">
+					<select multiple="multiple" class="multiselect" name="disciplines[]">
 						<?php
 							foreach($categories as $row){
 								if($row['disciplines'] != NULL)
@@ -151,7 +151,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				
 				<label for="status" class="col-md-2 control-label">Current Status:</label>
 				<div class="col-md-4">
-					<select multiple="multiple" class="multiselect" name="status[]" size="5">
+					<select multiple="multiple" class="multiselect" name="status[]">
 						<?php
 							foreach($categories as $row){
 								if($row['referral'] != NULL)

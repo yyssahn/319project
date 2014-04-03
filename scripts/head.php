@@ -16,12 +16,6 @@
 		<!-- Multiselect Plugin: -->
 		<script type="text/javascript" src="../bootstrap/js/bootstrap-multiselect.js"></script>
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-multiselect.css" type="text/css"/>
-		<!-- Initialize the plugin: -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('.multiselect').multiselect();
-			});
-		</script>
 
 		<!-- For validation plugin -->
 		<link href="style.css" rel="stylesheet">
@@ -49,79 +43,50 @@
 			}
 		</style>
 		
-		<!-- DIfferent styles for multiselect plugin -->
+		<!-- Set styles for multiselect plugin -->
 		<script type="text/javascript">
-			    $(document).ready(function() {
-					$('#example14').multiselect({
-			            buttonWidth: '500px',
-			            buttonText: function(options) {
-			                if (options.length === 0) {
-			                    return 'None selected <b class="caret"></b>';
-			                }
-			                else {
-			                    var selected = '';
-			                    options.each(function() {
-			                        selected += $(this).text() + ', ';
-			                    });
-			                    return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
-			                }
-			            }
-			        });
-					$('#example21').multiselect({
-						includeSelectAllOption: true,
-						enableFiltering: true,
-						buttonWidth: '500px',
-						onChange: function(option, checked) {
-                            var values = [];
-                            $('#example21 option').each(function() {
-                                if ($(this).val() !== option.val()) {
-                                    values.push($(this).val());
-                                }
-                            });
-                            
-                            $('#example21').multiselect('deselect', values);
-                        }
-					});
-					$('#example22').multiselect({
-						includeSelectAllOption: true,
-						enableFiltering: true,
-						buttonWidth: '300px',
-						onChange: function(option, checked) {
-                            var values = [];
-                            $('#example22 option').each(function() {
-                                if ($(this).val() !== option.val()) {
-                                    values.push($(this).val());
-                                }
-                            });
-                            
-                            $('#example22').multiselect('deselect', values);
-                        }
-					});
-					$('#example40').multiselect({
-                        onChange: function(option, checked) {
-                            var values = [];
-                            $('#example40 option').each(function() {
-                                if ($(this).val() !== option.val()) {
-                                    values.push($(this).val());
-                                }
-                            });
-                            
-                            $('#example40').multiselect('deselect', values);
-                        }
-                    });
-					$('#example41').multiselect({
-                        onChange: function(option, checked) {
-                            var values = [];
-                            $('#example41 option').each(function() {
-                                if ($(this).val() !== option.val()) {
-                                    values.push($(this).val());
-                                }
-                            });
-                            
-                            $('#example41').multiselect('deselect', values);
-                        }
-                    });
+			$(document).ready(function() {
+				$('.multiselect').multiselect({
+					includeSelectAllOption: true,
+					enableFiltering: true,
+					buttonWidth: '319px',
+					buttonText: function(options) {
+						if (options.length === 0) {
+							return 'None selected <b class="caret"></b>';
+						}
+						else if (options.length > 0) {
+							return options.length + ' selected  <b class="caret"></b>';
+						}
+						else {
+							var selected = '';
+							options.each(function() {
+								selected += $(this).text() + ', ';
+							});
+
+							return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+						}
+					}
 				});
+				$('#existing').multiselect({
+					enableFiltering: true,
+					buttonWidth: '500px',
+				});
+				$('#link').multiselect({
+					includeSelectAllOption: true,
+					enableFiltering: true,
+					buttonWidth: '360px',
+					onChange: function(option, checked) {
+						var values = [];
+						$('#link option').each(function() {
+							if ($(this).val() !== option.val()) {
+								values.push($(this).val());
+							}
+						});
+						
+						$('#link').multiselect('deselect', values);
+					}
+				});
+			});
 		</script>
 	</head>
   
