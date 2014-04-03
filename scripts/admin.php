@@ -54,7 +54,19 @@ function accountsTab(){
 	<br />
 	<form method = "POST" action = "index.php?content=admin" >
 	<input class='btn btn-large btn-success' type="submit" name = "genkey" value ="Generate Key">&nbsp;&nbsp;&nbsp;&nbsp;
-	<strong>Active Keys:</strong> <?php echo $GLOBALS['key'];?>
+	<strong>Active Keys:</strong> 
+        <?php
+        $sql = "SELECT unusedkey FROM genkeys";
+	$stmt = $db->prepareStatement($sql);
+	$db->executeStatement($stmt);
+	$listOfKeys = $db->getResult($stmt);
+        
+        if (!empty($listOfKeys)) {
+            foreach($listOfKeys as $ukey) {
+                print $ukey['unusedkey'].", ";
+            }
+        }
+        ?>
 	</form>
 
 	<div class="row" style="padding-top:50px">
