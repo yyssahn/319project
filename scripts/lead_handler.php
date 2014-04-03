@@ -138,25 +138,26 @@ else{
 	
 	if($_SESSION['lid'] == NULL){
 	
-		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
-						disciplines, startdate,enddate, status, timestamp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL)";
+		$sql = "INSERT INTO CBEL_Lead(pid, uid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
+						disciplines, startdate,enddate, status, timestamp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL)";
 						
 		$stmt = $db->prepareStatement($sql);
 
 		// Set array of parameters to be bound
 		$params = array();
-		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+		array_push($params, $pid, $_POST['owner'], $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
 							$activities, $location, $disciplines, $startdate,$enddate, $_POST['status']);	
 
 		// Set array of types of parameters to be bound				
 		$param_types = array();
 		$param_types[0] = 'i';
-		for($i=1; $i<13; $i++)
+		$param_types[1] = 'i';
+		for($i=2; $i<14; $i++)
 			$param_types[] = 's'; // s = strung
 	}
 	else if($_SESSION['lid'] != NULL){
 		$sql = "UPDATE CBEL_Lead 
-					SET pid=?, lead_name=?, description=?, idea_type=?, referral=?, mandate=?, focus=?, main_activities=?, 		
+					SET pid=?, uid=?, lead_name=?, description=?, idea_type=?, referral=?, mandate=?, focus=?, main_activities=?, 		
 						location=?, disciplines=?, startdate=?, enddate=?, status=?
 					WHERE lid=?";
 					
@@ -164,13 +165,14 @@ else{
 
 		// Set array of parameters to be bound
 		$params = array();
-		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
+		array_push($params, $pid, $_POST['owner'], $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
 							$activities, $location, $disciplines, $startdate, $enddate, $_POST['status'], $_SESSION['lid']);	
 							
 		// Set array of types of parameters to be bound				
 		$param_types = array();
 		$param_types[0] = 'i';
-		for($i=1; $i<13; $i++)
+		$param_types[1] = 'i';
+		for($i=2; $i<14; $i++)
 			$param_types[] = 's'; // s = strung
 		$param_types[] = 'i';
 	}

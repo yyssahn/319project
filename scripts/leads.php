@@ -28,10 +28,29 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$names = $db->getResult($db);
+	
+	// Get  users
+	$sql = "SELECT uid, firstname, lastname FROM User";
+	$s = $db->prepareStatement($sql);
+	$db->executeStatement($s);
+	$users = $db->getResult($db);
 ?>
 	<!--Categories  for narrowing search results.  Options are populated from database-->
 	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">	
 		<div class="jumbotron">
+			<div class="row clearfix">
+				<label for="owner" class="col-md-2 control-label">Project Owner:</label>
+				<div class="col-md-4">
+					<select multiple="multiple" class="multiselect" id="widebutton" name="owner[]">
+						<?php
+							foreach($users as $row){
+								if($row['uid'] != NULL)
+									echo "<option value='{$row['uid']}'>".$row['firstname']." ".$row['lastname']."</option>";
+							}
+						?>
+					</select>
+				</div>
+			</div>
 			<div class="row clearfix">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
 				<div class="col-md-4">
