@@ -58,7 +58,7 @@ function accountsTab(){
 	</form>
 
 	<div class="row" style="padding-top:50px">
-		<div class="col-md-10 column col-md-offset-1" style="height:500px; overflow:scroll">
+		<div class="col-md-10 column col-md-offset-1" style="height:auto; overflow:scroll">
 			<table class="table table-striped">
 				<thead>
 					<tr><th>Name</th><th>Selected</th><th>MonthlyActivityCount</th></tr>
@@ -94,7 +94,7 @@ function categoriesTab(){
 ?>
 <!-- The nested collapse tables-->
 <div class="row" style="padding-top:50px">
-    <div class="col-md-10 column col-md-offset-1" style="height:600px; overflow:scroll">
+    <div class="col-md-10 column col-md-offset-1" style="height:auto; overflow:scroll">
         <table class="table table-striped">
             <thead>
 				<tr><th>Categories </th></tr>
@@ -112,7 +112,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseOne" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -161,7 +161,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseTwo" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -210,7 +210,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseThree" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -259,7 +259,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseFour" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -308,7 +308,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseFive" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -356,7 +356,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseSix" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -404,7 +404,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseSeven" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -452,7 +452,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseEight" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -500,7 +500,7 @@ function categoriesTab(){
 								</h4>
 							</div>
 							<div id="collapseNine" class="panel-collapse collpase collapse">
-								<div class="panel-body">
+								<div class="panel-body" style="height:auto">
                                     <form name = "option_form" method = "post" action = "">	
 										<table class="table table-condensed">
 											<?php
@@ -699,7 +699,7 @@ function statisticsTab(){
             </ul>
 			
 			<!--Content to be loaded into each tab on selection-->
-            <div id="tabs" class="tab-content" style="height:60%">
+            <div id="tabs" class="tab-content" style="height:auto">
                 <div class="tab-pane active fade in" id="accounts">
 
 					<?php accountsTab(); ?>
