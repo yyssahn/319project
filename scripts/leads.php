@@ -200,9 +200,9 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		</div>	
 		
 		<div class="row clearfix">
-			<div class="col-md-1 col-md-offset-10">
+			<!-- <div class="col-md-1 col-md-offset-10">
 				<input type="submit" class="btn btn-large btn-primary" name="export" value="Search" />			
-			</div>
+			</div> -->
 
 			<div class="col-md-offset-11">
 				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Search" />				

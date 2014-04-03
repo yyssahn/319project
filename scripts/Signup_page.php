@@ -158,7 +158,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 					// if(deleteKey($dbHelper, $key)){
                                         deleteKey($key);
 						print "<div class='alert alert-success'>Account created successfully.  You will be taken to the login page</div>";
-		    			header('Refresh: 5; login_page.html');
+		    			header('Refresh: 3; login_page.html');
     			}
     			else
     				$keyErr = "Please enter a valid key";

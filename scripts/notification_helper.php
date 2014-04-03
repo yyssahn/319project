@@ -15,7 +15,7 @@ class NotificationHelper{
 	private $Tsubject = "New Tag: ";
 	private $Tmessage = "You have been tagged in lead : ";
 	private $from = "From: ccel_t8@yahoo.ca";
-	private $to = "ccel_t8@yahoo.ca ,";
+        private $to = "";
 	 
 	/*Connect to database */
 	public function __construct(){
@@ -118,7 +118,31 @@ class NotificationHelper{
 	}
 
 	public function updateMail($to){
-		mail($to, $this->subject , $this->message,  $this->from);
+                    if ($to != "") {
+                    require("phpmailer/class.phpmailer.php");
+                    $mail = new PHPMailer();
+
+                    // ---------- adjust these lines ---------------------------------------
+                    $mail->Username = "bobbyhplau@gmail.com"; // your GMail user name
+                    $mail->Password = "wh4tever";
+                    // Don't hack me bro.
+                    $mail->AddAddress($to); // recipients email
+                    $mail->FromName = $this->from; // readable name
+
+                    $mail->Subject = $this->subject;
+                    $mail->Body    = $this->message; 
+                    //-----------------------------------------------------------------------
+
+                    $mail->Host = "ssl://smtp.gmail.com"; // GMail
+                    $mail->Port = 465;
+                    $mail->IsSMTP(); // use SMTP
+                    $mail->SMTPAuth = true; // turn on SMTP authentication
+                    $mail->From = $mail->Username;
+                    if(!$mail->Send())
+                        ;
+                    else ;
+                    }
+	//	mail($to, $this->subject , $this->message,  $this->from);
 	}
 	public function mailSpecificsUpdate($lid){
 		$query = "SELECT lead_name
@@ -135,7 +159,8 @@ class NotificationHelper{
 				WHERE lid = '".$lid."' AND U.uid = T.uid " ;
 		$result = $this->conn->query($query);
 		while ($row = $result->fetch_row()) {
-        	$this->to = $this->to. "" .$row[0]. " , ";
+        	// $this->to = $this->to. "" .$row[0]. " , ;
+                    $this->to = $row[0];
     	}
     	$this->updateMail($this->to);
 	}
