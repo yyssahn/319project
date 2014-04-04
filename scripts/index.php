@@ -1,4 +1,4 @@
-<div class="container" style="overflow: hidden">
+
 	<?php 
 		session_start();
 
@@ -9,7 +9,9 @@
 	
 		include("head.php");
 		include("navbar.php");
-	
+	?>
+	<div class="container">
+<?php
 		//Loads content of page. Initially goes to homepage, 
 		//else goes to page specified by link.  Only part on site
 		//that changes

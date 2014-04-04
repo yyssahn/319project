@@ -6,20 +6,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>CBEL Tracker</title>
 
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="../bootstrap/js/jquery-2.1.0.min.js"></script>
-		
 		<!-- Bootstrap -->
+
 		<link href="../bootstrap/css/bootstrap-3.1.1.css" rel="stylesheet">
-		<script src="../bootstrap/js/bootstrap-3.1.1.min.js"></script>
-		
+		<script src="../bootstrap/js/jquery-2.1.0.min.js"></script>
+		<script src="../bootstrap/js/jquery.smooth-scroll.min.js"></script>
+		<script src="../bootstrap/js/bootstrap-3.1.1.js"></script>
+		<script src="../bootstrap/js/retro.js"></script>
+			
 		<!-- Multiselect Plugin: -->
-		<script type="text/javascript" src="../bootstrap/js/bootstrap-multiselect.js"></script>
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-multiselect.css" type="text/css"/>
+		<script type="text/javascript" src="../bootstrap/js/bootstrap-multiselect.js"></script>
 
 		<!-- For validation plugin -->
 		<link href="style.css" rel="stylesheet">
-		<script src="js/modernizr-2.5.3.min.js"></script>
 		<script src="../bootstrap/js/jquery.validate.min.js"></script>
 		<script src="script.js"></script>	
 		
@@ -88,8 +88,41 @@
 				});
 			});
 		</script>
+		
+		<script language ="javascript">
+			function enterFunction(event) {
+				if(event.keyCode == 13) {
+					document.getElementById('searchButton').click();
+				}
+			}
+		</script>
+
+		<!-- For downloading CSVs -->
+		<script>
+			function downloadLead(){
+				$.ajax({
+					type: "POST",
+					url: "export_handler.php",
+					data: {lead: 'lead'},
+					success: function(filename){
+							window.location=filename;
+					},
+					error: function(filename){
+						alert("Please export at least one CBEL Lead to the CSV");
+					}
+				});
+			}
+			function downloadPartner(){
+				$.ajax({
+					type: "POST",
+					url: "export_handler.php",
+					data: {partner: 'partner'},
+					success: function(filename){
+						window.location=filename;
+					}
+				});
+			}
+		</script>
 	</head>
   
 	<body>
-		<h1>Welcome to CBEL Tracker</h1>
-		<br />

@@ -338,7 +338,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #B2B2B2;
+  border-top: 1px solid #eee;
 }
 .sr-only {
   position: absolute;
@@ -734,10 +734,6 @@ pre code {
   overflow-y: scroll;
 }
 .container {
-  background-color: #F4FFFF;
-  border:2px solid; 
-  border-radius:15px; 
-  border-color: #CFCFCF;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -765,7 +761,6 @@ pre code {
   margin-left: auto;
 }
 .row {
-  margin-bottom: 15px;
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -3570,7 +3565,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav-pills > li > a {
   border-radius: 4px;
-  margin-bottom: 10px;
 }
 .nav-pills > li + li {
   margin-left: 2px;
@@ -3793,7 +3787,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-nav > li > a {
   padding-top: 10px;
-  
+  padding-bottom: 10px;
   line-height: 20px;
 }
 @media (max-width: 767px) {
@@ -3945,7 +3939,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default {
   background-color: #f8f8f8;
-  border-color: #CFCFCF;
+  border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
   color: #777;
@@ -4029,7 +4023,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-inverse {
   background-color: #222;
   border-color: #080808;
-  padding-bottom: 10px;
 }
 .navbar-inverse .navbar-brand {
   color: #999;
@@ -4770,9 +4763,6 @@ a.list-group-item-danger.active:focus {
 }
 .panel-body {
   padding: 15px;
-  overflow: hidden; 
-  text-overflow: ellipsis;
-  height:140px;
 }
 .panel-heading {
   padding: 10px 15px;
