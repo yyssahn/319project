@@ -30,6 +30,7 @@ else
 <!-- Navbar
     ================================================== -->
 <div class="navbar navbar-default navbar-fixed-top">
+	<div style="background-color:#428bca;">
 	<div class="navbar-header">
 	  <a href="index.php" class="navbar-brand"><Strong>CBEL Tracker</Strong></a>
 	  <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -49,7 +50,7 @@ else
 		<li class="nav navbar-nav"><a href="Logout.php"><Strong>Log out</Strong></a></li>
 	  </ul>
 	</div>
-	
+	</div>
 	<div class="subnav scrollnav">
      <ul class="nav nav-pills">
 	

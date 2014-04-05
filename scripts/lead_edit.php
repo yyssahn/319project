@@ -83,12 +83,6 @@ $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
 $partners = $db->getResult($db);
 
-// Get  users
-$sql = "SELECT uid, firstname, lastname FROM User";
-$s = $db->prepareStatement($sql);
-$db->executeStatement($s);
-$users = $db->getResult($db);
-
 // Get lead data if lead exists
 if(isset($_GET['lid'])){
 	$lid = $_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
@@ -215,26 +209,6 @@ if(array_key_exists("submit", $_POST)){
 	<hr />
 	
 	<div class="jumbotron">
-		<div class="row">
-			<label for="owner" class="col-md-2 control-label">Owner:</label>
-			<div class="col-md-4">
-				<select class="form-control" name="owner">
-					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
-						foreach($users as $row){
-							$selected = '';
-							if(strpos($users[0]['uid'], $row['uid']) !== false){
-								$selected = 'selected';
-							}
-							
-							if($row['uid'] != NULL){
-								echo "<option value='{$row['uid']}' $selected >".$row['firstname']."</option>";
-							}
-						}
-					?>
-				</select>
-			</div>
-		</div>
 		<div class="row">
 			<label for="lead_name" class="col-md-2 control-label">Lead Name:</label>
 			<div class="col-md-4">
