@@ -1,28 +1,123 @@
 <?php
-include('database_helper.php');
+require_once 'database_helper.php';
+class LinkLead{
+	private $db;
+	
+	function __construct(){
+		global $db;
+		$db = new DatabaseHelper();
+	}
+	
+	public function linkLeads($main ,$link){
+		global $db;
 
-// Connecting to database server
-$DBServer = "localhost";
-$DBUser = "root";
-$DBPass = "";
-$DBName = "cbel_db";
-		 
-// Connect to database
-$conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);
+		$sql = "INSERT INTO linked_ids (lid_main,lid_link) VALUES (?,?)";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindArray($stmt, array('i','i'), array($main, $link));
+		$db->executeStatement($stmt);
+	}
+	
+	public function deleteLink($main, $link){
+		global $db;
+		print $main;
+		$sql = "DELETE FROM linked_ids
+					WHERE lid_main=? AND lid_link=?";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindArray($stmt, array('i','i'), array($main, $link));
+		$db->executeStatement($stmt);
+	}
 
-if($conn->connect_error)
-	trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
+	public function displayLinkForm(){
+		global $db;
+		
+		$sql = "SELECT cbel_lead.lead_name, linked_ids.lid_main, linked_ids.lid_link
+					FROM cbel_lead
+					INNER JOIN linked_ids
+					ON cbel_lead.lid=linked_ids.lid_link
+					WHERE linked_ids.lid_main = ?;";
+		$stmt = $db->prepareStatement($sql);
+		$db->bindParameter($db, 'i', $_GET['lid']);
+		$db->executeStatement($stmt);
+		$listOfLinks = $db->getResult($stmt);
 
-// Query Database for list of Options
-$sql = "INSERT INTO linked_ids (lid_main,lid_link)
-VALUES (".$_GET['main'].",".$_GET['link'].");";
-$result = $conn->query($sql);
-    
-// failed result what happens?
-
-// if succeeds go back to admin panel
-header("Location: index.php?content=lead_edit&lid=".$_GET['main']);
-die();
+		$sql = "SELECT lead_name, lid FROM cbel_lead";
+		$s = $db->prepareStatement($sql);
+		$db->executeStatement($s);
+		$listOfLeads = $db->getResult($stmt);
+		?>
+		<a name="links"></a>
+		<div class="well" style="margin-top:15px">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="row clearfix">
+						<div class="col-md-12 column">
+							<h2>Similar Leads</h2>
+							<table class="table">
+								<?php
+									foreach($listOfLinks as $link) {
+										print "	<tr>
+														<td class='col-md-4'>
+															<a href=index.php?content=lead_edit&lid=".$link['lid_link'].">".$link['lead_name']."</a>
+														</td>"."
+														<td>
+															<a class='btn btn-danger btn-sm' onclick='deleteLink({$_GET['lid']}, {$link['lid_link']})'>
+																Remove Link
+															</a>
+														</td>
+													</tr>";
+									}
+									?>
+							</table>
+							
+							<div class="col-md-4 dropup">
+								<form>
+									<select  class="form-control" name="link" id='link'>
+										<?php
+											print "<option>Please Select One</option>";
+											foreach($listOfLeads as $lead) {
+												print "<option value='".$lead['lid']."'>".$lead['lead_name']."</option>";
+											}
+										?>
+									</select>
+								</form>
+							</div>
+								<div class="col-md-8" style="padding-top:5px">
+									<input type ="button" value="Link" onClick="link_lead(<?php print $_GET['lid']; ?>)" class="btn btn-info btn-sm">
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script language="javascript">
+			function link_lead(main) {      
+				var x = document.getElementById("link").selectedIndex;
+				var y = document.getElementById("link").options;
+				var link = y[x].value;
+				
+				$.ajax({
+					type: "POST",
+					url: "link_handler.php",
+					data: {add: 'add', main: main, link:link},
+					success: function(){
+						window.location.reload();
+					}
+				});
+			}
+			
+			function deleteLink(main, link){
+				$.ajax({
+					type: "POST",
+					url: "link_handler.php",
+					data: {delete: 'delete', main: main, link:link},
+					success: function(){
+						window.location.reload();
+					}
+				});
+			}
+		</script>
+<?php
+	}
+}
 ?>
-
-

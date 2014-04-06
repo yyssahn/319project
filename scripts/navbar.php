@@ -40,7 +40,7 @@ else
 
 		<div class="navbar-collapse collapse navbar-responsive-collapse">
 			<form class="navbar-form navbar-left" action="" method="POST">
-				<input type="text" class="form-control col-lg-8" style="width:300px" placeholder="Search for Lead by Name" name="searchBox" onkeypress="enterFunction(event);">
+				<input type="text" class="form-control col-lg-8" style="width:500px" placeholder="Search for Lead by Name or Description" name="searchBox" onkeypress="enterFunction(event);">
 				<button type="submit" class="btn btn-default" style="margin-left:5px;" name="searchLead" id="searchButton">Search</button>
 			</form>
 
