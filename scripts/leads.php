@@ -294,6 +294,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	
 	if($result != NULL){
 ?>
+		<!-- Display search results in table -->
 		<div class="well">
 			<div class="row clearfix">
 				<div class="col-md-10 col-md-offset-1">
@@ -304,7 +305,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 						?>
 								<thead>
 									<tr style="background-color: #008cba; color: white">
-										<th>Lead Name</th><th>Lead Description</th>
+										<th class="col-md-4">Lead Name</th><th>Lead Description</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -342,6 +343,28 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 										<td><?php print $row['description'] ?></td>
 										<td><input type="checkbox" name="exLeads[]" value="<?php print $lid; ?>" class="export"></td>
 									</tr>
+						<?php
+									}
+								}
+							}
+							// Display results from search bar 
+							else{
+						?>
+								<thead>
+									<tr style="background-color: #008cba; color: white">
+										<th class="col-md-4">Lead Name</th><th>Lead Description</th>
+									</tr>
+								</thead>
+								<tbody>
+						<?php
+								foreach($_SESSION['matchings'] as $row){
+									$lid = $row['lid'];
+									if($row['lead_name'] != NULL){
+						?>
+										<tr onmouseover="this.style.cursor='pointer' " 
+											onclick="window.location='index.php?content=lead_view&lid=<?php echo htmlspecialchars($lid); ?>'">
+											<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
+										</tr>
 						<?php
 									}
 								}

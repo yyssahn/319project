@@ -467,9 +467,9 @@ $listOfLeads = $db->getResult($stmt);
                     <table class="table">
                         <?php
                             foreach($listOfLinks as $link) {
-                                print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
+                                print "<tr><td class='col-md-4'><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
                                         .$link['lead_name']."</a></td>"
-                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn  btn-danger'>Remove Link</a>";
+                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-danger btn-sm'>Remove Link</a>";
                             }
                             ?>
                     </table>

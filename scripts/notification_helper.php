@@ -119,7 +119,7 @@ class NotificationHelper{
 
 	public function updateMail($to){
                     if ($to != "") {
-                    require("phpmailer/class.phpmailer.php");
+                    require("../phpmailer/class.phpmailer.php");
                     $mail = new PHPMailer();
 
                     // ---------- adjust these lines ---------------------------------------
