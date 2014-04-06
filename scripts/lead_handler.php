@@ -28,7 +28,7 @@ if(array_key_exists("delete", $_POST)){
 		<div class='alert alert-success'>Lead Successfully Deleted</div>
 		<div class="row">
 			<div class="col-md-offset-10">
-				<a href="index.php?content=leads" class="btn btn-large btn-success">Edit Another Lead</a>
+				<a href="index.php?content=leads" class="btn btn-success btn-sm">Edit Another Lead</a>
 			</div>
 		</div>
 <?php
@@ -136,7 +136,7 @@ else{
 	//=======================================================================================================================
 	// Prepare statement
 	
-	if($_SESSION['lid'] == NULL){
+	if(isset($_SESSION['lid']) == NULL){
 	
 		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
 						disciplines, startdate,enddate, status, timestamp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL)";
@@ -201,30 +201,48 @@ else{
 		
 		$_SESSION['lid'] = NULL; // Makes sure lead is not visible when creating a new lead
 	?>
-		<div class="alert alert-success">Lead Successfully Updated</div>
 		<div class="row">
-			<div class="col-md-offset-10">
-			<a href='index.php?content=leads' class='btn btn-large btn-success'>Edit Another Lead</a>
+			<div >
+				<div class="alert alert-success" style="margin-top: 50px; font-size: 1.2em">
+					Lead successfully updated!
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="pull-right">
+				<a href='index.php?content=leads' class='btn btn-sm btn-primary'>Edit Another Lead</a>
 			</div>
 		</div>
 	<?php
 	}
 	else if ($db->getAffectedRows($stmt) == 0){
 	?>
-		<div class="alert alert-warning">You Did Not Change Anything.  No Leads Were Updated</div>
 		<div class="row">
-			<div class="col-md-offset-10">
-				<a href='index.php?content=leads' class='btn btn-large btn-success'>Edit Another Lead</a>
+			<div >
+				<div class="alert alert-success" style="margin-top: 50px; font-size: 1.2em">
+					You did not change anything. No Leads were updated!
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="pull-right">
+				<a href='index.php?content=leads' class='btn btn-sm btn-primary'>Edit Another Lead</a>
 			</div>
 		</div>
 	<?php
 	}
 	else{
 	?>
-		<div class="alert alert-danger">Something Went Wrong.  No Leads Were Updated</div>
 		<div class="row">
-			<div class="col-md-offset-10">
-				<a href='index.php?content=leads' class='btn btn-large btn-success'>Edit Another Lead</a>
+			<div >
+				<div class="alert alert-success" style="margin-top: 50px; font-size: 1.2em">
+					Something went wrong. No Leads were updated!
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="pull-right">
+				<a href='index.php?content=leads' class='btn btn-sm btn-primary'>Edit Another Lead</a>
 			</div>
 		</div>
 	<?php

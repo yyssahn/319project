@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Signup Page</title>
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../bootstrap/js/jquery-2.1.0.min.js"></script>
+	
+	<!-- Bootstrap -->
+	<link href="../bootstrap/css/bootstrap-3.1.1.css" rel="stylesheet">
+	<script src="../bootstrap/js/bootstrap-3.1.1.min.js"></script>
+	
+	<!-- Validate plugin -->
+	<link href="style.css" rel="stylesheet">
+	<script src="../bootstrap/js/jquery.validate.js"></script>
+	<script src="validator_script.js"></script>	
+</head>
 <?php
 
 $phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
@@ -174,26 +191,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 }
 
 ?>
-
-<html>
-	<head>
-  		<meta charset="utf-8">
-  		<title>Signup Page</title>
-		
-		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-		<script src="../bootstrap/js/jquery-2.1.0.min.js"></script>
-		
-		<!-- Bootstrap -->
-		<link href="../bootstrap/css/bootstrap-3.1.1.css" rel="stylesheet">
-		<script src="../bootstrap/js/bootstrap-3.1.1.min.js"></script>
-		
-		<!-- For validation plugin -->
-		<link href="style.css" rel="stylesheet">
-		<script src="js/modernizr-2.5.3.min.js"></script>
-		<script src="../bootstrap/js/jquery.validate.min.js"></script>
-		<script src="script.js"></script>	
-	</head>
-	
 	<body>
 		<div class="container" style="overflow:hidden">
 			<div class="page-header">
@@ -210,7 +207,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "Fname" placeholder = "First Name" 
 											value="<?php echo htmlspecialchars($Fname);?>">
-								<span class="error"><?php echo $FnameERR;?></span> 
+								<span class="error"><noscript><?php echo $FnameERR;?></noscript></span> 
 							</div>
 						</div>
 					</div>
@@ -221,7 +218,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "Lname" placeholder = "Last Name"
 											value="<?php echo htmlspecialchars($Lname);?>">
-								<span class="error"><?php echo $LnameERR;?></span>
+								<span class="error"><noscript><?php echo $LnameERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -232,7 +229,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "user" placeholder = "Username" autocomplete="off"
 											value="<?php echo htmlspecialchars($user);?>">
-								<span class="error"><?php echo $userERR;?></span>
+								<span class="error"><noscript><?php echo $userERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -242,7 +239,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="pswd" class="col-md-3 control-label">Password:</label>
 							<div class="col-md-8 controls">
 								<input type = "password" class="form-control" name = "pswd" placeholder = "Password"/>
-								<span class="error"><?php echo $PWSRDERR;?></span>
+								<span class="error"><noscript><?php echo $PWSRDERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -252,7 +249,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="confimpswd" class="col-md-3 control-label">Confirm Password:</label>
 							<div class="col-md-8 controls">
 								<input type = "password" class="form-control" name = "confirmpswd" placeholder = "Password"/>
-								<span class="error"><?php echo $CPWSRDERR;?></span>
+								<span class="error"><noscript><?php echo $CPWSRDERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -263,7 +260,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "email" class="form-control" placeholder ="E-mail" name = "emailAddr"   
 											value="<?php echo htmlspecialchars($Email);?>">
-								<span class="error"><?php echo $EmailERR;?></span>
+								<span class="error"><noscript><?php echo $EmailERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -274,7 +271,7 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "pNum" placeholder ="XXX-XXX-XXXX"
 											value="<?php echo htmlspecialchars($Telep);?>">
-								<span class="error"><?php echo $TelepERR;?></span>
+								<span class="error"><noscript><?php echo $TelepERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -284,15 +281,21 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="pNum" class="col-md-3 control-label">Key:</label>
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "signupkey" placeholder ="XXXXXXXX">
-								<span class="error"><?php echo $keyErr;?></span>
+								<span class="error"><noscript><?php echo $keyErr;?></noscript></span>
 							</div>
 						</div>
 					</div>
 				</div>
 				
 				<div class="row clearfix">
+					<div class="col-md-1">
+						<div>
+							<a class="btn btn-large btn-primary" href="login_page.html">Back To Login</a>
+						</div>
+							
+					</div>
 					<div class="col-md-offset-11">
-						<input type ="submit" class="btn btn-large btn-primary" name = "createNewACC" value="Submit">
+						<input type ="submit" class="btn btn-large btn-success" name = "createNewACC" value="Signup">
 					</div>
 				</div>
 			</form>

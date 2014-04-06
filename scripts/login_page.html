@@ -10,40 +10,38 @@
 	<!-- Bootstrap -->
 	<link href="../bootstrap/css/bootstrap-3.1.1.css" rel="stylesheet">
 	<script src="../bootstrap/js/bootstrap-3.1.1.min.js"></script>
-	<script language ="javascript">
 	
-	// when enter key is pressed on the username or password text field, then the signin button is automatically clicked 
-	function enterFunction(event) {
-		if(event.keyCode == 13) {
-			document.getElementById('signin').click();
+	<script language ="javascript">
+		// when enter key is pressed on the username or password text field, then the signin button is automatically clicked 
+		function enterFunction(event) {
+			if(event.keyCode == 13) {
+				document.getElementById('signin').click();
+			}
 		}
-	}
-		
-	// when "Sign in" button is clicked, the system first checks whether Username and Password input boxes are filled. 
-	function loginForm_send(form) { 
-		
-		if(!form.username.value) {
 			
-			alert("Please type your username!");
-			form.username.focus(); 
-			return;
-		}
+		// when "Sign in" button is clicked, the system first checks whether Username and Password input boxes are filled. 
+		function loginForm_send(form) { 
+			
+			if(!form.username.value) {
+				
+				alert("Please type your username!");
+				form.username.focus(); 
+				return;
+			}
 
-		if(!form.password.value) {
-			alert("Please type your password!");
-			form.password.focus();
-			return;
-		}
+			if(!form.password.value) {
+				alert("Please type your password!");
+				form.password.focus();
+				return;
+			}
 
-		// send the form to "Login.php"
-		document.login_form.submit();
-	}
+			// send the form to "Login.php"
+			document.login_form.submit();
+		}
 	</script>
 </head>
 
-
 <body>
-
 
 <div class="container" style="overflow:hidden">
 	<div class="row clearfix">
@@ -54,9 +52,9 @@
 
 	<div class="row clearfix">
 		<div class="col-md-12 column">
-			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+			<nav class="navbar navbar-default navbar-inverse" style="background-color: #428bca; border: #428bca" role="navigation">
 				<div class="navbar-header">
-					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="file:///C:/Users/David/Desktop/UI%20html/UI%20pages/src/Login%20page.html">Home</a>
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" style="color:white">Home</a>
 				</div>			
 			</nav>
 			<div class="page-header" style = "margin-left:100px">
@@ -90,7 +88,6 @@
 						 <input type ="button" id ="signin" value="Sign in" onClick="loginForm_send(this.form)" class="btn btn-primary" contenteditable="true">
 					</div>
 				</div>
-
 			
 				<div class="col-sm-offset-2">
 					<div style = "margin-top: 2px; margin-left: 13px">
@@ -99,10 +96,10 @@
 
 					<a  href="signup_page.php" class="btn btn-link">Sign up now</a>
 				</div>
-				
 			</form> 
 		</div>
 	</div>
 </div>
+
 </body>
 </html>

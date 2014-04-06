@@ -1,98 +1,79 @@
-//
-//	jQuery Validate example script
-//
-//	Prepared by David Cochran
-//
-//	Free for your use -- No warranties, no guarantees!
-//
-
-$(document).ready(function(){
-
-	// Validate
-	// http://bassistance.de/jquery-plugins/jquery-plugin-validation/
-	// http://docs.jquery.com/Plugins/Validation/
-	// http://docs.jquery.com/Plugins/Validation/validate#toptions
-
-
-		$.validator.addMethod("pattern", function(value, element, regexpr){
-			return this.optional(element) || regexpr.test(value);
-		}, "Please use the proper format");
-		
-		$('#form').validate({
-	    rules: {
-	      partner: {
-	        minlength: 2,
-	        required: true
-	      },
-		  contact_name: {
-	      	minlength: 2,
-	        required: true
-	      },
-		  phone: {
-			required: false,
-			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
-		  },
-		  ppartner:{
-			required: false,
-			pattern:  /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/
-		  },
-	      email: {
-	        required: true,
-	        email: true
-	      },
-	      lead_name: {
-	        minlength: 2,
-	        required: true
-	      },
-		  description: {
-	        minlength: 2,
-	        required: true
-	      },
-		  fpartner: {
-			minlength: 2,
-	        required: true
-		  },
-		  lpartner: {
-			minlength: 2,
-	        required: true
-		  },
-		  Fname: {
-			minlength: 2,
-	        required: true
-		  },
-		  Lname: {
-			minlength: 2,
-	        required: true
-		  },
-		  user: {
-			minlength: 2,
-	        required: true
-		  },
-		  pswd: {
-			minlength: 2,
-	        required: true
-		  },
-		  confirmpswd: {
-			minlength: 2,
-	        required: true
-		  },
-		  emailAddr: {
-			minlength: 2,
-	        required: true
-		  },
-		  signupkey: {
-			minlength: 2,
-	        required: true
-		  }
-	    },
-			highlight: function(element) {
-				$(element).closest('.control-group').removeClass('success').addClass('error');
-			},
-			success: function(element) {
-				element
-				.text('OK!').addClass('valid')
-				.closest('.control-group').removeClass('error').addClass('success');
+/*For multiselect plugin */
+$(document).ready(function() {
+	$('.multiselect').multiselect({
+		includeSelectAllOption: true,
+		enableFiltering: true,
+		buttonWidth: '346px',
+		buttonHeight: '346px',
+		buttonText: function(options) {
+			if (options.length === 0) {
+				return 'None selected <b class="caret"></b>';
 			}
-	  });
+			else if (options.length > 3) {
+				return options.length + ' selected  <b class="caret"></b>';
+			}
+			else {
+				var selected = '';
+				options.each(function() {
+					selected += $(this).text() + ', ';
+				});
 
-}); // end document.ready
+				return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+			}
+		}
+	});
+	$('.single').multiselect({
+		buttonWidth: '346px'
+	});
+	$('#existing').multiselect({
+		enableFiltering: true,
+		buttonWidth: '500px',
+	});
+	$('#link').multiselect({
+		includeSelectAllOption: true,
+		enableFiltering: true,
+		buttonWidth: '360px',
+		onChange: function(option, checked) {
+			var values = [];
+			$('#link option').each(function() {
+				if ($(this).val() !== option.val()) {
+					values.push($(this).val());
+				}
+			});
+			
+			$('#link').multiselect('deselect', values);
+		}
+	});
+});
+
+/* Pressing Enter works same as clicking Search Button*/
+function enterFunction(event) {
+	if(event.keyCode == 13) {
+		document.getElementById('searchButton').click();
+	}
+}
+
+/*For downloading CSVs */
+function downloadLead(){
+	$.ajax({
+		type: "POST",
+		url: "export_handler.php",
+		data: {lead: 'lead'},
+		success: function(filename){
+				window.location=filename;
+		},
+		error: function(filename){
+			alert("Please export at least one CBEL Lead to the CSV");
+		}
+	});
+}
+function downloadPartner(){
+	$.ajax({
+		type: "POST",
+		url: "export_handler.php",
+		data: {partner: 'partner'},
+		success: function(filename){
+			window.location=filename;
+		}
+	});
+}

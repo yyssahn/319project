@@ -30,9 +30,9 @@ else
 <!-- Navbar
     ================================================== -->
 <div class="navbar navbar-default navbar-fixed-top">
-	<div style="background-color:#428bca;">
+	<div style="background-color:#008cba;"> <!-- alternative colour: #428bca -->
 	<div class="navbar-header">
-	  <a href="index.php" class="navbar-brand"><Strong>CBEL Tracker</Strong></a>
+	  <a href="index.php" class="navbar-brand" style="color: white"><Strong>CBEL Tracker</Strong></a>
 	  <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
@@ -47,7 +47,7 @@ else
 	</form>
 
 	  <ul class="nav navbar-nav navbar-right" style="margin-right:3px;">
-		<li class="nav navbar-nav"><a href="Logout.php"><Strong>Log out</Strong></a></li>
+		<li class="nav navbar-nav"><a href="logout.php" style="color:white"><Strong>Log out</Strong></a></li>
 	  </ul>
 	</div>
 	</div>
@@ -79,9 +79,3 @@ else
      </ul>
   </div>
 </div>
-
- <!-- Masthead
-================================================== -->
-  
-
-<br><br>

@@ -53,7 +53,7 @@ function accountsTab(){
 ?>
 	<br />
 	<form method = "POST" action = "index.php?content=admin" >
-	<input class='btn btn-large btn-success' type="submit" name = "genkey" value ="Generate Key">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input class='btn btn-sm btn-success' type="submit" name = "genkey" value ="Generate Key">&nbsp;&nbsp;&nbsp;&nbsp;
 	<strong>Active Keys:</strong> 
         <?php
         $sql = "SELECT unusedkey FROM genkeys";
@@ -70,8 +70,8 @@ function accountsTab(){
 	</form>
 
 	<div class="row" style="padding-top:50px">
-		<div class="col-md-10 column col-md-offset-1" style="height:auto; overflow:scroll">
-			<table class="table table-striped">
+		<div class="col-md-10 column col-md-offset-1">
+			<table class="table table-striped" style="border: solid #e8e8e8 1px">
 				<thead>
 					<tr><th>Name</th><th>Selected</th><th>MonthlyActivityCount</th></tr>
 				</thead>
@@ -80,16 +80,30 @@ function accountsTab(){
 						foreach($listOfUsers as $username) {
 							// Show Promote or Demote
 							if ($username['admin']) {
-								$promoteornot = "<a href='admin_demote.php?username=".$username['username']."' class='btn btn-large btn-danger'>Demote</a>";
+								$promoteornot = "
+									<a href='admin_demote.php?username=".$username['username']."' class='btn btn-sm btn-danger'>
+										Demote 
+									</a>";
 							} else {
-								$promoteornot = "<a href='admin_promote.php?username=".$username['username']."' class='btn btn-large btn-success'>Promote</a>";
+								$promoteornot = "
+									<a href='admin_promote.php?username=".$username['username']."' class='btn btn-sm btn-success'>
+										Promote
+									</a>";
 							}
 								
-							print "<tr><td>".$username['username'].
-									"</td><td><div><a href='admin_delete.php?username=".$username['username']."' class='btn btn-large btn-danger'>Delete</a>"
-									. $promoteornot
-									. "</div></td>
-									<td>".$username['activity_count']."</td>
+							print "
+									<tr>
+										<td>".$username['username']."</td>
+										<td>
+											<div>
+												<a href='admin_delete.php?username=".$username['username']."' class='btn btn-sm btn-danger' 	
+													onclick=\"return confirm('Are you sure?');\" style='margin-right:10px'>
+													Delete
+												</a>"
+												. $promoteornot."
+											</div>
+										</td>
+										<td>".$username['activity_count']."</td>
 									</tr>";
 						}
 					?>
@@ -106,7 +120,7 @@ function categoriesTab(){
 ?>
 <!-- The nested collapse tables-->
 <div class="row" style="padding-top:50px">
-    <div class="col-md-10 column col-md-offset-1" style="height:auto; overflow:scroll">
+    <div class="col-md-10 column col-md-offset-1">
         <table class="table table-striped">
             <thead>
 				<tr><th>Categories </th></tr>
@@ -139,9 +153,9 @@ function categoriesTab(){
 															<td><?php print $subcat['idea_type']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['idea_type']; ?>", "idea_type")' class='btn btn-large btn-info'>
+																	$subcat['idea_type']; ?>", "idea_type")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['idea_type']; ?>
-																	&category=idea_type' class='btn btn-large btn-danger'>Remove</a>
+																	&category=idea_type' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -154,7 +168,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'idea_type')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'idea_type')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -188,9 +202,9 @@ function categoriesTab(){
 															<td><?php print $subcat['referral']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['referral']; ?>", "referral")' class='btn btn-large btn-info'>
+																	$subcat['referral']; ?>", "referral")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['referral']; ?>
-																	&category=referral' class='btn btn-large btn-danger'>Remove</a>
+																	&category=referral' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -203,7 +217,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'referral')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'referral')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -237,9 +251,9 @@ function categoriesTab(){
 															<td><?php print $subcat['mandate']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['mandate']; ?>", "mandate")' class='btn btn-large btn-info'>
+																	$subcat['mandate']; ?>", "mandate")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['mandate']; ?>
-																	&category=mandate' class='btn btn-large btn-danger'>Remove</a>
+																	&category=mandate' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -252,7 +266,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'mandate')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'mandate')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -286,9 +300,9 @@ function categoriesTab(){
 															<td><?php print $subcat['focus']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['focus']; ?>", "focus")' class='btn btn-large btn-info'>
+																	$subcat['focus']; ?>", "focus")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['focus']; ?>
-																	&category=focus' class='btn btn-large btn-danger'>Remove</a>
+																	&category=focus' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -301,7 +315,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'focus')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'focus')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -335,9 +349,9 @@ function categoriesTab(){
 															<td><?php print $subcat['main_activities']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['main_activities']; ?>", "main_activities")' class='btn btn-large btn-info'>
+																	$subcat['main_activities']; ?>", "main_activities")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['main_activities']; ?>
-																	&category=main_activities' class='btn btn-large btn-danger'>Remove</a>
+																	&category=main_activities' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -350,7 +364,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'main_activities')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'main_activities')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -383,9 +397,9 @@ function categoriesTab(){
 															<td><?php print $subcat['location']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['location']; ?>", "location")' class='btn btn-large btn-info'>
+																	$subcat['location']; ?>", "location")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['location']; ?>
-																	&category=location' class='btn btn-large btn-danger'>Remove</a>
+																	&category=location' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -398,7 +412,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'location')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'location')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -431,9 +445,9 @@ function categoriesTab(){
 															<td><?php print $subcat['disciplines']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['disciplines']; ?>", "disciplines")' class='btn btn-large btn-info'>
+																	$subcat['disciplines']; ?>", "disciplines")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['disciplines']; ?>
-																	&category=disciplines' class='btn btn-large btn-danger'>Remove</a>
+																	&category=disciplines' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -446,7 +460,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'disciplines')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'disciplines')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -479,9 +493,9 @@ function categoriesTab(){
 															<td><?php print $subcat['timeframe']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['timeframe']; ?>", "timeframe")' class='btn btn-large btn-info'>
+																	$subcat['timeframe']; ?>", "timeframe")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['timeframe']; ?>
-																	&category=timeframe' class='btn btn-large btn-danger'>Remove</a>
+																	&category=timeframe' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -494,7 +508,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'timeframe')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'timeframe')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>
@@ -527,9 +541,9 @@ function categoriesTab(){
 															<td><?php print $subcat['status']; ?></td>
 															<td>
 																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['status']; ?>", "status")' class='btn btn-large btn-info'>
+																	$subcat['status']; ?>", "status")' class='btn btn-sm btn-info'>
 																<a href='remove_option.php?optionName=<?php print $subcat['status']; ?>
-																	&category=status' class='btn btn-large btn-danger'>Remove</a>
+																	&category=status' class='btn btn-sm btn-danger'>Remove</a>
 															</td>
 														</tr>
 													<?php }
@@ -542,7 +556,7 @@ function categoriesTab(){
 												</td>
 												<td>
 													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'status')" class="btn btn-large btn-success" 
+																onClick="optionForm_add(this.form,'status')" class="btn btn-sm btn-success" 
 																contenteditable="true">
 												</td>
 											</tr>

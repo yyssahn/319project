@@ -29,55 +29,50 @@ function getNotifications($dbhelper, $uid){
 <div class="well">
 	<div class="row clearfix">
 		<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
-			<table class="table">
+			<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 				<thead>
-					<tr class="warning"><th>New Tags</th></tr>
+					<tr style='background-color: #008cba; color: white'><th>New Tags</th></tr>
 				</thead>
 				<tbody>
 					<?php
-
 						$notif = getNotifications($dbhelp, $uid);
 						$_SESSION['notifications'] = count($notif);
-
 						for($i=0; $i < count($notif); $i++){
 
 							if($notif[$i]['tags'] == 1){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
 
-								print "<tr class='info' 
-											onmouseover=\"this.style.cursor='pointer' \"
-											onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=1&seen=1'\">
-									
-									<td>$string</td></tr>";
+								print "	<tr onmouseover=\"this.style.cursor='pointer' \"
+												onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=1&seen=1'\">
+												<td>$string</td>
+											</tr>";
 							}
-								
 						}
 					?>
 				</tbody>
 			</table>
 			<br> <br>
-			<table class="table">
+			<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 				<thead>
-					<tr class="warning"><th>New Updates</th></tr>
+					<tr style='background-color: #008cba; color: white'><th>New Updates</th></tr>
 				</thead>
 				<tbody>
 					<?php
-
 						$notif = getNotifications($dbhelp, $uid);
-
 						for($i=0; $i < count($notif); $i++){
 							if($notif[$i]['seen'] == 1 && $notif[$i]['tags'] == 0){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
-								print "<tr class='info' onmouseover=\"this.style.cursor='pointer' \" 
-									onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=0&seen=1'\">
-									<td>$string</td></tr>";
-							}
-								
+								print "	<tr onmouseover=\"this.style.cursor='pointer' \" 
+												onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=0&seen=1'\">
+												<td>$string</td>
+											</tr>";
+							}								
 						}
 					?>
 				</tbody>
+			</table>
 		</div>
 	</div>
 </div>

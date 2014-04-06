@@ -54,15 +54,21 @@ function updateInfo($db, $uid, $f, $l, $ph, $e){
 	$db->executeStatement($stmt);
 	
 	if($db->getAffectedRows($stmt) > 0){
-		print "<div class='alert alert-success'>Profile settings have been successfully updated!</div>";
+		print "<div class='alert alert-success' style='font-size:1.2em'>
+						Profile settings have been successfully updated!
+					</div>";
 		print "<noscript>Profile settings have been successfully updated!</noscript>";
 	}
 	else if($db->getAffectedRows($stmt) == 0){
-		print "<div class='alert alert-warning'>You didn't change anything.  Profile settings have not been updated!</div>";
+		print "<div class='alert alert-warning style='font-size:1.2em'>
+						You didn't change anything.  Profile settings have not been updated!
+					</div>";
 		print "<noscript>You didn't change anything.  Profile settings have not been updated!</noscript>";
 	}
 	else{
-		print "<div class='alert alert-danger'>Something went wrong  Profile settings have not been updated!</div>";
+		print "<div class='alert alert-danger' style='font-size:1.2em'>
+						Something went wrong  Profile settings have not been updated!
+					</div>";
 		print "<noscript>Something went wrong.  Profile settings have not been updated!</noscript>";
 	}
 }
@@ -234,7 +240,7 @@ $conn->close();
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label"></label>
 			<div class="col-md-8">
-				<input type="submit" class="btn btn-large btn-primary pull-right" name="Usubmit" 
+				<input type="submit" class="btn btn-sm btn-success pull-right" name="Usubmit" 
 				value="Update Information">				
 			</div>
 		</div>
@@ -279,10 +285,11 @@ $conn->close();
 		<div class="col-md-10 col-md-offset-1">
 			<label for="partner" class="col-md-3 control-label"></label>
 			<div class="col-md-8">
-				<input type="submit" class="btn btn-large btn-primary pull-right" name="Psubmit" 
+				<input type="submit" class="btn btn-sm btn-success pull-right" name="Psubmit" 
 				value="Update Password">		
 				<div class="col-md-8 col-md-pull-5">
-				<input type="submit" class="btn btn-large btn-primary pull-left" name="delSubmit" value="Delete Account">			
+				<input type="submit" class="btn btn-sm btn-danger pull-left" name="delSubmit" value="Delete Account" 
+					onclick="return confirm('Are you sure?');">			
 			</div>		
 			</div>
 		</div>

@@ -32,8 +32,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 ?>
 	<!--Categories  for narrowing search results.  Options are populated from database-->
 	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">	
-		<div class="jumbotron">
-			<div class="row clearfix">
+		<div class="well">
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" id="widebutton" name="partner[]">
@@ -59,7 +59,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-			<div class="row clearfix">
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="type" class="col-md-2 control-label">Idea Type:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" name="type[]">
@@ -85,7 +85,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-			<div class="row clearfix">
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" name="mandate[]">
@@ -111,7 +111,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-			<div class="row clearfix">
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" name="activities[]">
@@ -137,7 +137,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-			<div class="row clearfix">
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="disciplines" class="col-md-2 control-label">Possible Disciplines::</label>
 				<div class="col-md-4">
 					<select multiple="multiple" class="multiselect" name="disciplines[]">
@@ -162,7 +162,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					</select>
 				</div>
 			</div>
-			<div class="row clearfix">			
+			
+			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">			
 				<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
 					<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date" onchange="changedVal();">
@@ -181,13 +182,13 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			</div>
 		</div>	
 		
-		<div class="row clearfix">
+		<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 			<!-- <div class="col-md-1 col-md-offset-10">
-				<input type="submit" class="btn btn-large btn-primary" name="export" value="Search" />			
+				<input type="submit" class="btn btn-sm btn-primary" name="export" value="Search" />			
 			</div> -->
 
 			<div class="col-md-offset-11">
-				<input type="submit" class="btn btn-large btn-primary" name="submit" value="Search" />				
+				<input type="submit" class="btn btn-primary btn-sm" name="submit" value="Search" />				
 			</div>
 		</div>
 	</form>
@@ -295,14 +296,14 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 ?>
 		<div class="well">
 			<div class="row clearfix">
-				<div class="col-md-10 col-md-offset-1" style="height:150%; overflow:scroll">
-					<table class="table table-striped table-hover">
+				<div class="col-md-10 col-md-offset-1">
+					<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 						<?php
 							// If Search button is clicked, show table with clickable entries that show lead details
 							if(isset($_POST['submit'])){
 						?>
 								<thead>
-									<tr class="warning"><th>Lead Name</th><th>Lead Description</th></tr>
+									<tr style="background-color: #008cba; color: white"><th>Lead Name</th><th>Lead Description</th></tr>
 								</thead>
 								<tbody>
 						<?php
@@ -310,7 +311,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 									$lid = $row['lid'];
 									if($row['lead_name'] != NULL){
 						?>
-										<tr class='info' onmouseover="this.style.cursor='pointer' " 
+										<tr onmouseover="this.style.cursor='pointer' " 
 											onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
 											<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
 										</tr>
@@ -350,7 +351,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				?>
 						<div class="row">
 							<div class="col-md-offset-10">
-								<input type="submit" class="btn btn-large btn-info" value="Export Leads">
+								<input type="submit" class="btn btn-sm btn-info" value="Export Leads">
 							</div>
 						</div>
 						</form>

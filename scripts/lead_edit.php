@@ -70,7 +70,6 @@
 		}
 	}
 
-
 // Get  category options
 $sql = "SELECT * FROM CategoryOptions";
 $s = $db->prepareStatement($sql);
@@ -102,7 +101,7 @@ if(isset($_GET['lid'])){
 ?>
 
 <div class="well">
-	<input type="button" class="btn btn-large btn-info" value="Export Lead" id="export"  onclick="exportLead()">
+	<input type="button" class="btn btn-info btn-sm" value="Export Lead" id="export"  onclick="exportLead()">
 	<script>
 		function exportLead(){
 			var lids = ["<?php print $lid; ?>"];
@@ -134,7 +133,7 @@ if(array_key_exists("submit", $_POST)){
 	<h4><strong>Community Partner:</strong></h4>
 	<hr />
 	
-	<div class="jumbotron">
+	<div class="well">
 		<div class="row">
 			<label for="existingPartner" class="col-md-2 control-label">Existing Partner:</label>
 			<div class="col-md-8">
@@ -155,8 +154,8 @@ if(array_key_exists("submit", $_POST)){
 		</div>
 	</div>
 	
-	<div class="jumbotron">
-		<div class="row">
+	<div class="well">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="partner" class="control-label col-md-2">Community Partner:</label>
 			<div class="col-md-4 controls">
 					<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
@@ -170,7 +169,7 @@ if(array_key_exists("submit", $_POST)){
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="phone" class="col-md-2 control-label">Contact Phone:</label>
 			<div class="col-md-4">
 					<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
@@ -208,25 +207,26 @@ if(array_key_exists("submit", $_POST)){
 	<h4><strong>Lead:</strong></h4>
 	<hr />
 	
-	<div class="jumbotron">
-		<div class="row">
+	<div class="well">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="lead_name" class="col-md-2 control-label">Lead Name:</label>
-			<div class="col-md-4">
+			<div class="col-md-5">
 					<input type="text" class="form-control" name="lead_name" placeholder="Enter a Name for the Lead"
 						value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['lead_name']);?>">
-			</div>
-			
-			<label for="description" class="col-md-2 control-label">Description:</label>
-			<div class="col-md-4">
-					<textarea class="form-control" name="description" rows="6" placeholder="Enter a Brief Description of the 
-						Lead"><?php if($lead_info) echo htmlspecialchars($lead_info[0]['description']);?></textarea>
 			</div>
 		</div>
 		
 		<div class="row">
+			<label for="description" class="col-md-2 control-label">Description:</label>
+			<div class="col-md-10">
+					<textarea class="form-control" name="description" rows="6" placeholder='Enter a Brief Description of the Lead'><?php if($lead_info) echo htmlspecialchars($lead_info[0]['description']);?></textarea>
+			</div>
+		</div>
+		
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="idea_type" class="col-md-2 control-label">Idea Type:</label>
 			<div class="col-md-4">
-				<select class="form-control" name="idea_type">
+				<select class="form-control single" name="idea_type">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -261,7 +261,7 @@ if(array_key_exists("submit", $_POST)){
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="mandate" class="col-md-2 control-label">Organization's Mandate:</label>
 			<div class="col-md-4">
 				<select multiple="multiple" class="multiselect" name="mandate[]" size="5">
@@ -297,7 +297,7 @@ if(array_key_exists("submit", $_POST)){
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="activities" class="col-md-2 control-label">Main Activities:</label>
 			<div class="col-md-4">
 				<select multiple="multiple" class="multiselect" name="activities[]" size="5">
@@ -333,7 +333,7 @@ if(array_key_exists("submit", $_POST)){
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
@@ -364,10 +364,10 @@ if(array_key_exists("submit", $_POST)){
 				</div>
 		</div>
 		
-		<div class="row">
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="status" class="col-md-2 control-label">Current Status</label>
 			<div class="col-md-4">
-				<select class="form-control" name="status">
+				<select class="form-control single" name="status">
 					<?php
 						// Populate each option from database. Automatically selects options that associated with the lead
 						foreach($categories as $row){
@@ -400,7 +400,7 @@ if(array_key_exists("submit", $_POST)){
 			
 			
 		</div>
-		<div class="row">		
+		<div class="row" style="padding-top:10px; padding-bottom:10px">		
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">
 				<div class="radio-inline">
@@ -417,13 +417,13 @@ if(array_key_exists("submit", $_POST)){
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row" style="padding-top:10px; padding-bottom:10px">
 <?php
 	// Delete button only shows up when edititin existing lead, not when adding a new lead
 	if(isset($_GET['lid'])){ 
 ?>
 		<div class="col-md-1">
-			<input type="submit" class="btn btn-large btn-danger" name="delete" value="Delete Lead" 
+			<input type="submit" class="btn btn-danger btn-sm" name="delete" value="Delete Lead" 
 					onclick="return confirm('Are you sure?');">
 			<input type="hidden" name="submit" value="submit">
 		</div>
@@ -431,7 +431,7 @@ if(array_key_exists("submit", $_POST)){
 	}
 ?>
 		<div class="col-md-offset-11">
-			<input type="submit" class="btn btn-large btn-primary" name="submit" value="Submit">
+			<input type="submit" class="btn btn-primary btn-sm" name="submit" value="Submit">
 				<input type="hidden" name="submit" value="submit">
 		</div>
 	</div>
@@ -459,7 +459,7 @@ $listOfLeads = $db->getResult($stmt);
 
 ?>
 
-<div class="container" style="margin-top:15px">
+<div class="well" style="margin-top:15px">
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="row clearfix">
@@ -470,7 +470,7 @@ $listOfLeads = $db->getResult($stmt);
                             foreach($listOfLinks as $link) {
                                 print "<tr><td><a href=index.php?content=lead_edit&lid=".$link['lid_link'].">"
                                         .$link['lead_name']."</a></td>"
-                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn btn-large btn-danger'>Remove Link</a>";
+                                        ."<td><a href='remove_link.php?main=".$_GET['lid']."&link=".$link['lid_link']."' class='btn  btn-danger'>Remove Link</a>";
                             }
                             ?>
                     </table>
@@ -488,8 +488,8 @@ $listOfLeads = $db->getResult($stmt);
                             </select>
                         </form>
                     </div>
-                        <div class="col-md-8">
-                            <input type ="button" value="Link" onClick="link_lead(<?php print $_GET['lid']; ?>)" class="btn btn-large btn-info" >
+                        <div class="col-md-8" style="padding-top:5px">
+                            <input type ="button" value="Link" onClick="link_lead(<?php print $_GET['lid']; ?>)" class="btn btn-info btn-sm">
                         </div>
                 </div>
             </div>
@@ -723,10 +723,10 @@ $listOfLeads = $db->getResult($stmt);
 
 						<form action="" method="POST">
 							<div>
-								<textarea name="commentBox" id="commentBoxID" cols="105" rows="8" aria-required="true"></textarea> 
+								<textarea name="commentBox" id="commentBoxID" style="width:70%"  rows="8" aria-required="true"></textarea> 
 							</div>
 							<div class="view" class = "deleteCSS" /*style = "margin-left:530px; margin-top: 30px"*/>
-								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary">
+								<input type="submit" name="commentSubmit" id="commentSubmitID" value ="Post Comment" class="btn btn-primary btn-sm">
 							</div>	
 						</form>
 					</p>

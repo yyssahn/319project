@@ -10,18 +10,45 @@
 @import url('assets/css/bootstrap.min.css');
 @import url('assets/css/bootstrap-responsive.min.css');
 
-/* New styles below */
+/* For validator plugin */
+label.valid {
+	width: 24px;
+	height: 24px;
+	background: url(../bootstrap/img/valid.png) center center no-repeat;
+	display: inline-block;
+	text-indent: -9999px;
+}
+label.error {
+	font-weight: bold;
+	color: red;
+	padding: 2px 8px;
+	margin-top: 2px;
+}
 
-		label.valid {
-		  width: 24px;
-		  height: 24px;
-		  background: url(../bootstrap/img/valid.png) center center no-repeat;
-		  display: inline-block;
-		  text-indent: -9999px;
-		}
-		label.error {
-			font-weight: bold;
-			color: red;
-			padding: 2px 8px;
-			margin-top: 2px;
-		}
+/* For comments */
+.commentList{
+	width: 600px;
+	margin-top: 100 auto;		
+}
+	
+.commentCSS{
+	border-bottom: 2px solid #eee;
+	margin-bottom: 0.5em;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
+.deleteCSS{
+	float: right;
+}
+
+/* For footer */
+#footer{
+	position: fixed;
+	right: 0;
+	left: 0;
+	top:97%;
+	z-index: 1030;
+	background-color: #333333;
+	color: white;
+	padding-top: 3px;
+}
