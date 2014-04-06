@@ -192,10 +192,31 @@ if(array_key_exists("createNewACC" , $_POST)){
 
 ?>
 	<body>
+	
+	
 		<div class="container" style="overflow:hidden">
+		
+			<div class="row clearfix">
+		<div class="col-md-12 column">
+			<img alt="140x140" src="http://www.blisteredthumbs.net/avatars/1301063364.png" height="140" width="140">
+		</div>
+	</div>
+
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default navbar-inverse" style="background-color: #008cba ; border: #428bca" 
+				role="navigation">
+				<div class="navbar-header">
+					<a class="navbar-brand" style="color:white">Home</a>
+				</div>			
+			</nav>
 			<div class="page-header">
-				<h1>Sign Up Page</h1>
+				<h1>
+					<span>Sign Up</span>
+				</h1>
 			</div>
+		</div>
+	</div>
 			
 			<h3> Please create an account </h3>
 			
@@ -290,12 +311,12 @@ if(array_key_exists("createNewACC" , $_POST)){
 				<div class="row clearfix">
 					<div class="col-md-1">
 						<div>
-							<a class="btn btn-large btn-primary" href="login_page.html">Back To Login</a>
+							<a class="btn btn-sm btn-primary" href="login_page.html">Back To Login</a>
 						</div>
 							
 					</div>
 					<div class="col-md-offset-11">
-						<input type ="submit" class="btn btn-large btn-success" name = "createNewACC" value="Signup">
+						<input type ="submit" class="btn btn-sm btn-success" name = "createNewACC" value="Signup">
 					</div>
 				</div>
 			</form>

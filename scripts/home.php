@@ -28,10 +28,10 @@ echo '
 	$int = 0;
 	if (count($result)==0){
 		echo'
-		<h3> There are no leads that are active</h3>';
+		<h3> There are no urgent leads</h3>';
 	}else{
 		echo '
-		<h3> Popular Leads</h3>
+		<h3> Urgent Leads</h3>
 		<hr />';
 		
 		while ($int < count($result2)){
