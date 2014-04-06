@@ -11,7 +11,7 @@
 </head>
 
 <?php
-// Connect to database
+	// Connect to database
 	include('database_helper.php');
 
 	function isValid($pattern, $value){
@@ -44,7 +44,7 @@
 		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
 	
 	// Get  category options
-	$sql = "SELECT * FROM CategoryOptions";
+	$sql = "SELECT * FROM categoryoptions";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$categories = $db->getResult($db);
@@ -71,13 +71,13 @@
 	}
 
 // Get  category options
-$sql = "SELECT * FROM CategoryOptions";
+$sql = "SELECT * FROM categoryoptions";
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
 $categories = $db->getResult($db);
 
 // Get  existing community partners
-$sql = "SELECT * FROM CommunityPartner ORDER BY community_partner";
+$sql = "SELECT * FROM communitypartner ORDER BY community_partner";
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);
 $partners = $db->getResult($db);
@@ -86,13 +86,13 @@ $partners = $db->getResult($db);
 if(isset($_GET['lid'])){
 	$lid = $_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
 	
-	$sql = "SELECT * FROM CBEL_Lead WHERE lid=?";
+	$sql = "SELECT * FROM cbel_lead WHERE lid=?";
 	$stmt = $db->prepareStatement($sql);
 	$db->bindParameter($db, 'i', $_GET['lid']);
 	$db->executeStatement($stmt);
 	$lead_info = $db->getResult($stmt);
 
-	$sql = "SELECT * FROM CommunityPartner WHERE pid=?";
+	$sql = "SELECT * FROM communitypartner WHERE pid=?";
 	$stmt = $db->prepareStatement($sql);
 	$db->bindParameter($db, 'i', $lead_info[0]['pid']);
 	$db->executeStatement($stmt);
@@ -334,7 +334,42 @@ if(array_key_exists("submit", $_POST)){
 		</div>
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
+			<label for="disciplines" class="col-md-2 control-label">Possible Disciplines:</label>
+			<div class="col-md-4">
+				<select multiple="multiple" class="multiselect" name="disciplines[]" size="5">
+					<?php
+						// Populate each option from database. Automatically selects options that associated with the lead
+						foreach($categories as $row){
+							$selected = '';
+							if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
+								$selected = 'selected';
+							}
+							if($row['disciplines'] != NULL)
+								echo "<option value='{$row['disciplines']}' $selected >".$row['disciplines']."</option>";
+						}
+					?>
+				</select>
+			</div>
 			
+			<label for="status" class="col-md-2 control-label">Current Status</label>
+			<div class="col-md-4">
+				<select class="form-control single" name="status">
+					<?php
+						// Populate each option from database. Automatically selects options that associated with the lead
+						foreach($categories as $row){
+							$selected = '';
+							if(strpos($lead_info[0]['status'], $row['status']) !== false){
+								$selected = 'selected';
+							}
+							if($row['status'] != NULL)
+								echo "<option value='{$row['status']}' $selected >".$row['status']."</option>";
+						}
+					?>
+				</select>
+			</div>
+		</div>
+		
+		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
 								<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date"
@@ -364,42 +399,6 @@ if(array_key_exists("submit", $_POST)){
 				</div>
 		</div>
 		
-		<div class="row" style="padding-top:10px; padding-bottom:10px">
-			<label for="status" class="col-md-2 control-label">Current Status</label>
-			<div class="col-md-4">
-				<select class="form-control single" name="status">
-					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
-						foreach($categories as $row){
-							$selected = '';
-							if(strpos($lead_info[0]['status'], $row['status']) !== false){
-								$selected = 'selected';
-							}
-							if($row['status'] != NULL)
-								echo "<option value='{$row['status']}' $selected >".$row['status']."</option>";
-						}
-					?>
-				</select>
-			</div>
-			<label for="disciplines" class="col-md-2 control-label">Possible Disciplines:</label>
-			<div class="col-md-4">
-				<select multiple="multiple" class="multiselect" name="disciplines[]" size="5">
-					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
-						foreach($categories as $row){
-							$selected = '';
-							if(strpos($lead_info[0]['disciplines'], $row['disciplines']) !== false){
-								$selected = 'selected';
-							}
-							if($row['disciplines'] != NULL)
-								echo "<option value='{$row['disciplines']}' $selected >".$row['disciplines']."</option>";
-						}
-					?>
-				</select>
-			</div>
-			
-			
-		</div>
 		<div class="row" style="padding-top:10px; padding-bottom:10px">		
 			<label for="yes" class="col-md-2 control-label">Tag Self?:</label>
 			<div class="col-md-4">

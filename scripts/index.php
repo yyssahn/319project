@@ -13,7 +13,7 @@ include("navbar.php");
 
 ?>
 
-<div class="container" style="padding-top: 20px">
+<div class="container" style="padding-top: 50px">
 
 <?php
 	//Loads content of page. Initially goes to homepage, 

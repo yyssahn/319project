@@ -9,7 +9,7 @@ $(document).ready(function() {
 			if (options.length === 0) {
 				return 'None selected <b class="caret"></b>';
 			}
-			else if (options.length > 3) {
+			else if (options.length > 0) {
 				return options.length + ' selected  <b class="caret"></b>';
 			}
 			else {

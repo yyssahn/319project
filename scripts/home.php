@@ -41,7 +41,7 @@ echo '
 				<div class="row clearfix">
 					<div class="col-md-6 column">
 						<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' "
-							onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
+							onclick="window.location=\'index.php?content=lead_view&lid='.htmlspecialchars($lid).'\'">
 							<div class="panel-heading">
 								<h3 class="panel-title">'.$result2[$int]['lead_name'].'</h3>
 							</div>
@@ -54,7 +54,7 @@ echo '
 					echo '
 					<div class="col-md-6 column">
 						<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' " 
-								onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
+								onclick="window.location=\'index.php?content=lead_view&lid='.htmlspecialchars($lid).'\'">
 							<div class="panel-heading">
 								<h3 class="panel-title">'.$result2[$int]['lead_name'].'</h3>
 							</div>
@@ -69,7 +69,7 @@ echo '
 		}
 	}
 echo'
-</div></div>';
+</div>';
 
 echo '
 <div class="well">';
@@ -89,7 +89,7 @@ echo '
 				<div class="row clearfix">
 					<div class="col-md-6 column">
 						<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' "
-							onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
+							onclick="window.location=\'index.php?content=lead_view&lid='.htmlspecialchars($lid).'\'">
 							<div class="panel-heading">
 								<h3 class="panel-title">'.$result[$int]['lead_name'].'</h3>
 							</div>
@@ -102,7 +102,7 @@ echo '
 					echo '
 					<div class="col-md-6 column">
 						<div class="panel panel-primary" onmouseover="this.style.cursor=\'pointer\' " 
-								onclick="window.location=\'index.php?content=lead_edit&lid='.htmlspecialchars($lid).'\'">
+								onclick="window.location=\'index.php?content=lead_view&lid='.htmlspecialchars($lid).'\'">
 							<div class="panel-heading">
 								<h3 class="panel-title">'.$result[$int]['lead_name'].'</h3>
 							</div>
@@ -117,6 +117,6 @@ echo '
 		}
 	}
 echo'
-</div></div>';
+</div>';
 
 ?>

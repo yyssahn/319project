@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h2>Leads Page</h2>
+	<h2>Lead Search Page</h2>
 </div>
 
 <?php 
@@ -12,19 +12,19 @@ $db = new DatabaseHelper();
 if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 
 	// Get  category options
-	$sql = "SELECT * FROM CategoryOptions";
+	$sql = "SELECT * FROM categoryoptions";
 	$stmt = $db->prepareStatement($sql);
 	$db->executeStatement($stmt);
 	$categories = $db->getResult($db);
 	
 	// Get community partners
-	$sql = "SELECT community_partner FROM CommunityPartner";
+	$sql = "SELECT community_partner FROM communitypartner";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$partners = $db->getResult($db);
 	
 	// Get  CBEL lead names
-	$sql = "SELECT lead_name FROM CBEL_Lead";
+	$sql = "SELECT lead_name FROM cbel_lead";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$names = $db->getResult($db);
@@ -202,7 +202,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		// Need to add community partner search
 		$subquery = NULL;
 		if(isset($_POST['partner'])){
-			$pquery = "SELECT pid FROM CommunityPartner WHERE";
+			$pquery = "SELECT pid FROM communitypartner WHERE";
 			$psubquery = '';
 			foreach($_POST['partner'] as $row){
 				$psubquery = $psubquery." community_partner = '".$row."' OR";
@@ -303,7 +303,9 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 							if(isset($_POST['submit'])){
 						?>
 								<thead>
-									<tr style="background-color: #008cba; color: white"><th>Lead Name</th><th>Lead Description</th></tr>
+									<tr style="background-color: #008cba; color: white">
+										<th>Lead Name</th><th>Lead Description</th>
+									</tr>
 								</thead>
 								<tbody>
 						<?php
@@ -312,7 +314,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 									if($row['lead_name'] != NULL){
 						?>
 										<tr onmouseover="this.style.cursor='pointer' " 
-											onclick="window.location='index.php?content=lead_edit&lid=<?php echo htmlspecialchars($lid); ?>'">
+											onclick="window.location='index.php?content=lead_view&lid=<?php echo htmlspecialchars($lid); ?>'">
 											<td><?php print $row['lead_name']; ?></td><td><?php print $row['description'] ?></td>
 										</tr>
 						<?php
@@ -324,7 +326,9 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 								print("fdsa");
 						?>
 								<thead>
-									<tr class="warning"><th>Lead Name</th><th>Lead Description</th><th>Export</th></tr>
+									<tr style="background-color: #008cba; color: white" class="warning">
+										<th>Lead Name</th><th>Lead Description</th><th>Export</th>
+									</tr>
 								</thead>
 								<tbody>
 								<form onsubmit="getLids(this); return false;">
@@ -388,7 +392,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 <?php
 	}
 	else{
-		print "<div class='alert alert-danger'>There are no leads that match the given criteria</div>";
+		print "<div class='alert alert-danger' style='font-size:1.1em'>There are no leads that match the given criteria</div>";
 	}	
 }
 ?>

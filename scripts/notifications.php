@@ -44,7 +44,7 @@ function getNotifications($dbhelper, $uid){
 								$lids = $notif[$i]['lid'];
 
 								print "	<tr onmouseover=\"this.style.cursor='pointer' \"
-												onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=1&seen=1'\">
+												onclick=\"window.location='index.php?content=lead_view&lid=$lids&tags=1&seen=1'\">
 												<td>$string</td>
 											</tr>";
 							}
@@ -65,7 +65,7 @@ function getNotifications($dbhelper, $uid){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
 								print "	<tr onmouseover=\"this.style.cursor='pointer' \" 
-												onclick=\"window.location='index.php?content=lead_edit&lid=$lids&tags=0&seen=1'\">
+												onclick=\"window.location='index.php?content=lead_view&lid=$lids&tags=0&seen=1'\">
 												<td>$string</td>
 											</tr>";
 							}								

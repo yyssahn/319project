@@ -10,7 +10,7 @@ $nh = new NotificationHelper();
 $tagSelf = $referral = $mandate = $focus = $activities = $location = $disciplines = $startdate = $enddate=NULL;
 
 if(array_key_exists("delete", $_POST)){
-	$sql = "DELETE FROM CBEL_LEAD WHERE lid = ?";
+	$sql = "DELETE FROM cbel_lead WHERE lid = ?";
 	$stmt = $db->prepareStatement($sql);
 	$db->bindParameter($stmt, 'i', $_SESSION['lid']);
 	$db->executeStatement($stmt);
@@ -18,7 +18,7 @@ if(array_key_exists("delete", $_POST)){
 	$nh->delLeadTag($_SESSION['lid']);
 	
 	if($db->getAffectedRows($stmt) > 0){
-		$sql = "UPDATE User
+		$sql = "UPDATE user
 					SET activity_count = activity_count + 1
 					WHERE uid=?";
 		$stmt = $db->prepareStatement($sql);
@@ -104,7 +104,7 @@ else{
 		}
 	//=======================================================================================================================
 	// Get pid to be associated with lead
-	$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
+	$sql = "SELECT pid FROM communitypartner WHERE community_partner = ? AND contact_name = ?";
 	$stmt = $db->prepareStatement($sql);
 	$params = array($_POST['partner'], $_POST['contact_name']);
 	$param_types = array('s', 's');
@@ -114,14 +114,14 @@ else{
 
 	// If community partner exists, use its pid, else insert new community partner and use it's new pid
 	if($pid_results == NULL){
-		$sql = "INSERT INTO CommunityPartner(community_partner, contact_name, email, phone) VALUES(?,?,?,?)";
+		$sql = "INSERT INTO communitypartner(community_partner, contact_name, email, phone) VALUES(?,?,?,?)";
 		$params = array($_POST['partner'], $_POST['contact_name'], $_POST['email'], $_POST['phone']);
 		$stmt = $db->prepareStatement($sql);
 		$param_types = array('s', 's', 's', 's');
 		$db->bindArray($stmt, $param_types, $params);
 		$db->executeStatement($stmt);
 		
-		$sql = "SELECT pid FROM CommunityPartner WHERE community_partner = ? AND contact_name = ?";
+		$sql = "SELECT pid FROM communitypartner WHERE community_partner = ? AND contact_name = ?";
 		$stmt = $db->prepareStatement($sql);
 		$params = array($_POST['partner'], $_POST['contact_name']);
 		$param_types = array('s', 's');
@@ -138,7 +138,7 @@ else{
 	
 	if(isset($_SESSION['lid']) == NULL){
 	
-		$sql = "INSERT INTO CBEL_Lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
+		$sql = "INSERT INTO cbel_lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
 						disciplines, startdate,enddate, status, timestamp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL)";
 						
 		$stmt = $db->prepareStatement($sql);
@@ -155,7 +155,7 @@ else{
 			$param_types[] = 's'; // s = strung
 	}
 	else if($_SESSION['lid'] != NULL){
-		$sql = "UPDATE CBEL_Lead 
+		$sql = "UPDATE cbel_lead
 					SET pid=?, lead_name=?, description=?, idea_type=?, referral=?, mandate=?, focus=?, main_activities=?, 		
 						location=?, disciplines=?, startdate=?, enddate=?, status=?
 					WHERE lid=?";
@@ -189,7 +189,7 @@ else{
 		}
 	}
 	if($db->getAffectedRows($stmt) > 0){
-				$sql = "UPDATE CBEL_Lead AS L, User AS U
+				$sql = "UPDATE cbel_lead AS L, User AS U
 					SET L.activity_count = L.activity_count + 1, 
 							U.activity_count = U.activity_count + 1
 						, L.timestamp=CURRENT_TIMESTAMP
