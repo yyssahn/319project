@@ -39,10 +39,10 @@ if($currentUserAdmin == 1 || strcmp($currentUsername, $commentOwner) == 0) {
 	$nh->turnon($selectedLead);	
 
 
-	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage#commentList");	
+	header("Location: index.php?content=lead_edit&lid=$selectedLead&page=$currentPage#commentList");	
 }else {
 	$_SESSION['failedDeleting'] = 1;
-	header("Location: http://localhost/project/scripts/index.php?content=lead_edit&lid=$selectedLead&page=$currentPage&failed=''#commentList");	
+	header("Location: index.php?content=lead_edit&lid=$selectedLead&page=$currentPage&failed=''#commentList");	
 
 	//	echo "<script>history.back();alert('You are not allowed to delete this comment!');</script>";
 }

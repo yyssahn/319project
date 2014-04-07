@@ -51,7 +51,7 @@ class LinkLead{
 				<div class="col-md-12 column">
 					<div class="row clearfix">
 						<div class="col-md-12 column">
-							<h2>Similar Leads</h2>
+							<h2>Linked Leads</h2>
 							<table class="table">
 								<?php
 									foreach($listOfLinks as $link) {
