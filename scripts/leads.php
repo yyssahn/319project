@@ -31,7 +31,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	
 ?>
 	<!--Categories  for narrowing search results.  Options are populated from database-->
-	<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">	
+	<form id="forms"action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">	
 		<div class="well">
 			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
 				<label for="partner" class="col-md-2 control-label">Community Partner:</label>
@@ -163,23 +163,33 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-			<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">			
-				<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
+				<div class="row" style="padding-top:10px; padding-bottom:10px">
+			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
 				<div class="col-md-4">
-					<input type="date" class="form-control" name="startdate" id="startdate" placeholder="Enter Starting Date" onchange="changedVal();">
-						<script type="text/javascript">
-							function changedVal() {
-								var NameValue = document.forms['form']['startdate'].value;
-								document.forms['form']['enddate'].min = NameValue;
-							}
-						</script>
+						<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date">
+							<script type="text/javascript">
+								function changedVal() {
+									var NameValue = document.forms["forms"]["startdate"].value;
+									document.forms["forms"]["enddate"].min = NameValue;
+									var min = new Date(document.forms["forms"]["enddate"].min);
+									var now = new Date(document.forms["forms"]["enddate"].value);
+									if (min.getTime()>now.getTime()){
+									document.forms["forms"]["enddate"].value = '';
+								}
+								}
+							</script>
+						</input>
+		
 				</div>
-				
 				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
 				<div class="col-md-4">
-					<input type="date" class="form-control" name="enddate" id="enddate" placeholder="Enter Deadline">
-				</div>		
-			</div>
+						<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline">
+							<script type="text/javascript">
+								
+							</script>
+						</input>
+				</div>
+		</div>
 		</div>	
 		
 		<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">

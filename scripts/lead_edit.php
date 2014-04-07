@@ -373,7 +373,11 @@ if(array_key_exists("submit", $_POST)){
 								function changedVal() {
 									var NameValue = document.forms["form"]["startdate"].value;
 									document.forms["form"]["enddate"].min = NameValue;
-									document.forms["form"]["enddate"].value;
+									var min = new Date(document.forms["form"]["enddate"].min);
+									var now = new Date(document.forms["form"]["enddate"].value);
+									if (min.getTime()>now.getTime()){
+									document.forms["form"]["enddate"].value = '';
+								}
 								}
 							</script>
 						</input>
@@ -384,10 +388,7 @@ if(array_key_exists("submit", $_POST)){
 						<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline"
 							<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
 							<script type="text/javascript">
-								function some() {
-									alert(document.forms["form"]["enddate"].min);
-									alert(document.forms["form"]["enddate"].value);
-								}
+								
 							</script>
 						</input>
 				</div>

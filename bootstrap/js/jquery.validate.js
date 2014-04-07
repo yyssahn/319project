@@ -281,7 +281,7 @@ $.extend($.validator, {
 		rangelength: $.validator.format("Please enter a value between {0} and {1} characters long."),
 		range: $.validator.format("Please enter a value between {0} and {1}."),
 		max: $.validator.format("Please enter a value less than or equal to {0}."),
-		min: $.validator.format("Please enter a value greater than or equal to {0}.")
+		min: $.validator.format("Blargh eat my shit {0}.")
 	},
 
 	autoCreateRanges: false,
@@ -995,6 +995,7 @@ $.extend($.validator, {
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/minlength
 		minlength: function(value, element, param) {
+			
 			return this.optional(element) || this.getLength($.trim(value), element) >= param;
 		},
 
@@ -1011,6 +1012,9 @@ $.extend($.validator, {
 
 		// http://docs.jquery.com/Plugins/Validation/Methods/min
 		min: function( value, element, param ) {
+			if (typeof(value)=='string'){
+			return true;
+			}
 			return this.optional(element) || value >= param;
 		},
 
