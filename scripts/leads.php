@@ -178,12 +178,14 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		</div>	
 		
 		<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
-			<!-- <div class="col-md-1 col-md-offset-10">
-				<input type="submit" class="btn btn-sm btn-primary" name="export" value="Search" />			
-			</div> -->
+			<div class="col-md-1 col-md-offset-10">
+				<input type="submit" class="btn btn-sm btn-info" name="export" id="export" value="Export" />
+				<input type="hidden" name="submit" value="submit" />				
+			</div>
 
 			<div class="col-md-offset-11">
-				<input type="submit" class="btn btn-primary btn-sm" name="submit" value="Search" />				
+				<input type="submit" class="btn btn-primary btn-sm" name="search" value="Search" />
+				<input type="hidden" name="submit" value="submit" />
 			</div>
 		</div>
 	</form>
@@ -191,7 +193,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 <?php 
 }else {	
 	// search by filter
-	if(isset($_POST['submit']) || isset($_POST['export'])) {
+	if(isset($_POST['search']) || isset($_POST['export'])) {
 		$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
 
 		// Need to add community partner search
@@ -306,7 +308,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 						<?php
 							// If Search button is clicked, show table with clickable entries that show lead details
-							if(isset($_POST['submit'])){
+							if(isset($_POST['search'])){
 						?>
 								<thead>
 									<tr style="background-color: #008cba; color: white">
@@ -329,11 +331,10 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 							}
 							// If Export button is clicked, show table where entries have check boxes for selecting leads to be exported
 							else if(isset($_POST['export'])){
-								print("fdsa");
 						?>
 								<thead>
-									<tr style="background-color: #008cba; color: white" class="warning">
-										<th>Lead Name</th><th>Lead Description</th><th>Export</th>
+									<tr style="background-color: #008cba; color: white">
+										<th class="col-md-4">Lead Name</th><th>Lead Description</th><th>Export</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -343,7 +344,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 									$lid = $row['lid'];
 									if($row['lead_name'] != NULL){
 						?>
-									<tr class='info'>
+									<tr>
 										<td><?php print $row['lead_name']; ?></td>
 										<td><?php print $row['description'] ?></td>
 										<td><input type="checkbox" name="exLeads[]" value="<?php print $lid; ?>" class="export"></td>
@@ -378,6 +379,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 						</tbody>
 					</table>
 				</div>
+			</div>
 				<?php
 					if(isset($_POST['export'])){
 				?>
@@ -415,7 +417,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<?php
 					}
 					?>
-			</div>
 		</div>
 <?php
 	}

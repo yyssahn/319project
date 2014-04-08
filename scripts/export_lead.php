@@ -19,7 +19,7 @@ class ExportLead{
 		}
 		$date = date('d-M-Y');
 		
-		return $filename.$date." .csv";
+		return $filename.$date.".csv";
 	}
 	
 	private function getLeadData($lids){

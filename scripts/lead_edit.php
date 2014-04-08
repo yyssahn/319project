@@ -30,19 +30,6 @@
 		$lidNotif = $_GET["lid"];
 	}
 
-// Moved this code to lead_edit.php
-
-//	if(isset($_GET["tags"]))
-//		$tagNotif = $_GET["tags"];
-//	if (isset($_GET["seen"]))
-//		$seenNotif = $_GET["seen"];
-
-//	if($tagNotif == 1 )
-//		$nh->turnoffTag($_SESSION["User_ID"], $lidNotif);
-//	if($seenNotif == 1)
-//		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
-
-	
 	$lead_info = array();
 	$partner_info = array();
 
