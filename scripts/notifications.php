@@ -31,7 +31,7 @@ function getNotifications($dbhelper, $uid){
 		<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
 			<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 				<thead>
-					<tr style='background-color: #008cba; color: white'><th>New Tags</th></tr>
+					<tr style='background-color: #008cba; color: white'><th>My Tag(s)</th></tr>
 				</thead>
 				<tbody>
 					<?php
@@ -44,7 +44,7 @@ function getNotifications($dbhelper, $uid){
 								$lids = $notif[$i]['lid'];
 
 								print "	<tr onmouseover=\"this.style.cursor='pointer' \"
-												onclick=\"window.location='index.php?content=lead_view&lid=$lids&tags=1&seen=1'\">
+												onclick=\"window.location='index.php?content=lead_view&lid=$lids&seen=1'\">
 												<td>$string</td>
 											</tr>";
 							}
@@ -61,11 +61,11 @@ function getNotifications($dbhelper, $uid){
 					<?php
 						$notif = getNotifications($dbhelp, $uid);
 						for($i=0; $i < count($notif); $i++){
-							if($notif[$i]['seen'] == 1 && $notif[$i]['tags'] == 0){
+							if($notif[$i]['seen'] == 1){
 								$string = $notif[$i]['lead_name'];
 								$lids = $notif[$i]['lid'];
 								print "	<tr onmouseover=\"this.style.cursor='pointer' \" 
-												onclick=\"window.location='index.php?content=lead_view&lid=$lids&tags=0&seen=1'\">
+												onclick=\"window.location='index.php?content=lead_view&lid=$lids&seen=1'\">
 												<td>$string</td>
 											</tr>";
 							}								

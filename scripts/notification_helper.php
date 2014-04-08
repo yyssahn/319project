@@ -100,7 +100,7 @@ class NotificationHelper{
 		//$this->spamMail();
 		$sql = "SELECT count(*)
 				From tag
-				Where uid = '".$uid."' AND (seen = 1 or tags = 1)";
+				Where uid = '".$uid."' AND (seen = 1)";//or tags = 1
 		 $result = $this->conn->query($sql);
 		 $row = $result->fetch_row();
     	 return $row[0];
@@ -111,7 +111,7 @@ class NotificationHelper{
 				FROM cbel_lead L
 				INNER JOIN tag T
 		 		WHERE T.lid = L.lid AND T.uid = '".$uid."' 
-		 			AND (T.seen = 1 OR T.tags = 1 )";
+		 			AND (T.seen = 1)"; //OR T.tags = 1 
 
 		$result = $this->conn->query($sql);
 		return $result->fetch_all(MYSQLI_ASSOC);
@@ -164,6 +164,7 @@ class NotificationHelper{
     	}
     	$this->updateMail($this->to);
 	}
+
 	public function mailTags($uid,$lid){
 		$query = "SELECT lead_name
 					FROM cbel_lead

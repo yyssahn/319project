@@ -7,6 +7,16 @@ include('database_helper.php');
 if(isset($_GET['lid'])){
 	$db = new DatabaseHelper();
 
+	//Copy from lead_edit.php
+	$lidNotif = $_GET["lid"];
+
+	if (isset($_GET["seen"]))
+		$seenNotif = $_GET["seen"];
+
+	if($seenNotif == 1)
+		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
+
+
 	$sql = "SELECT * FROM cbel_lead WHERE lid=?";
 	$stmt = $db->prepareStatement($sql);
 	$db->bindParameter($stmt, 'i', $_GET['lid']);
