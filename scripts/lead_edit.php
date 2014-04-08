@@ -25,24 +25,27 @@
 	$phoneERR = $emailERR = '';
 
 	$TelepERR = '';
-	$lidNotif =	$tagNotif = $seenNotif = 0;
+	$lidNotif = $seenNotif = 0;
 	if(isset($_GET["lid"])) {
 		$lidNotif = $_GET["lid"];
 	}
 
-	if(isset($_GET["tags"]))
-		$tagNotif = $_GET["tags"];
-	if (isset($_GET["seen"]))
-		$seenNotif = $_GET["seen"];
+// Moved this code to lead_edit.php
+
+//	if(isset($_GET["tags"]))
+//		$tagNotif = $_GET["tags"];
+//	if (isset($_GET["seen"]))
+//		$seenNotif = $_GET["seen"];
+
+//	if($tagNotif == 1 )
+//		$nh->turnoffTag($_SESSION["User_ID"], $lidNotif);
+//	if($seenNotif == 1)
+//		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
+
 	
 	$lead_info = array();
 	$partner_info = array();
 
-	if($tagNotif == 1 )
-		$nh->turnoffTag($_SESSION["User_ID"], $lidNotif);
-	if($seenNotif == 1)
-		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
-	
 	// Get  category options
 	$sql = "SELECT * FROM categoryoptions";
 	$s = $db->prepareStatement($sql);
