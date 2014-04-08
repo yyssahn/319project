@@ -123,8 +123,8 @@ class NotificationHelper{
                     $mail = new PHPMailer();
 
                     // ---------- adjust these lines ---------------------------------------
-                    $mail->Username = "bobbyhplau@gmail.com"; // your GMail user name
-                    $mail->Password = "wh4tever";
+                    $mail->Username = "cbeltracker@gmail.com"; // your GMail user name
+                    $mail->Password = "ccelrocks";
                     // Don't hack me bro.
                     $mail->AddAddress($to); // recipients email
                     $mail->FromName = $this->from; // readable name
