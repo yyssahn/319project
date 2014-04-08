@@ -187,7 +187,12 @@ if(isset($_GET['lid'])){
 				</a>
 			</div>
 		</div>
+		
+		<br />
+		
 <?php
+		//Show comments form
+	require_once 'lead_comment.php';
 	}
 }
 else{
