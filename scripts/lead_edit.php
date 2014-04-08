@@ -135,7 +135,7 @@ if(array_key_exists("submit", $_POST)){
 			<div class="col-md-8">
 				<select class="form-control" name="existingPartner" id="existing" placeholder="Select One">
 					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
+						// Populate each option from database. Automatically selects options that are associated with the lead
 						print "<option>Please Select One</option>";
 						foreach($partners as $row){
 							if($row['contact_name'] != NULL){
@@ -155,40 +155,41 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="partner" class="control-label col-md-2">Community Partner:</label>
 			<div class="col-md-4 controls">
-					<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
+				<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
 			</div>
 			
 			<label for="contact_name" class="col-md-2 control-label">Contact Name:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="contact_name" id="contact_name"placeholder="Enter Contact Name"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
+				<input type="text" class="form-control" name="contact_name" id="contact_name"placeholder="Enter Contact Name"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
 			</div>
 		</div>
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="phone" class="col-md-2 control-label">Contact Phone:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
-					<span class="error"><?php echo $phoneERR;?></span>
+				<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
+				<span class="error"><?php echo $phoneERR;?></span>
 			</div>
 		
 			<label for="email" class="col-md-2 control-label">Contact Email:</label>
 			<div class="col-md-4">
-					<input type="email" class="form-control" name="email" id="email" placeholder="Enter Valid Email Address"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
+				<input type="email" class="form-control" name="email" id="email" placeholder="Enter Valid Email Address"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
 			</div>
 			
 			<!-- Automatically fill partner information if partner selected from select box -->
 			<script>
-				var partner = document.getElementById('partner');
-				var contact = document.getElementById('contact_name');
-				var phone = document.getElementById('phone');
-				var email = document.getElementById('email');
-				var existingPartner = document.getElementById('existing');
+				var partner = document.getElementById("partner");
+				var contact = document.getElementById("contact_name");
+				var phone = document.getElementById("phone");
+				var email = document.getElementById("email");
+				var existingPartner = document.getElementById("existing");
 
 				existingPartner.onchange = function(){
+				
 					var str = this.value;
 					var values = str.split(",");
 					

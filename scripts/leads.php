@@ -18,7 +18,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	$categories = $db->getResult($db);
 	
 	// Get community partners
-	$sql = "SELECT community_partner FROM communitypartner";
+	$sql = "SELECT DISTINCT community_partner FROM communitypartner 
+				ORDER BY length(community_partner), community_partner";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$partners = $db->getResult($db);
@@ -129,8 +130,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<select multiple="multiple" class="multiselect" name="delivery[]">
 						<?php
 							foreach($categories as $row){
-								if($row['delivery_location'] != NULL)
-									echo "<option value='{$row['delivery_location']}'>".$row['delivery_location']."</option>";
+								if($row['location'] != NULL)
+									echo "<option value='{$row['location']}'>".$row['location']."</option>";
 							}
 						?>
 					</select>
@@ -155,7 +156,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<select multiple="multiple" class="multiselect" name="status[]">
 						<?php
 							foreach($categories as $row){
-								if($row['referral'] != NULL)
+								if($row['status'] != NULL)
 									echo "<option value='{$row['status']}'>".$row['status']."</option>";
 							}
 						?>
@@ -260,21 +261,31 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				$subquery = $subquery." status LIKE '%".$row."%' OR";	
 			}
 		}
-		if ($_POST['startdate']!="" && $_POST['enddate']==""){
-		$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
-		}else if ($_POST['enddate']!="" && $_POST['startdate']==""){
-				$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
-		}else if ($_POST['startdate']!="" && $_POST['enddate']!=""){
-		
-		$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0) OR";
+		if ($_POST['startdate'] != "" && $_POST['enddate'] == ""){
+			$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
+		}else if ($_POST['enddate'] != "" && $_POST['startdate'] == ""){
+			$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
+		}else if ($_POST['startdate'] != "" && $_POST['enddate'] != ""){
+			$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate'].
+			"',`enddate`) >= 0) OR";
 		}
-
 		// Removes the trailing WHERE or OR from the query
 		if($subquery == NULL)
 			$query = substr_replace($query, "", -(strlen(' WHERE')));
 		else if(substr($subquery, -strlen('OR')) === 'OR'){
 			$subquery = substr_replace($subquery ,"",-2);
 			$query .= $subquery;
+		}
+
+		// Only show archived or dropped leads if chosen
+		if(strpos($query, "Archived") !== false || strpos($query, "Dropped") !== false){
+			// Intentionally blank. Don't change query if Archived or Dropped is selected
+		}
+		else if($query == "SELECT lid, lead_name, description FROM cbel_lead"){
+			$query .= " WHERE status != 'Archived'  AND status != 'Dropped'";
+		}
+		else{
+			$query .= " AND status != 'Archived'  AND status != 'Dropped'";
 		}
 
 		$stmt = $db->prepareStatement($query);

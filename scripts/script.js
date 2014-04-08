@@ -1,6 +1,8 @@
-/*For multiselect plugin */
 $(document).ready(function() {
+	// For multiselect plugin
+	// http://davidstutz.github.io/bootstrap-multiselect/
 	$('.multiselect').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		includeSelectAllOption: true,
 		enableFiltering: true,
 		buttonWidth: '346px',
@@ -23,13 +25,16 @@ $(document).ready(function() {
 		}
 	});
 	$('.single').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		buttonWidth: '346px'
 	});
 	$('#existing').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
 		buttonWidth: '500px',
 	});
 	$('#link').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		includeSelectAllOption: true,
 		enableFiltering: true,
 		buttonWidth: '360px',
@@ -45,8 +50,10 @@ $(document).ready(function() {
 		}
 	});
 	
+	// For datepicker plugin
+	// http://www.eyecon.ro/bootstrap-datepicker/
 	$(function(){		
-        // disabling dates
+        // restrict ending date by start date (end can't be before start)
         var nowTemp = new Date();
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 

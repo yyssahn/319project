@@ -469,54 +469,7 @@ function categoriesTab(){
 								</div>
 							</div>
 						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class ="panel-title">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapseEight">
-										Timeframe
-									</a>
-								</h4>
-							</div>
-							<div id="collapseEight" class="panel-collapse collpase collapse">
-								<div class="panel-body" style="height:auto">
-                                    <form name = "option_form" method = "post" action = "">	
-										<table class="table table-condensed">
-											<?php
-												$sql = "SELECT timeframe FROM categoryoptions";
-												$stmt = $db->prepareStatement($sql);
-												$db->executeStatement($stmt);
-												$listOfSubcats = $db->getResult($stmt);
-
-												foreach($listOfSubcats as $subcat) {
-													if (isset($subcat['timeframe'])) { ?>
-														<tr>
-															<td><?php print $subcat['timeframe']; ?></td>
-															<td>
-																<input type ='button' id ='editOption' value='Edit' onClick='edit_option("<?php print 
-																	$subcat['timeframe']; ?>", "timeframe")' class='btn btn-sm btn-info'>
-																<a href='remove_option.php?optionName=<?php print $subcat['timeframe']; ?>
-																	&category=timeframe' class='btn btn-sm btn-danger'>Remove</a>
-															</td>
-														</tr>
-													<?php }
-												} ?>
-											
-											<tr>
-												<td>
-													<input type="text" name="optionName" class="form-control" id="optionName" 
-														placeholder="Option Name">
-												</td>
-												<td>
-													 <input type ="button" id ="addOption" value="Add Option" 
-																onClick="optionForm_add(this.form,'timeframe')" class="btn btn-sm btn-success" 
-																contenteditable="true">
-												</td>
-											</tr>
-										</table>
-                                    </form>
-								</div>
-							</div>
-						</div>
+						
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h4 class ="panel-title">
@@ -536,7 +489,7 @@ function categoriesTab(){
 												$listOfSubcats = $db->getResult($stmt);
 
 												foreach($listOfSubcats as $subcat) {
-													if (isset($subcat['status'])) { ?>
+													if (isset($subcat['status']) && $subcat['status'] != 'Archived' && $subcat['status'] != 'Dropped') { ?>
 														<tr>
 															<td><?php print $subcat['status']; ?></td>
 															<td>

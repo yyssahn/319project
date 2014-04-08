@@ -69,7 +69,7 @@ class LinkLead{
 									?>
 							</table>
 							
-							<div class="col-md-4 dropup">
+							<div class="col-md-4">
 								<form>
 									<select  class="form-control" name="link" id='link'>
 										<?php

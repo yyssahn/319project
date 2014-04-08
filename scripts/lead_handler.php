@@ -219,7 +219,7 @@ else{
 	?>
 		<div class="row">
 			<div >
-				<div class="alert alert-success" style="margin-top: 50px; font-size: 1.2em">
+				<div class="alert alert-warning" style="margin-top: 50px; font-size: 1.2em">
 					You did not change anything. No Leads were updated!
 				</div>
 			</div>
@@ -235,7 +235,7 @@ else{
 	?>
 		<div class="row">
 			<div >
-				<div class="alert alert-success" style="margin-top: 50px; font-size: 1.2em">
+				<div class="alert alert-error" style="margin-top: 50px; font-size: 1.2em">
 					Something went wrong. No Leads were updated!
 				</div>
 			</div>
