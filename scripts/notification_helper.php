@@ -12,8 +12,6 @@ class NotificationHelper{
 	private $conn;
 	private $message = "There are update(s) to lead : ";
 	private $subject = " Update!";
-	private $Tsubject = "New Tag: ";
-	private $Tmessage = "You have been tagged in lead : ";
 	private $from = "CBEL Tracker";
         private $to = "";
 	 
@@ -158,22 +156,18 @@ class NotificationHelper{
 	}
         
         /*
-	The mail funtion that makes the mail and sends it out
-	Pre:  Takes mail list.
+	The mail funtion that makes the mail and sends it out for new updates
+         * to leads being followed.
+	Pre:  Takes mail list, user id and specific lead id.
 	Post: Sends mail to the users in the mail list..
 	*/
         
-	/*
-		Email send for new updates to the lead being followed.
-		Pre:  Takes user id and the specific lead id.
-		Post: Calls the updateMail function to send the update.
-	*/
 	public function mailSpecificsUpdate($lid){
                 global $db;
                 require("../phpmailer/class.phpmailer.php");
                 $mail = new PHPMailer();
 
-                                
+                // Get lead name from server                
                 $sqlx = "SELECT lead_name
                                 FROM cbel_lead
                                 Where lid = '".$lid."'";
@@ -181,6 +175,7 @@ class NotificationHelper{
                 $db->executeStatement($sx);
                 $leadname = $db->getResult($sqlx);
                 
+                // Get tagged user's emails from server
                 $this->message = $this->message. "" . $leadname[0]['lead_name'];
                 $this->subject = $leadname[0]['lead_name']. "" . $this->subject;
                 
@@ -196,9 +191,9 @@ class NotificationHelper{
                     $mail->AddAddress($email['email']);
                 }
                 
-                if (null !== $mail->Send()) {
+                if (!empty ($listOfEmails)) {
 
-                    // ---------- adjust these lines ---------------------------------------
+                    // ---------- Your G-Mail account information here. ---------------------------------------
 
                     $mail->Username = "cbeltracker@gmail.com"; // your GMail user name
                     $mail->Password = "ccelrocks";
@@ -216,35 +211,12 @@ class NotificationHelper{
                     $mail->SMTPAuth = true; // turn on SMTP authentication
                     $mail->From = $mail->Username;
                     if(!$mail->Send())
-                        echo "Error: " . $mail->ErrorInfo;
+                        // Uncomment out line below to debug email
+                        //echo "Error: " . $mail->ErrorInfo
+                        ;
                     else ;
 
                     }
-	}
-		
-	/*
-		Email send for new tags
-		Pre:  Takes user id and the specific lead id.
-		Post: Calls the updateMail function to send the update.
-	*/		
-	public function mailTags($uid,$lid){
-		$query = "SELECT lead_name
-					FROM cbel_lead
-					Where lid = '".$lid."'";
-
-		$result = $this->conn->query($query);
-		$result = $result->fetch_row();
-		$this->Tmessage = $this->Tmessage. "" .$result[0];
-		$this->Tsubject = $this->Tsubject. "" .$result[0];
-
-		$query ="SELECT U.email
-				FROM user U
-				WHERE U.uid = '".$uid."'" ;
-		$result = $this->conn->query($query);
-		while ($row = $result->fetch_row()) {
-        	$this->to = $this->to. "" .$row[0]. " , ";
-    	}
-		mail($this->to, $this->Tsubject , $this->Tmessage,  $this->from);
 	}
 }
 
