@@ -1,6 +1,8 @@
-/*For multiselect plugin */
 $(document).ready(function() {
+	// For multiselect plugin
+	// http://davidstutz.github.io/bootstrap-multiselect/
 	$('.multiselect').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		includeSelectAllOption: true,
 		enableFiltering: true,
 		buttonWidth: '346px',
@@ -23,13 +25,16 @@ $(document).ready(function() {
 		}
 	});
 	$('.single').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		buttonWidth: '346px'
 	});
 	$('#existing').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		enableFiltering: true,
 		buttonWidth: '500px',
 	});
 	$('#link').multiselect({
+		enableCaseInsensitiveFiltering: true,
 		includeSelectAllOption: true,
 		enableFiltering: true,
 		buttonWidth: '360px',
@@ -43,6 +48,37 @@ $(document).ready(function() {
 			
 			$('#link').multiselect('deselect', values);
 		}
+	});
+	
+	// For datepicker plugin
+	// http://www.eyecon.ro/bootstrap-datepicker/
+	$(function(){		
+        // restrict ending date by start date (end can't be before start)
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        var checkin = $('#dpd1').datepicker({
+		format: 'yyyy-mm-dd',
+          onRender: function(date) {
+            return date.valueOf() < now.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          if (ev.date.valueOf() > checkout.date.valueOf()) {
+            var newDate = new Date(ev.date)
+            newDate.setDate(newDate.getDate() + 1);
+            checkout.setValue(newDate);
+          }
+          checkin.hide();
+          $('#dpd2')[0].focus();
+        }).data('datepicker');
+        var checkout = $('#dpd2').datepicker({
+		format: 'yyyy-mm-dd',
+          onRender: function(date) {
+            return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+          }
+        }).on('changeDate', function(ev) {
+          checkout.hide();
+        }).data('datepicker');
 	});
 });
 

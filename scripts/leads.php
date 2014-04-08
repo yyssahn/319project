@@ -18,7 +18,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 	$categories = $db->getResult($db);
 	
 	// Get community partners
-	$sql = "SELECT community_partner FROM communitypartner";
+	$sql = "SELECT DISTINCT community_partner FROM communitypartner 
+				ORDER BY length(community_partner), community_partner";
 	$s = $db->prepareStatement($sql);
 	$db->executeStatement($s);
 	$partners = $db->getResult($db);
@@ -129,8 +130,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<select multiple="multiple" class="multiselect" name="delivery[]">
 						<?php
 							foreach($categories as $row){
-								if($row['delivery_location'] != NULL)
-									echo "<option value='{$row['delivery_location']}'>".$row['delivery_location']."</option>";
+								if($row['location'] != NULL)
+									echo "<option value='{$row['location']}'>".$row['location']."</option>";
 							}
 						?>
 					</select>
@@ -155,7 +156,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<select multiple="multiple" class="multiselect" name="status[]">
 						<?php
 							foreach($categories as $row){
-								if($row['referral'] != NULL)
+								if($row['status'] != NULL)
 									echo "<option value='{$row['status']}'>".$row['status']."</option>";
 							}
 						?>
@@ -163,42 +164,28 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				</div>
 			</div>
 			
-				<div class="row" style="padding-top:10px; padding-bottom:10px">
-			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
-				<div class="col-md-4">
-						<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date">
-							<script type="text/javascript">
-								function changedVal() {
-									var NameValue = document.forms["forms"]["startdate"].value;
-									document.forms["forms"]["enddate"].min = NameValue;
-									var min = new Date(document.forms["forms"]["enddate"].min);
-									var now = new Date(document.forms["forms"]["enddate"].value);
-									if (min.getTime()>now.getTime()){
-									document.forms["forms"]["enddate"].value = '';
-								}
-								}
-							</script>
-						</input>
-		
-				</div>
-				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
-				<div class="col-md-4">
-						<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline">
-							<script type="text/javascript">
-								
-							</script>
-						</input>
-				</div>
-		</div>
+			<div class="row" style="padding-top:10px; padding-bottom:10px">
+				<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
+					<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+						<input type="text" class="form-control datepicker" name="startdate" id="dpd1">
+					</div>
+					
+					<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+					<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+						<input type="text"  class="form-control datepicker" name="enddate" id="dpd2">
+					</div>
+			</div>
 		</div>	
 		
 		<div class="row clearfix" style="padding-top:10px; padding-bottom:10px">
-			<!-- <div class="col-md-1 col-md-offset-10">
-				<input type="submit" class="btn btn-sm btn-primary" name="export" value="Search" />			
-			</div> -->
+			<div class="col-md-1 col-md-offset-10">
+				<input type="submit" class="btn btn-sm btn-info" name="export" id="export" value="Export" />
+				<input type="hidden" name="submit" value="submit" />				
+			</div>
 
 			<div class="col-md-offset-11">
-				<input type="submit" class="btn btn-primary btn-sm" name="submit" value="Search" />				
+				<input type="submit" class="btn btn-primary btn-sm" name="search" value="Search" />
+				<input type="hidden" name="submit" value="submit" />
 			</div>
 		</div>
 	</form>
@@ -206,7 +193,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 <?php 
 }else {	
 	// search by filter
-	if(isset($_POST['submit']) || isset($_POST['export'])) {
+	if(isset($_POST['search']) || isset($_POST['export'])) {
 		$query = "SELECT lid, lead_name, description FROM cbel_lead WHERE";
 
 		// Need to add community partner search
@@ -276,21 +263,31 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 				$subquery = $subquery." status LIKE '%".$row."%' OR";	
 			}
 		}
-		if ($_POST['startdate']!="" && $_POST['enddate']==""){
-		$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
-		}else if ($_POST['enddate']!="" && $_POST['startdate']==""){
-				$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
-		}else if ($_POST['startdate']!="" && $_POST['enddate']!=""){
-		
-		$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0) OR";
+		if ($_POST['startdate'] != "" && $_POST['enddate'] == ""){
+			$subquery = $subquery." DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 OR";
+		}else if ($_POST['enddate'] != "" && $_POST['startdate'] == ""){
+			$subquery = $subquery." DATEDIFF('".$_POST['enddate']."',`enddate`) >= 0 OR";
+		}else if ($_POST['startdate'] != "" && $_POST['enddate'] != ""){
+			$subquery = $subquery." (DATEDIFF('".$_POST['startdate']."',`startdate`) <= 0 AND DATEDIFF('".$_POST['enddate'].
+			"',`enddate`) >= 0) OR";
 		}
-
 		// Removes the trailing WHERE or OR from the query
 		if($subquery == NULL)
 			$query = substr_replace($query, "", -(strlen(' WHERE')));
 		else if(substr($subquery, -strlen('OR')) === 'OR'){
 			$subquery = substr_replace($subquery ,"",-2);
 			$query .= $subquery;
+		}
+
+		// Only show archived or dropped leads if chosen
+		if(strpos($query, "Archived") !== false || strpos($query, "Dropped") !== false){
+			// Intentionally blank. Don't change query if Archived or Dropped is selected
+		}
+		else if($query == "SELECT lid, lead_name, description FROM cbel_lead"){
+			$query .= " WHERE status != 'Archived'  AND status != 'Dropped'";
+		}
+		else{
+			$query .= " AND status != 'Archived'  AND status != 'Dropped'";
 		}
 
 		$stmt = $db->prepareStatement($query);
@@ -311,7 +308,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<table class="table table-striped table-hover" style="border: solid #008cba 1px;">
 						<?php
 							// If Search button is clicked, show table with clickable entries that show lead details
-							if(isset($_POST['submit'])){
+							if(isset($_POST['search'])){
 						?>
 								<thead>
 									<tr style="background-color: #008cba; color: white">
@@ -334,11 +331,10 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 							}
 							// If Export button is clicked, show table where entries have check boxes for selecting leads to be exported
 							else if(isset($_POST['export'])){
-								print("fdsa");
 						?>
 								<thead>
-									<tr style="background-color: #008cba; color: white" class="warning">
-										<th>Lead Name</th><th>Lead Description</th><th>Export</th>
+									<tr style="background-color: #008cba; color: white">
+										<th class="col-md-4">Lead Name</th><th>Lead Description</th><th>Export</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -348,7 +344,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 									$lid = $row['lid'];
 									if($row['lead_name'] != NULL){
 						?>
-									<tr class='info'>
+									<tr>
 										<td><?php print $row['lead_name']; ?></td>
 										<td><?php print $row['description'] ?></td>
 										<td><input type="checkbox" name="exLeads[]" value="<?php print $lid; ?>" class="export"></td>
@@ -383,6 +379,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 						</tbody>
 					</table>
 				</div>
+			</div>
 				<?php
 					if(isset($_POST['export'])){
 				?>
@@ -420,7 +417,6 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<?php
 					}
 					?>
-			</div>
 		</div>
 <?php
 	}

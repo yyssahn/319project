@@ -30,19 +30,6 @@
 		$lidNotif = $_GET["lid"];
 	}
 
-// Moved this code to lead_edit.php
-
-//	if(isset($_GET["tags"]))
-//		$tagNotif = $_GET["tags"];
-//	if (isset($_GET["seen"]))
-//		$seenNotif = $_GET["seen"];
-
-//	if($tagNotif == 1 )
-//		$nh->turnoffTag($_SESSION["User_ID"], $lidNotif);
-//	if($seenNotif == 1)
-//		$nh->turnoff($_SESSION["User_ID"],$lidNotif);
-
-	
 	$lead_info = array();
 	$partner_info = array();
 
@@ -135,7 +122,7 @@ if(array_key_exists("submit", $_POST)){
 			<div class="col-md-8">
 				<select class="form-control" name="existingPartner" id="existing" placeholder="Select One">
 					<?php
-						// Populate each option from database. Automatically selects options that associated with the lead
+						// Populate each option from database. Automatically selects options that are associated with the lead
 						print "<option>Please Select One</option>";
 						foreach($partners as $row){
 							if($row['contact_name'] != NULL){
@@ -155,40 +142,41 @@ if(array_key_exists("submit", $_POST)){
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="partner" class="control-label col-md-2">Community Partner:</label>
 			<div class="col-md-4 controls">
-					<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
+				<input type="text" class="form-control" name="partner" id="partner" placeholder="Enter Community Partner"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['community_partner']);?>">
 			</div>
 			
 			<label for="contact_name" class="col-md-2 control-label">Contact Name:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="contact_name" id="contact_name"placeholder="Enter Contact Name"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
+				<input type="text" class="form-control" name="contact_name" id="contact_name"placeholder="Enter Contact Name"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['contact_name']);?>">
 			</div>
 		</div>
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="phone" class="col-md-2 control-label">Contact Phone:</label>
 			<div class="col-md-4">
-					<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
-					<span class="error"><?php echo $phoneERR;?></span>
+				<input type="text" class="form-control" name="phone" id="phone" placeholder="Enter Valid Phone Number"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['phone']);?>">
+				<span class="error"><?php echo $phoneERR;?></span>
 			</div>
 		
 			<label for="email" class="col-md-2 control-label">Contact Email:</label>
 			<div class="col-md-4">
-					<input type="email" class="form-control" name="email" id="email" placeholder="Enter Valid Email Address"
-						value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
+				<input type="email" class="form-control" name="email" id="email" placeholder="Enter Valid Email Address"
+					value="<?php if($partner_info) echo htmlspecialchars($partner_info[0]['email']);?>">
 			</div>
 			
 			<!-- Automatically fill partner information if partner selected from select box -->
 			<script>
-				var partner = document.getElementById('partner');
-				var contact = document.getElementById('contact_name');
-				var phone = document.getElementById('phone');
-				var email = document.getElementById('email');
-				var existingPartner = document.getElementById('existing');
+				var partner = document.getElementById("partner");
+				var contact = document.getElementById("contact_name");
+				var phone = document.getElementById("phone");
+				var email = document.getElementById("email");
+				var existingPartner = document.getElementById("existing");
 
 				existingPartner.onchange = function(){
+				
 					var str = this.value;
 					var values = str.split(",");
 					
@@ -369,32 +357,16 @@ if(array_key_exists("submit", $_POST)){
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
-				<div class="col-md-4">
-						<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date"
-							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
-							<script type="text/javascript">
-								function changedVal() {
-									var NameValue = document.forms["form"]["startdate"].value;
-									document.forms["form"]["enddate"].min = NameValue;
-									var min = new Date(document.forms["form"]["enddate"].min);
-									var now = new Date(document.forms["form"]["enddate"].value);
-									if (min.getTime()>now.getTime()){
-									document.forms["form"]["enddate"].value = '';
-								}
-								}
-							</script>
-						</input>
-		
-				</div>
-				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
-				<div class="col-md-4">
-						<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline"
-							<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
-							<script type="text/javascript">
-								
-							</script>
-						</input>
-				</div>
+			<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+				<input type="text" class="form-control datepicker" name="startdate" id="dpd1"
+					value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
+			</div>
+			
+			<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+			<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+				<input type="text"  class="form-control datepicker" name="enddate" id="dpd2"
+					<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
+			</div>
 		</div>
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">		

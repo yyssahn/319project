@@ -18,6 +18,10 @@
 		<!-- Multiselect Plugin: -->
 		<script type="text/javascript" src="../bootstrap/js/bootstrap-multiselect.js"></script>
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap-multiselect.css" type="text/css"/>
+		
+		<!--Datepicker plugin -->
+		<script type="text/javascript" src="../bootstrap/js/bootstrap-datepicker.js"></script>
+		<link rel="stylesheet" href="../bootstrap/css/datepicker.css" type="text/css"/>
 
 		<!-- For validation plugin -->
 		<script src="../bootstrap/js/jquery.validate.js"></script>
