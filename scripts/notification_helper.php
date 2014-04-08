@@ -8,7 +8,7 @@ class NotificationHelper{
 	private $DBPass;
 	private $DBName;
 
-	// Needed to prepare and execute statement
+	// Basic information to send out in our update email(s).
 	private $conn;
 	private $message = "There are update(s) to lead : ";
 	private $subject = " Update!";
@@ -31,15 +31,23 @@ class NotificationHelper{
 		return $this->conn;
 	}
 
-	
-	// Turns a notification off. For a given user.
+	/*
+		Turns a notification off. For a given user.
+		Pre:  Takes user id and the specific lead id.
+		Post: Notification turned off in the database.
+	*/
 	public function turnoff($uid, $lid){
 		$query ="UPDATE tag
 				SET seen = 0
 				WHERE uid ='".$uid."' AND lid = '".$lid."' AND seen = 1" ;
 		$this->conn->query($query);
 	}
-	// Turns off a tag notification for a new user
+	
+	/*
+		Removes a tag for a specific user on a specific lead
+		Pre:  Takes user id and the specific lead id.
+		Post: Tag is removed from the database.
+	*/	
 	public function turnoffTag($uid, $lid){
 		$query ="UPDATE tag
 				SET tags = 0, seen = 0
@@ -47,7 +55,13 @@ class NotificationHelper{
 		$this->conn->query($query);
 	}
 
-	// Updates and provdes notifcations to all users that are tagged on a lead.
+	/*
+		Any updates to a lead will notifiy all other users.
+		Pre:  Takes a specific lead id that has an update to it
+		Post: Adds a notification to all users that are tagged on that lead.
+			  Also sends a mail to everyone thats on the lead telling them
+			  they have a new update.
+	*/
 	public function turnon($lid){
 		$query ="UPDATE tag
 				SET seen = 1
@@ -56,7 +70,13 @@ class NotificationHelper{
 		$this->mailSpecificsUpdate($lid);
 	}
 
-	// tags a new person on that lead or themselves.
+	/*
+		Ability to add a user onto a specific lead.
+		Pre:  Takes user id and the specific lead id.
+		Post: Adds a new relationship between user and lead in the database.
+			  So that user is notified any update that happens.
+			  Also sends out a mail when that new user is tagged.
+	*/
 	public function turnonTag($uid, $lid){
 		
 		$query ="INSERT INTO tag (`uid`, `lid`, `seen`, `tags`) 
@@ -66,7 +86,11 @@ class NotificationHelper{
 		$this->mailTags($uid, $lid);
 	}
 
-	//Checks if the user is already tagged
+	/*
+		Checks if the user is already tagged in a specific lead.	
+		Pre:  Takes user id and the specific lead id.
+		Post: Returns True/False if that user is tagged
+	*/	
 	public function isTag($uid,$lid){
 		$sql = "SELECT count(*)
 				From tag
@@ -76,8 +100,12 @@ class NotificationHelper{
     	 return ($row[0] != 0);
 	}
 
-	// Allows users to untag themselves from a lead
-	// They will no longer receiver updates.
+	/*
+		Removes a connection between user and a specific lead
+		So they no longer receive notifications.
+		Pre:  Takes user id and the specific lead id.
+		Post: Removes a connection between user and a specific lead
+	*/
 	public function removeTag($uid, $lid){
 		
 		$query ="DELETE
@@ -86,7 +114,11 @@ class NotificationHelper{
 		$this->conn->query($query);
 	}
 
-	//Remove that lead Notificaiton
+	/*
+		If a lead is removed all the users are untagged off that lead.
+		Pre:  Takes a specific lead id.
+		Post: Removes connection(s) between all user(s) and that specific lead
+	*/
 	public function delLeadTag($lid){
 
 		$query ="DELETE
@@ -95,9 +127,12 @@ class NotificationHelper{
 		$this->conn->query($query);
 	}
 
-	// Allows the user to get the number of notifcation they currently have
+	/*
+		Gets the number of notifications a specific user has.
+		Pre:  Takes user id.
+		Post: Returns the number of notifications they have.
+	*/
 	public function getNumberNotif($uid){
-		//$this->spamMail();
 		$sql = "SELECT count(*)
 				From tag
 				Where uid = '".$uid."' AND (seen = 1)";//or tags = 1
@@ -105,18 +140,28 @@ class NotificationHelper{
 		 $row = $result->fetch_row();
     	 return $row[0];
 	}
-	// gets all notifcaitiong for a specific user
+
+	/*
+		Gets all the notifications for a specific user.
+		Pre:  Takes user id.
+		Post: Returns the notifications they have.
+	*/
 	public function getNotifications($uid){
 		$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
 				FROM cbel_lead L
 				INNER JOIN tag T
 		 		WHERE T.lid = L.lid AND T.uid = '".$uid."' 
-		 			AND (T.seen = 1)"; //OR T.tags = 1 
+		 			AND (T.seen = 1 OR T.tags = 1 )"; 
 
 		$result = $this->conn->query($sql);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
 
+	/*
+		The mail funtion that makes the mail and sends it out
+		Pre:  Takes mail list.
+		Post: Sends mail to the users in the mail list..
+	*/		
 	public function updateMail($to){
                     if ($to != "") {
                     require("../phpmailer/class.phpmailer.php");
@@ -125,13 +170,13 @@ class NotificationHelper{
                     // ---------- adjust these lines ---------------------------------------
                     $mail->Username = "bobbyhplau@gmail.com"; // your GMail user name
                     $mail->Password = "wh4tever";
+                    //----------------------------------------------------------------------
                     // Don't hack me bro.
                     $mail->AddAddress($to); // recipients email
                     $mail->FromName = $this->from; // readable name
 
                     $mail->Subject = $this->subject;
                     $mail->Body    = $this->message; 
-                    //-----------------------------------------------------------------------
 
                     $mail->Host = "ssl://smtp.gmail.com"; // GMail
                     $mail->Port = 465;
@@ -144,6 +189,12 @@ class NotificationHelper{
                     }
 	//	mail($to, $this->subject , $this->message,  $this->from);
 	}
+
+	/*
+		Email send for new updates to the lead being followed.
+		Pre:  Takes user id and the specific lead id.
+		Post: Calls the updateMail function to send the update.
+	*/		
 	public function mailSpecificsUpdate($lid){
 		$query = "SELECT lead_name
 					FROM cbel_lead
@@ -159,12 +210,16 @@ class NotificationHelper{
 				WHERE lid = '".$lid."' AND U.uid = T.uid " ;
 		$result = $this->conn->query($query);
 		while ($row = $result->fetch_row()) {
-        	// $this->to = $this->to. "" .$row[0]. " , ;
-                    $this->to = $row[0];
+            $this->to = $row[0];
     	}
     	$this->updateMail($this->to);
 	}
 
+	/*
+		Email send for new tags
+		Pre:  Takes user id and the specific lead id.
+		Post: Calls the updateMail function to send the update.
+	*/		
 	public function mailTags($uid,$lid){
 		$query = "SELECT lead_name
 					FROM cbel_lead

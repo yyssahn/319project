@@ -8,22 +8,7 @@ include('database_helper.php');
 $dbhelp = new DatabaseHelper();
 $uid = $_SESSION["User_ID"];
 
-function getNotifications($dbhelper, $uid){
-	$sql = "SELECT T.uid, T.seen, T.tags, T.lid, L.lead_name
-			FROM cbel_lead L
-			INNER JOIN tag T
-	 		WHERE T.lid = L.lid AND T.uid = ? 
-	 			AND (T.seen = 1 OR T.tags = 1 )";
-	$stmt = $dbhelper->prepareStatement($sql);
-
-	$params = array($uid);
-	$param_types = array('s');
-	$dbhelper->bindArray($stmt, $param_types, $params);
-	$dbhelper->executeStatement($stmt);
-	$result = $dbhelper->getResult($stmt);
-	return $result;
-}
-
+$nh = new NotificationHelper();
 ?>
 
 <div class="well">
@@ -35,8 +20,7 @@ function getNotifications($dbhelper, $uid){
 				</thead>
 				<tbody>
 					<?php
-						$notif = getNotifications($dbhelp, $uid);
-						$_SESSION['notifications'] = count($notif);
+						$notif = $nh->getNotifications( $uid);
 						for($i=0; $i < count($notif); $i++){
 
 							if($notif[$i]['tags'] == 1){
@@ -59,7 +43,7 @@ function getNotifications($dbhelper, $uid){
 				</thead>
 				<tbody>
 					<?php
-						$notif = getNotifications($dbhelp, $uid);
+						$notif = $nh->getNotifications($uid);
 						for($i=0; $i < count($notif); $i++){
 							if($notif[$i]['seen'] == 1){
 								$string = $notif[$i]['lead_name'];

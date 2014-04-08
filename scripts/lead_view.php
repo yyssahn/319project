@@ -2,6 +2,7 @@
 	<h2>Lead Details Page</h2>
 </div>
 <?php
+
 include('database_helper.php');
 
 if(isset($_GET['lid'])){
@@ -9,7 +10,7 @@ if(isset($_GET['lid'])){
 
 	//Copy from lead_edit.php
 	$lidNotif = $_GET["lid"];
-
+	$seenNotif = 0;
 	if (isset($_GET["seen"]))
 		$seenNotif = $_GET["seen"];
 
