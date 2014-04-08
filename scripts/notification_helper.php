@@ -14,7 +14,7 @@ class NotificationHelper{
 	private $subject = " Update!";
 	private $Tsubject = "New Tag: ";
 	private $Tmessage = "You have been tagged in lead : ";
-	private $from = "From: ccel_t8@yahoo.ca";
+	private $from = "CBEL Tracker";
         private $to = "";
 	 
 	/*Connect to database */
@@ -156,24 +156,55 @@ class NotificationHelper{
 		$result = $this->conn->query($sql);
 		return $result->fetch_all(MYSQLI_ASSOC);
 	}
-
+        
+        /*
+	The mail funtion that makes the mail and sends it out
+	Pre:  Takes mail list.
+	Post: Sends mail to the users in the mail list..
+	*/
+        
 	/*
-		The mail funtion that makes the mail and sends it out
-		Pre:  Takes mail list.
-		Post: Sends mail to the users in the mail list..
-	*/		
-	public function updateMail($to){
-                    if ($to != "") {
-                    require("../phpmailer/class.phpmailer.php");
-                    $mail = new PHPMailer();
+		Email send for new updates to the lead being followed.
+		Pre:  Takes user id and the specific lead id.
+		Post: Calls the updateMail function to send the update.
+	*/
+	public function mailSpecificsUpdate($lid){
+                global $db;
+                require("../phpmailer/class.phpmailer.php");
+                $mail = new PHPMailer();
+
+                                
+                $sqlx = "SELECT lead_name
+                                FROM cbel_lead
+                                Where lid = '".$lid."'";
+                $sx = $db->prepareStatement($sqlx);
+                $db->executeStatement($sx);
+                $leadname = $db->getResult($sqlx);
+                
+                $this->message = $this->message. "" . $leadname[0]['lead_name'];
+                $this->subject = $leadname[0]['lead_name']. "" . $this->subject;
+                
+		$sqlx = "SELECT U.email
+				FROM user U, tag T
+				WHERE lid = '".$lid."' AND U.uid = T.uid " ;	
+
+		$sx = $db->prepareStatement($sqlx);
+		$db->executeStatement($sx);
+		$listOfEmails = $db->getResult($sqlx);
+                
+                foreach($listOfEmails as $email) {
+                    $mail->AddAddress($email['email']);
+                }
+                
+                if (null !== $mail->Send()) {
 
                     // ---------- adjust these lines ---------------------------------------
 
                     $mail->Username = "cbeltracker@gmail.com"; // your GMail user name
                     $mail->Password = "ccelrocks";
+
                     //----------------------------------------------------------------------
 
-                    $mail->AddAddress($to); // recipients email
                     $mail->FromName = $this->from; // readable name
 
                     $mail->Subject = $this->subject;
@@ -185,36 +216,12 @@ class NotificationHelper{
                     $mail->SMTPAuth = true; // turn on SMTP authentication
                     $mail->From = $mail->Username;
                     if(!$mail->Send())
-                        ;
+                        echo "Error: " . $mail->ErrorInfo;
                     else ;
+
                     }
 	}
-
-	/*
-		Email send for new updates to the lead being followed.
-		Pre:  Takes user id and the specific lead id.
-		Post: Calls the updateMail function to send the update.
-	*/		
-	public function mailSpecificsUpdate($lid){
-		$query = "SELECT lead_name
-					FROM cbel_lead
-					Where lid = '".$lid."'";
-
-		$result = $this->conn->query($query);
-		$result = $result->fetch_row();
-		$this->message = $this->message. "" .$result[0];
-		$this->subject = $result[0]. "" .$this->subject;
-
-		$query ="SELECT U.email
-				FROM user U, tag T
-				WHERE lid = '".$lid."' AND U.uid = T.uid " ;
-		$result = $this->conn->query($query);
-		while ($row = $result->fetch_row()) {
-            $this->to = $row[0];
-    	}
-    	$this->updateMail($this->to);
-	}
-
+		
 	/*
 		Email send for new tags
 		Pre:  Takes user id and the specific lead id.
