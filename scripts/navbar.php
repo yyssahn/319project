@@ -20,9 +20,9 @@ if(isset($_POST['searchLead'])) {
 if (!isset($_GET['content'])) {
 	$_GET['content'] = NULL;
 }
-if(!isset($_SESSION['notifications']))
-	$notifs = 0;
-else
+// if(!isset($_SESSION['notifications']))
+// 	$notifs = 0;
+// else
 	$notifs = $nh->getNumberNotif($_SESSION["User_ID"]);
 
 ?>
