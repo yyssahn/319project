@@ -366,32 +366,16 @@ if(array_key_exists("submit", $_POST)){
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">
 			<label for="startdate" class="col-md-2 control-label">Starting Date:</label>
-				<div class="col-md-4">
-						<input type="date" class="form-control" name="startdate" id="startdate" onchange="changedVal();" placeholder="Enter Starting Date"
-							value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
-							<script type="text/javascript">
-								function changedVal() {
-									var NameValue = document.forms["form"]["startdate"].value;
-									document.forms["form"]["enddate"].min = NameValue;
-									var min = new Date(document.forms["form"]["enddate"].min);
-									var now = new Date(document.forms["form"]["enddate"].value);
-									if (min.getTime()>now.getTime()){
-									document.forms["form"]["enddate"].value = '';
-								}
-								}
-							</script>
-						</input>
-		
-				</div>
-				<label for="enddate" class="col-md-2 control-label">Deadline:</label>
-				<div class="col-md-4">
-						<input type="date"  class="form-control" name="enddate" id="enddate" onchange="some();" placeholder="Enter Deadline"
-							<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
-							<script type="text/javascript">
-								
-							</script>
-						</input>
-				</div>
+			<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+				<input type="text" class="form-control datepicker" name="startdate" id="dpd1"
+					value="<?php if($lead_info) echo htmlspecialchars($lead_info[0]['startdate']);?>">
+			</div>
+			
+			<label for="enddate" class="col-md-2 control-label">Deadline:</label>
+			<div class="col-md-4 input-append date" data-date-format="dd-mm-yyyy">
+				<input type="text"  class="form-control datepicker" name="enddate" id="dpd2"
+					<?php if($lead_info) echo 'value="'.htmlspecialchars($lead_info[0]['enddate']).'"';?>>
+			</div>
 		</div>
 		
 		<div class="row" style="padding-top:10px; padding-bottom:10px">		
