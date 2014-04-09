@@ -71,11 +71,11 @@ $(document).ready(function(){
 	        required: true
 		  },
 		  pswd: {
-			minlength: 2,
+			minlength: 8,
 	        required: true
 		  },
 		  confirmpswd: {
-			minlength: 2,
+			minlength: 8,
 	        required: true
 		  },
 		  emailAddr: {
