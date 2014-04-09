@@ -18,12 +18,12 @@ if($conn->connect_error)
 	trigger_error('Database connection failed: '  . $conn->connect_error, E_USER_ERROR);
 
 $category = filter_var($_GET['category'], FILTER_SANITIZE_SPECIAL_CHARS);
-$optionName = filter_var($_GET['optionName'], FILTER_SANITIZE_SPECIAL_CHARS);
-$newOptionName = filter_var($_['newOptionName'], FILTER_SANITIZE_SPECIAL_CHARS);
+$optionName = filter_var($_GET['option'], FILTER_SANITIZE_SPECIAL_CHARS);
+$newOptionName = filter_var($_GET['newOptionName'], FILTER_SANITIZE_SPECIAL_CHARS);
 
 // Query Database for list of Options
-$sql = "UPDATE categoryoptions SET ".$category."='".$newOptionName."' WHERE ".$category."='".$optionName."';";
-echo $sql;
+
+$sql = "UPDATE categoryoptions SET ".$category." = '".$newOptionName."' WHERE ".$category." = '".$optionName."';";
 $result = $conn->query($sql);
 
 // failed result what happens?
