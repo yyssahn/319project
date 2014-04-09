@@ -29,7 +29,7 @@ function random_key(){
 
 //Puts a newly created key in the keys table
 function initKey($dbhelper, $key){
-	$query = "INSERT INTO genkeys VALUES(?)";
+	$query = "INSERT INTO genkeys VALUES(?,NULL)";
 	$params = array($key);
 	$stmt = $dbhelper -> prepareStatement($query);
 	$param_types = array('s');
