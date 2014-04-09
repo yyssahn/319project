@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+
 require_once 'database_helper.php';
 class LinkLead{
 	private $db;
@@ -139,6 +141,7 @@ class LinkLead{
 		$s = $db->prepareStatement($sql);
 		$db->executeStatement($s);
 		$listOfLeads = $db->getResult($stmt);
+		if(!is_null($listOfLinks[0])){
 		?>
 		<a name="links"></a>
 		<div class="well" style="margin-top:15px">
@@ -194,6 +197,7 @@ class LinkLead{
 			}
 		</script>
 <?php
+}
 	}
 }
 ?>
