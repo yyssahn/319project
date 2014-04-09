@@ -10,7 +10,7 @@ $uid = $_SESSION["User_ID"];
 
 $nh = new NotificationHelper();
 ?>
-
+<!-- This generates the notification in proper format on the ui-->
 <div class="well">
 	<div class="row clearfix">
 		<div class="col-md-10 col-md-offset-1" style="height:40%; overflow:scroll">
@@ -18,6 +18,7 @@ $nh = new NotificationHelper();
 				<thead>
 					<tr style='background-color: #008cba; color: white'><th>My Tag(s)</th></tr>
 				</thead>
+				<!-- This generates the tag section on the ui-->
 				<tbody>
 					<?php
 						$notif = $nh->getNotifications( $uid);
@@ -41,6 +42,7 @@ $nh = new NotificationHelper();
 				<thead>
 					<tr style='background-color: #008cba; color: white'><th>New Updates</th></tr>
 				</thead>
+				<!-- This generates the updates on the ui-->
 				<tbody>
 					<?php
 						$notif = $nh->getNotifications($uid);
