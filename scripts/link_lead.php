@@ -12,11 +12,17 @@ class LinkLead{
 	
 	public function linkLeads($main ,$link){
 		global $db;
-
+                if ($main == $link) {
+                } else {
 		$sql = "INSERT INTO linked_ids (lid_main,lid_link) VALUES (?,?)";
 		$stmt = $db->prepareStatement($sql);
 		$db->bindArray($stmt, array('i','i'), array($main, $link));
-		$db->executeStatement($stmt);
+                $db->executeStatement($stmt);
+                $sql = "INSERT INTO linked_ids (lid_main,lid_link) VALUES (?,?)";
+                $stmt = $db->preparedStatement($sql);
+                $db->bindArray($stmt, array('i','i'), array($link, $main));
+                $db->executeStatement($stmt);
+                }
 	}
 	
 	public function deleteLink($main, $link){

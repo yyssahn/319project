@@ -180,24 +180,21 @@ if(isset($_GET['lid'])){
 				</div>
 			</div>
 		</div>
-<?php
-	if (isset($_GET['lid'])) {
-	// Show linked leads form
-	require_once 'link_lead.php';
-	$link = new LinkLead();
-	$link->displayLink();}
-?>
-		
-		<div class="row">
+                <div class="row">
 			<div class="col-md-offset-11">
 				<a class="btn btn-success btn-sm" href="index.php?content=lead_edit&lid=<?php print $_GET['lid']; ?>">
 					Edit Lead
 				</a>
 			</div>
 		</div>
-		
-		<br />
-		
+<?php
+	if (isset($_GET['lid'])) {
+	// Show linked leads form
+	require_once 'link_lead.php';
+	$link = new LinkLead();
+	$link->displayLink();}
+        require_once 'lead_comment.php';
+?>
 <?php
 		//Show comments form
 	require_once 'lead_comment.php';
