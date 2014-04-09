@@ -39,6 +39,26 @@
 								$stml= $db->prepareStatement($sql);	
 								$db->executeStatement($stml);
 
+								
+								$UID = $_SESSION['User_ID'];
+								
+								$sql2 = "UPDATE User
+										SET	User.activity_count = User.activity_count + 1
+										WHERE User.uid = 110";
+
+								$stml2= $db->prepareStatement($sql2);	
+								$db->executeStatement($stml2);
+						
+
+								$sql3 =	"UPDATE cbel_lead
+										SET cbel_lead.activity_count = cbel_lead.activity_count + 1
+										WHERE cbel_lead.lid= 26";
+
+										
+								$stml3= $db->prepareStatement($sql3);	
+								$db->executeStatement($stml3);
+							
+	
 								$nh->turnon($selectedLeadID);
 		
 								echo "<script type=\"text/javascript\">\n";
