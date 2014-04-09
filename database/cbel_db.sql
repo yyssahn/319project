@@ -54,6 +54,9 @@ UNLOCK TABLES;
 -- Table structure for table `cbel_lead`
 --
 
+SET GLOBAL event_scheduler="ON";
+
+
 DROP TABLE IF EXISTS `cbel_lead`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -154,6 +157,7 @@ DROP TABLE IF EXISTS `genkeys`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `genkeys` (
   `unusedkey` varchar(29) NOT NULL,
+  `keyts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`unusedkey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -263,4 +267,10 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
+
+
+CREATE EVENT `leadreset` ON SCHEDULE EVERY 1 DAY STARTS '2014-04-07 00:00:00' ENDS '2030-10-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `cbel_lead` SET `activity_count`= 0 WHERE DATEDIFF(CURTIME(),`timestamp`) >=7;
+CREATE EVENT `userreset` ON SCHEDULE EVERY 1 MONTH STARTS '2014-04-01 00:00:00.000000' ENDS '2030-04-01 00:00:00.000000' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `user` SET `activity_count`=0;
+CREATE EVENT `keyreset` ON SCHEDULE EVERY 1 DAY STARTS '2014-04-01 00:00:00.000000' ENDS '2030-04-01 00:00:00.000000' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `genkeys` WHERE DATEDIFF(CURTIME(),`keyts`)>1;
 -- Dump completed on 2014-04-01 12:00:50

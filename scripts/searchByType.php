@@ -3,7 +3,7 @@ session_start();
 include('database_helper.php');
 $db = new DatabaseHelper();
 
-$searchContent = $_GET['searchContent'];
+$searchContent = $test =  mysql_real_escape_string($_GET['searchContent']);
 
 $sql = "SELECT lid,lead_name,description FROM cbel_lead 
 			WHERE lead_name = '$searchContent' OR description LIKE '%$searchContent%'";

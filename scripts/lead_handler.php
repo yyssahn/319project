@@ -42,6 +42,10 @@ else{
 	// Take each array from each multi-select box in form and combine selected options into comma separated string
 	if(isset($_POST['referral'])){
 		$i=0;
+
+		if(strpos($_POST['referral'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
 		for(; $i<count($_POST['referral'])-1; $i++){
 			$referral .= $_POST['referral'][$i].", ";
 		}
@@ -50,6 +54,10 @@ else{
 
 	if(isset($_POST['mandate'])){
 		$i=0;
+
+		if(strpos($_POST['mandate'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
 		for(; $i<count($_POST['mandate'])-1; $i++){
 			$mandate .= $_POST['mandate'][$i].", ";
 		}
@@ -58,6 +66,10 @@ else{
 
 	if(isset($_POST['focus'])){
 		$i=0;
+
+		if(strpos($_POST['focus'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
 		for(; $i<count($_POST['focus'])-1; $i++){
 			$focus .= $_POST['focus'][$i].", ";
 		}
@@ -66,6 +78,10 @@ else{
 
 	if(isset($_POST['activities'])){
 		$i=0;
+
+		if(strpos($_POST['activities'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
 		for(; $i<count($_POST['activities'])-1; $i++){
 			$activities .= $_POST['activities'][$i].", ";
 		}
@@ -75,18 +91,28 @@ else{
 	// To get rid of warnings
 	if(isset($_POST['delivery'])){
 		$i=0;
+
+		if(strpos($_POST['delivery'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
 		for(; $i<count($_POST['delivery'])-1; $i++){
 			$location .= $_POST['delivery'][$i].", ";
 		}
 		$location .= $_POST['delivery'][$i];
+	
 	}
 	if(isset($_POST['disciplines'])){
 		$i=0;
+
+		if(strpos($_POST['disciplines'][0], 'multiselect-all') !== false) {
+			$i = 1;
+		}
+
 		for(; $i<count($_POST['disciplines'])-1; $i++){
 			$disciplines .= $_POST['disciplines'][$i].", ";
 		}
 		$disciplines .= $_POST['disciplines'][$i];
-	}
+			}
 	if(isset($_POST['startdate'])){
 		$startdate = $_POST['startdate'];
 	}
@@ -155,13 +181,14 @@ else{
 			$param_types[] = 's'; // s = strung
 	}
 	else if($_SESSION['lid'] != NULL){
+		
 		$sql = "UPDATE cbel_lead
 					SET pid=?, lead_name=?, description=?, idea_type=?, referral=?, mandate=?, focus=?, main_activities=?, 		
 						location=?, disciplines=?, startdate=?, enddate=?, status=?
 					WHERE lid=?";
 					
 		$stmt = $db->prepareStatement($sql);
-
+		
 		// Set array of parameters to be bound
 		$params = array();
 		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
@@ -189,16 +216,14 @@ else{
 		}
 	}
 	if($db->getAffectedRows($stmt) > 0){
-				$sql = "UPDATE cbel_lead AS L, User AS U
-					SET L.activity_count = L.activity_count + 1, 
-							U.activity_count = U.activity_count + 1
-						, L.timestamp=CURRENT_TIMESTAMP
-					WHERE L. lid=? AND U.uid=?";
-					$stmt = $db->prepareStatement($sql);
-					$nh->turnon($_SESSION['lid']);
-		$db->bindArray($stmt, array('i' , 'i'), array($_SESSION['lid'], $_SESSION['User_ID']));
-		$db->executeStatement($stmt);
+				$sqli = "UPDATE cbel_lead , user  SET cbel_lead.activity_count = cbel_lead.activity_count + 1, 
+				user.activity_count = user.activity_count + 1 , cbel_lead.timestamp=CURRENT_TIMESTAMP WHERE
+				cbel_lead. lid=".$_SESSION['lid']." AND user.uid=".$_SESSION['User_ID'];
+				$stmt3 = $db->prepareStatement($sqli);
+				
+				$db->executeStatement($stmt3);
 		
+			$nh->turnon($_SESSION['lid']);
 		$_SESSION['lid'] = NULL; // Makes sure lead is not visible when creating a new lead
 	?>
 		<div class="row">

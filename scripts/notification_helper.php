@@ -81,7 +81,6 @@ class NotificationHelper{
 				 VALUES ('".$uid."', '".$lid."', '1', '1')";
 		
 		$this->conn->query($query);
-		$this->mailTags($uid, $lid);
 	}
 
 	/*

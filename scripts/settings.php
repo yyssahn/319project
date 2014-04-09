@@ -164,11 +164,19 @@ if(array_key_exists("Psubmit", $_POST)){
 		if(correctOldPass($dbhelp, $uid, $old_pass)){
 			updatePass($dbhelp, $uid, $new_pass);
 		}
-		else
-			echo "Please input the old password correctly";
+		else{
+			//echo "Please input the old password correctly";
+			print "<div class='alert alert-danger' style='font-size:1em'>
+						Please input the old password correctly!
+					</div>";
+		}
 	}
-	else
-		echo "Your passwords must match";
+	else{
+		// echo "Your passwords must match";
+		print "<div class='alert alert-danger' style='font-size:1em'>
+						The new password(s) you have entered don't match!
+					</div>";
+	}
 }
 $conn->close();
 ?>

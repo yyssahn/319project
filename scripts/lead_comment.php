@@ -20,7 +20,8 @@
 						
 						<?php
 						if(isset($_POST['commentSubmit'])) {
-							$postedComment = htmlentities($_POST['commentBox']);
+							$tempPostedComment = htmlentities($_POST['commentBox']);
+							$postedComment = htmlspecialchars($tempPostedComment, ENT_QUOTES);
 
 							if(strlen(trim($postedComment)) < 1) {
 								echo "<script type=\"text/javascript\">\n";
@@ -44,7 +45,7 @@
 								
 								$sql2 = "UPDATE User
 										SET	User.activity_count = User.activity_count + 1
-										WHERE User.uid = 110";
+										WHERE User.uid = $UID";
 
 								$stml2= $db->prepareStatement($sql2);	
 								$db->executeStatement($stml2);
@@ -52,7 +53,7 @@
 
 								$sql3 =	"UPDATE cbel_lead
 										SET cbel_lead.activity_count = cbel_lead.activity_count + 1
-										WHERE cbel_lead.lid= 26";
+										WHERE cbel_lead.lid= $selectedLeadID";
 
 										
 								$stml3= $db->prepareStatement($sql3);	

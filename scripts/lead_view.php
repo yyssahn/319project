@@ -180,6 +180,13 @@ if(isset($_GET['lid'])){
 				</div>
 			</div>
 		</div>
+<?php
+	if (isset($_GET['lid'])) {
+	// Show linked leads form
+	require_once 'link_lead.php';
+	$link = new LinkLead();
+	$link->displayLink();}
+?>
 		
 		<div class="row">
 			<div class="col-md-offset-11">

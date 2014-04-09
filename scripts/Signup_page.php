@@ -174,20 +174,23 @@ if(array_key_exists("createNewACC" , $_POST)){
 					runInsert($dbHelper, $user, $PWSRD, $Fname, $Lname, $Telep, $Email);
 					// if(deleteKey($dbHelper, $key)){
                                         deleteKey($key);
-						print "<div class='alert alert-success'>Account created successfully.  You will be taken to the login page</div>";
+						$genGOO = "Account created successfully.  You will be taken to the login page.";
 		    			header('Refresh: 3; login_page.html');
     			}
     			else
-    				$keyErr = "Please enter a valid key";
+    				$genErr = "The key you entered is not valid.
+					 Please request a new key from the site administrator";
 			}
 			else
-				$emailERR = "Email already used.";
+				$genErr = "The email address you entered is already in use.
+					Please enter a different email address.";
 		}
 		else
-			$CPWSRDERR =  "Passwords don't match.";
+			$genErr = "The entered password(s) don't match!";
 	}
 	else
-		$userERR = "$user - Already exists.";
+		$genErr = "That username is already taken. 
+					Please enter a new username";
 }
 
 ?>
@@ -217,6 +220,17 @@ if(array_key_exists("createNewACC" , $_POST)){
 			</div>
 		</div>
 	</div>
+	<?php
+		if(isset($genErr)){
+			print "<div class='alert alert-danger' style='font-size:1em'>"
+			.$genErr. "</div>";
+		}
+		if(isset($genGOO)){
+			print "<div class='alert alert-success' style='font-size:1em'>"
+			.$genGOO. "</div>";
+		}
+
+	?>
 			
 			<h3> Please create an account </h3>
 			
@@ -228,7 +242,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "Fname" placeholder = "First Name" 
 											value="<?php echo htmlspecialchars($Fname);?>">
-								<span class="error"><noscript><?php echo $FnameERR;?></noscript></span> 
 							</div>
 						</div>
 					</div>
@@ -239,7 +252,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "Lname" placeholder = "Last Name"
 											value="<?php echo htmlspecialchars($Lname);?>">
-								<span class="error"><noscript><?php echo $LnameERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -250,7 +262,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "user" placeholder = "Username" autocomplete="off"
 											value="<?php echo htmlspecialchars($user);?>">
-								<span class="error"><noscript><?php echo $userERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -260,7 +271,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="pswd" class="col-md-3 control-label">Password:</label>
 							<div class="col-md-8 controls">
 								<input type = "password" class="form-control" name = "pswd" placeholder = "Password"/>
-								<span class="error"><noscript><?php echo $PWSRDERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -270,7 +280,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="confimpswd" class="col-md-3 control-label">Confirm Password:</label>
 							<div class="col-md-8 controls">
 								<input type = "password" class="form-control" name = "confirmpswd" placeholder = "Password"/>
-								<span class="error"><noscript><?php echo $CPWSRDERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -281,7 +290,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "email" class="form-control" placeholder ="E-mail" name = "emailAddr"   
 											value="<?php echo htmlspecialchars($Email);?>">
-								<span class="error"><noscript><?php echo $EmailERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -292,7 +300,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "pNum" placeholder ="XXX-XXX-XXXX"
 											value="<?php echo htmlspecialchars($Telep);?>">
-								<span class="error"><noscript><?php echo $TelepERR;?></noscript></span>
 							</div>
 						</div>
 					</div>
@@ -302,7 +309,6 @@ if(array_key_exists("createNewACC" , $_POST)){
 							<label for="pNum" class="col-md-3 control-label">Key:</label>
 							<div class="col-md-8 controls">
 								<input type = "text" class="form-control" name = "signupkey" placeholder ="XXXXXXXX">
-								<span class="error"><noscript><?php echo $keyErr;?></noscript></span>
 							</div>
 						</div>
 					</div>
