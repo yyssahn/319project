@@ -27,6 +27,18 @@ $result = $conn->query($sql);
 // Fetching matching username and password from the sql result 
 $row = mysqli_fetch_array($result);
 
+if (empty($row)) {
+    $sql = "INSERT INTO categoryoptions (".$category.")
+VALUES ('".$optionName."');";
+    $result = $conn->query($sql);
+    
+// failed result what happens?
+
+// if succeeds go back to admin panel
+header("Location: index.php?content=admin");
+die();
+} else {
+
 $iid = $row[0];
 
 $sql = "UPDATE categoryoptions
@@ -40,6 +52,7 @@ $result = $conn->query($sql);
 // if succeeds go back to admin panel
 header("Location: index.php?content=admin");
 die();
+}
 
 } else { echo "ACCESS DENIED"; }
 ?>
