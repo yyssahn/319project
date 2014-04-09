@@ -126,10 +126,17 @@ if(array_key_exists("submit", $_POST)){
 						print "<option>Please Select One</option>";
 						foreach($partners as $row){
 							if($row['contact_name'] != NULL){
-								echo "<option value='{$row['community_partner']}".','."{$row['contact_name']}".','."{$row['phone']}".','."{$row['email']}' 
+							//	$tempCommunityPartner = htmlentities($row['community_partner']);
+							//	$communityPartner = htmlspecialchars($tempCommunityPartner, ENT_QUOTES);
+
+								$communityPartner = filter_var($row['community_partner'], FILTER_SANITIZE_SPECIAL_CHARS);
+								echo "<option value='{$communityPartner}".','."{$row['contact_name']}".','."{$row['phone']}".','."{$row['email']}' 
 											$selected >".$row['community_partner']." - ".
 												$row['contact_name']."</option>";
+											
+	
 							}
+
 						}
 					?>
 				</select>

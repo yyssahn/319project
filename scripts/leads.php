@@ -40,8 +40,12 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 					<select multiple="multiple" class="multiselect" id="widebutton" name="partner[]">
 						<?php
 							foreach($partners as $row){
-								if($row['community_partner'] != NULL)
-									echo "<option value='{$row['community_partner']}'>".$row['community_partner']."</option>";
+		
+								if($row['community_partner'] != NULL) {
+									$tempCommunityPartner = htmlentities($row['community_partner']);
+									$communityPartner = htmlspecialchars($tempCommunityPartner, ENT_QUOTES);
+									echo "<option value='{$communityPartner}'>".$row['community_partner']."</option>";
+								}
 							}
 						?>
 					</select>
@@ -202,7 +206,8 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 			$pquery = "SELECT pid FROM communitypartner WHERE";
 			$psubquery = '';
 			foreach($_POST['partner'] as $row){
-				$psubquery = $psubquery." community_partner = '".$row."' OR";
+				$test =  mysql_real_escape_string($row);
+				$psubquery = $psubquery." community_partner = '".$test."' OR";
 			}
 
 			if(substr($psubquery, -strlen('OR')) === 'OR'){
