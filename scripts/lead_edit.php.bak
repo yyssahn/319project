@@ -263,7 +263,6 @@ if(array_key_exists("submit", $_POST)){
 						foreach($categories as $row){
 							$selected = '';
 							if(strpos($lead_info[0]['mandate'], $row['mandate']) !== false){
-								echo $lead_info[0]['mandate'];
 								$selected = 'selected';
 							}
 							if($row['mandate'] != NULL)
