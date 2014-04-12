@@ -1,14 +1,14 @@
 <?php
-
 session_start();
+
 if ($_SESSION['isAdmin']) {
     
-include('database_helper.php');
+include('../config.php');
 
 // Connecting to database server
 $DBServer = "localhost";
 $DBUser = "root";
-$DBPass = "";
+$DBPass =  "T*am01tmp!";
 $DBName = "cbel_db";
 		 
 // Connect to database

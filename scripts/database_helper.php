@@ -17,7 +17,7 @@ class DatabaseHelper{
 	public function __construct(){
 		$DBServer = "localhost";
 		$DBUser = "root";
-		$DBPass = "";
+		$DBPass =  "T*am01tmp!";
 		$DBName = "cbel_db";
 		
 		$this->conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);

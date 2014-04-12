@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Database credentials
 $DBServer = "localhost";
 $DBUser = "root";
-$DBPass = "";
+$DBPass = $db_pass;
 $DBName = "cbel_db";
 $key ="";
  
@@ -195,31 +195,20 @@ if(array_key_exists("createNewACC" , $_POST)){
 
 ?>
 	<body>
-	
-	
 		<div class="container" style="overflow:hidden">
 		
-			<div class="row clearfix">
-		<div class="col-md-12 column">
-			<img alt="140x140" src="http://www.blisteredthumbs.net/avatars/1301063364.png" height="140" width="140">
-		</div>
-	</div>
-
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-			<nav class="navbar navbar-default navbar-inverse" style="background-color: #008cba ; border: #428bca" 
-				role="navigation">
-				<div class="navbar-header">
-					<a class="navbar-brand" style="color:white">Home</a>
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div style="background-color: #008cba ; border: #428bca; padding:10px; padding-left:20px; ">
+					<h1 style="font-family: sans-serif; color:white;"><strong>CBEL Tracker</strong></h1>
 				</div>			
-			</nav>
-			<div class="page-header">
-				<h1>
-					<span>Sign Up</span>
-				</h1>
+				<div class="page-header">
+					<h1>
+						<span>Sign In</span>
+					</h1>
+				</div>
 			</div>
 		</div>
-	</div>
 	<?php
 		if(isset($genErr)){
 			print "<div class='alert alert-danger' style='font-size:1em'>"

@@ -13,13 +13,13 @@ class NotificationHelper{
 	private $message = "There are update(s) to lead : ";
 	private $subject = " Update!";
 	private $from = "CBEL Tracker";
-        private $to = "";
+    private $to = "";
 	 
 	/*Connect to database */
 	public function __construct(){
 		$DBServer = "localhost";
 		$DBUser = "root";
-		$DBPass = "";
+		$DBPass =  "T*am01tmp!";
 		$DBName = "cbel_db";
 		
 		$this->conn = new mysqli($DBServer, $DBUser, $DBPass, $DBName);

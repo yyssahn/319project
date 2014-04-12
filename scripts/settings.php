@@ -14,7 +14,7 @@ $phonePattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
 // Database credentials
 $DBServer = "localhost";
 $DBUser = "root";
-$DBPass = "";
+$DBPass = $db_pass;
 $DBName = "cbel_db";
 $key ="";
  
