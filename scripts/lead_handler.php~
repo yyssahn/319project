@@ -171,14 +171,14 @@ else{
 	if(isset($_SESSION['lid']) == NULL){
 	
 		$sql = "INSERT INTO cbel_lead(pid, lead_name, description, idea_type, referral, mandate, focus, main_activities, location, 	
-						disciplines, startdate,enddate, status, timestamp, creation_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,CURRENT_DATE())";
+						disciplines, startdate,enddate, status, timestamp, creation_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,?)";
 						
 		$stmt = $db->prepareStatement($sql);
 
 		// Set array of parameters to be bound
 		$params = array();
 		array_push($params, $pid, $_POST['lead_name'], $_POST['description'], $_POST['idea_type'], $referral, $mandate, $focus, 		
-							$activities, $location, $disciplines, $startdate,$enddate, $_POST['status']);	
+							$activities, $location, $disciplines, $startdate,$enddate, $_POST['status'], CURRENT_DATE());	
 
 		// Set array of types of parameters to be bound				
 		$param_types = array();

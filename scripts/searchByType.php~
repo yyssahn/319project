@@ -6,7 +6,7 @@ $db = new DatabaseHelper();
 $searchContent = $test =  $_GET['searchContent'];
 
 $sql = "SELECT lid,lead_name,description FROM cbel_lead 
-			WHERE lead_name = '$searchContent' OR description LIKE '%$searchContent%'";
+			WHERE lead_name LIKE '%$searchContent%' OR description LIKE '%$searchContent%'";
 
 $s = $db->prepareStatement($sql);
 $db->executeStatement($s);

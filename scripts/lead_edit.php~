@@ -65,6 +65,7 @@ $partners = $db->getResult($db);
 
 // Get lead data if lead exists
 if(isset($_GET['lid'])){
+	$lid = $_SESSION['lid'] = $_GET['lid']; // lid for lead_handler
 	
 	$sql = "SELECT * FROM cbel_lead WHERE lid=?";
 	$stmt = $db->prepareStatement($sql);

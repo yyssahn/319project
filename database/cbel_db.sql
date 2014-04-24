@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `cbel_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `cbel_db`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.35, for debian-linux-gnu (x86_64)
 --
--- Host: 127.0.0.1    Database: cbel_db
+-- Host: localhost    Database: cbel_db
 -- ------------------------------------------------------
--- Server version	5.6.16
+-- Server version	5.5.35-0ubuntu0.12.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -54,31 +52,29 @@ UNLOCK TABLES;
 -- Table structure for table `cbel_lead`
 --
 
-SET GLOBAL event_scheduler="ON";
-
-
 DROP TABLE IF EXISTS `cbel_lead`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cbel_lead` (
   `lid` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
-  `lead_name` varchar(45) NOT NULL,
-  `description` varchar(250) DEFAULT NULL,
+  `lead_name` varchar(60) NOT NULL,
+  `description` varchar(1000) DEFAULT NULL,
   `idea_type` varchar(45) DEFAULT NULL,
-  `referral` varchar(200) DEFAULT NULL,
-  `mandate` varchar(200) DEFAULT NULL,
-  `focus` varchar(200) DEFAULT NULL,
-  `main_activities` varchar(200) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `disciplines` varchar(45) DEFAULT NULL,
+  `referral` varchar(1000) DEFAULT NULL,
+  `mandate` varchar(1000) DEFAULT NULL,
+  `focus` varchar(1000) DEFAULT NULL,
+  `main_activities` varchar(1000) DEFAULT NULL,
+  `location` varchar(1000) DEFAULT NULL,
+  `disciplines` varchar(1000) DEFAULT NULL,
   `startdate` date DEFAULT NULL,
   `enddate` date DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `activity_count` int(11) DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creation_date` date DEFAULT NULL,
   PRIMARY KEY (`lid`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +83,7 @@ CREATE TABLE `cbel_lead` (
 
 LOCK TABLES `cbel_lead` WRITE;
 /*!40000 ALTER TABLE `cbel_lead` DISABLE KEYS */;
-INSERT INTO `cbel_lead` VALUES (23,21,'Website Development','Still needs to be developed: Maintenance of  website (ongoing? One time project?)\r\n','On-Going Activity',NULL,'IT - Media - Communication','IT - Media - Communication','IT','Array',NULL,'0000-00-00','0000-00-00','',1,'2014-04-01 18:59:06'),(24,13,'Fitness','Engagement Studios part 2: to carry on the work of a previous group of CHD students who created a plan for a sustainable health and fitness program for individuals with developmental disabilities who are accessing the 4 Day Programs delivered by Comm','',NULL,'Community and Economic Development, Health - Human Services, Recreation - Sport','Health - Human Services, Recreation - Sport','Event',NULL,NULL,'0000-00-00','0000-00-00','',1,'2014-04-01 18:31:28'),(25,15,'CST','A brochure detailing community services and supports for the  Community Schools Team (CST) and Community Partner 3 and developed for use by teachers who don\'t live in the area and are unaware of local resources that can support their students and fam','On-Going Activity','Community Projects','Community and Economic Development','Education - Research',NULL,NULL,NULL,'0000-00-00','0000-00-00','',0,'2014-04-01 18:33:00'),(26,16,'Foodbank','1. Research community organizations in Richmond and the populations they serve and then identify which ones serve populations that are likely not accessing the Foodbank but could benefit from it\r\n','Part of a Multi-Phase Project',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Archived',2,'2014-04-01 18:59:42'),(27,17,'Open House','Agency focused open house at Community Partner 2\r\n','One-Time Project',NULL,'Community and Economic Development','Community and Economic Development','Direct service delivery, Event',NULL,NULL,'0000-00-00','0000-00-00','Dropped',2,'2014-04-01 18:49:00'),(28,18,'Sustainable Social Media','Still needs more development: Research, test, assess, and recommend any new social media trends and tools for future application; Monitor/track similar social media activity and respond in a timely manner; Help develop a sustainable social media plan','',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Initial Idea Inputted',0,'2014-04-01 18:50:57'),(29,28,'Aboriginal Open House','Open house in March for community to learn more about the organization\r\n','One-Time Project',NULL,'Aboriginal Engagement, Community and Economic Development','Aboriginal Engagement, Community and Economic Development',NULL,NULL,NULL,'2014-03-01','0000-00-00','',0,'2014-04-01 18:52:30'),(30,19,'Art Show','Have students work with staff to create a plan to showcase art created by residents in all Community Partner 6 program areas. For example: Photography Club, Galliano Camping Trip working with 2 artists (jewellery & water colour), Garden Boxes with, p','One-Time Project',NULL,NULL,'Aboriginal Engagement','Event','Array',NULL,'0000-00-00','0000-00-00','',0,'2014-04-01 18:54:14');
+INSERT INTO `cbel_lead` VALUES (23,21,'Website Development','Still needs to be developed: Maintenance of  website (ongoing? One time project?)\r\n','On-Going Activity',NULL,'IT - Media - Communication','IT - Media - Communication','IT','Array',NULL,'0000-00-00','0000-00-00','',2,'2014-04-01 18:59:06','2014-04-23'),(24,13,'Fitness','Engagement Studios part 2: to carry on the work of a previous group of CHD students who created a plan for a sustainable health and fitness program for individuals with developmental disabilities who are accessing the 4 Day Programs delivered by Comm','One-Time Project',NULL,'Health - Human Services, Recreation - Sport','Health - Human Services, Recreation - Sport','Event',NULL,NULL,'0000-00-00','0000-00-00','Initial Idea Inputted',2,'2014-04-24 00:21:04','2014-03-23'),(25,15,'CST','A brochure detailing community services and supports for the  Community Schools Team (CST) and Community Partner 3 and developed for use by teachers who don\'t live in the area and are unaware of local resources that can support their students and fam','On-Going Activity','Community Projects','Community and Economic Development','Education - Research',NULL,NULL,NULL,'0000-00-00','0000-00-00','',8,'2014-04-01 18:33:00','2014-02-23'),(26,16,'Foodbank','1. Research community organizations in Richmond and the populations they serve and then identify which ones serve populations that are likely not accessing the Foodbank but could benefit from it\r\n','Part of a Multi-Phase Project','Course-Based Opportunity, Trek Program, Reading Week Project, Community Projects, Community-Based Research, ISL Pre-Departure, BEd. Community Field Study, Arts Internship Program, Hackathon','Aboriginal Engagement, Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development, Education - Research, Health - Human Services, Inclusion - Diversity, International, IT - Media - Communication, Legal - Justice - Human Rights, Recreation - Sport, Social Services, Sustainability - Environment - Animals',NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','In discussions',8,'2014-04-23 23:23:51','2014-04-23'),(27,17,'Open House','Agency focused open house at Community Partner 2\r\n','One-Time Project',NULL,'Community and Economic Development','Community and Economic Development','Direct service delivery, Event',NULL,NULL,'0000-00-00','0000-00-00','Referred to partner information session',3,'2014-04-23 22:44:51','2014-03-23'),(28,18,'Sustainable Social Media','Still needs more development: Research, test, assess, and recommend any new social media trends and tools for future application; Monitor/track similar social media activity and respond in a timely manner; Help develop a sustainable social media plan','',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Initial Idea Inputted',4,'2014-04-01 18:50:57','2014-01-23'),(29,28,'Aboriginal Open House','Open house in March for community to learn more about the organization\r\n','One-Time Project','Course-Based Opportunity, Trek Program, Reading Week Project, Community Projects, Community-Based Research, ISL Pre-Departure, BEd. Community Field Study, Arts Internship Program, Hackathon','Aboriginal Engagement, Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development, Education - Research, Health - Human Services, Inclusion - Diversity, International, IT - Media - Communication, Legal - Justice - Human Rights, Recreation - Sport, Social Services, Sustainability - Environment - Animals','Aboriginal Engagement, Arts - Culture - Heritage, Civic Participation - Politics - Democracy, Community and Economic Development, Education - Research, Health - Human Services, Inclusion - Diversity, International, IT - Media - Communication, Legal - Justice - Human Rights, Recreation - Sport, Social Services, Sustainability - Environment - Animals','Consultation, Curriculum Development, Data Gathering and Mapping, Direct service delivery, Event, Fund Development, IT, Marketing and Communications, Program Development, Research - Evaluation and Assessment, Research - Literature Review, Research - More formalized data collection','UBC, University Hill Elementary, St. George, Little People Preschool, VIking Sailing Club, Kitsilano Community Center','Science, Engineering, Arts, Fine Arts, Kinesiology','0000-00-00','0000-00-00','Initial Idea Inputted',9,'2014-04-23 23:25:29','2014-02-23'),(30,19,'Art Show','Have students work with staff to create a plan to showcase art created by residents in all Community Partner 6 program areas. For example: Photography Club, Galliano Camping Trip working with 2 artists (jewellery & water colour), Garden Boxes with, p','One-Time Project',NULL,NULL,'Aboriginal Engagement','Event','Array',NULL,'0000-00-00','0000-00-00','',3,'2014-04-01 18:54:14','2014-02-23'),(33,32,'Lead','Lead','One-Time Project',NULL,NULL,NULL,NULL,NULL,NULL,'0000-00-00','0000-00-00','Initial Idea Inputted',0,'2014-04-24 00:21:13','2014-04-23');
 /*!40000 ALTER TABLE `cbel_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,7 +105,7 @@ CREATE TABLE `comment` (
   KEY `lid_idx` (`lid`),
   CONSTRAINT `lid` FOREIGN KEY (`lid`) REFERENCES `cbel_lead` (`lid`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,6 +114,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (1,'kieran',26,'2014-04-23 16:18:13','dd'),(2,'kieran',26,'2014-04-23 16:18:15','&amp;atilde;…‡&amp;atilde;…‡'),(3,'kieran',26,'2014-04-23 16:18:22','&amp;quot;ddd&amp;quot;'),(4,'kieran',23,'2014-04-23 17:18:37','\\');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +233,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` varchar(60) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `firstname` varchar(45) NOT NULL,
   `lastname` varchar(45) NOT NULL,
@@ -254,7 +251,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (106,'kieran','kieran',1,'Kieran','Harrison','456-456-4568','something@email.com',6),(107,'yoonsung','yoonsung',0,'Yoonsung','Ahn','456-456-4862','clyde@email.com',0),(108,'bobby','bobby',1,'Bobby','Lau','875-462-4896','bobby@email.com',0),(109,'taranbir','taranbir',0,'Taranbir','Bhullar','468-268-4568','td@email.com',0),(110,'chiho','chiho',0,'ChiHo','Won','285-564-8546','david@email.com',0);
+INSERT INTO `user` VALUES (106,'kieran','kieran',1,'Kieran','Harrison','456-456-4568','something@email.com',15),(107,'yoonsung','yoonsung',0,'Yoonsung','Ahn','456-456-4862','clyde@email.com',5),(108,'bobby','bobby',1,'Bobby','Lau','875-462-4896','bobby@email.com',0),(109,'taranbir','taranbir',0,'Taranbir','Bhullar','468-268-4568','td@email.com',0),(110,'chiho','chiho',0,'ChiHo','Won','285-564-8546','david@email.com',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -267,10 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
-
-
-CREATE EVENT `leadreset` ON SCHEDULE EVERY 1 DAY STARTS '2014-04-07 00:00:00' ENDS '2030-10-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `cbel_lead` SET `activity_count`= 0 WHERE DATEDIFF(CURTIME(),`timestamp`) >=7;
-CREATE EVENT `userreset` ON SCHEDULE EVERY 1 MONTH STARTS '2014-04-01 00:00:00.000000' ENDS '2030-04-01 00:00:00.000000' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `user` SET `activity_count`=0;
-CREATE EVENT `keyreset` ON SCHEDULE EVERY 1 DAY STARTS '2014-04-01 00:00:00.000000' ENDS '2030-04-01 00:00:00.000000' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM `genkeys` WHERE DATEDIFF(CURTIME(),`keyts`)>1;
--- Dump completed on 2014-04-01 12:00:50
+-- Dump completed on 2014-04-23 17:32:26

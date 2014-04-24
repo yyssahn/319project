@@ -19,7 +19,7 @@ class LinkLead{
 		$db->bindArray($stmt, array('i','i'), array($main, $link));
                 $db->executeStatement($stmt);
                 $sql = "INSERT INTO linked_ids (lid_main,lid_link) VALUES (?,?)";
-                $stmt = $db->prepareStatement($sql);
+                $stmt = $db->preparedStatement($sql);
                 $db->bindArray($stmt, array('i','i'), array($link, $main));
                 $db->executeStatement($stmt);
                 }

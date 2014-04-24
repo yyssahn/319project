@@ -12,6 +12,7 @@ if(isset($_POST['searchLead'])) {
 		echo "</script>\n";
 
 	}else {
+echo "fefefe";
 		echo $searchBoxContent;
 		header("Location: ./searchByType.php?searchContent=$searchBoxContent");
 	}

@@ -43,9 +43,9 @@
 								
 								$UID = $_SESSION['User_ID'];
 								
-								$sql2 = "UPDATE user
-										SET	user.activity_count = user.activity_count + 1
-										WHERE user.uid = $UID";
+								$sql2 = "UPDATE User
+										SET	User.activity_count = User.activity_count + 1
+										WHERE User.uid = $UID";
 
 								$stml2= $db->prepareStatement($sql2);	
 								$db->executeStatement($stml2);

@@ -119,7 +119,23 @@ function mailExists($db, $mail){
 	}
 }
 
+function encryptPass($p){
+	// A higher "cost" is more secure but consumes more processing power
+	$cost = 10;
+
+	// Create a random salt
+	$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+
+	// Prefix information about the hash so PHP knows how to verify it later.
+	// "$2a$" Means we're using the Blowfish algorithm. The following two digits are the cost parameter.
+	$salt = sprintf("$2a$%02d$", $cost) . $salt;
+
+	// Hash the password with the salt
+	return $hash = crypt($p, $salt);
+}
+
 function runInsert($db, $u, $p, $f, $l, $ph, $e){
+	$p = encryptPass($p);
 	$query = "INSERT INTO user( username, password, firstname, lastname, phonenumber, email) 
 		VALUES(?, ?, ?, ?, ?, ?)";
 	$params = array();

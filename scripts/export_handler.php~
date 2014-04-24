@@ -2,6 +2,7 @@
 include('export_lead.php');
 
 if(isset($_POST['lids'])){
+print("fdsfasfas");
 	$export = new ExportLead();
 	$export->exportToCSV($_POST['lids']);
 }

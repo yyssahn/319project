@@ -90,8 +90,9 @@ function accountsTab(){
 										Promote
 									</a>";
 							}
-								
-							print "
+						
+							
+							print "						
 									<tr>
 										<td>".$username['username']."</td>
 										<td>

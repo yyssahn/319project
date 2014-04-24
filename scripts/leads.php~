@@ -293,7 +293,7 @@ if(!isset($_POST['submit']) && !isset($_GET['searchByType'])) {
 		else{
 			$query .= " AND status != 'Archived'  AND status != 'Dropped'";
 		}
-
+print $query;
 		$stmt = $db->prepareStatement($query);
 		$db->executeStatement($stmt);
 		$result = $db->getResult($db);

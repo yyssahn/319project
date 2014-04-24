@@ -12,10 +12,10 @@ class ExportLead{
 	
 	private function getFile($type){
 		if($type == "lead"){
-			$filename =  "../tmp/CBEL Project Info - ";
+			$filename =  "/var/www/tmp/CBEL Project Info - ";
 		}
 		else if($type == "partner"){
-			$filename =  "../tmp/Community Partner Info - ";
+			$filename =  "/var/www/tmp/Community Partner Info - ";
 		}
 		$date = date('d-M-Y');
 		

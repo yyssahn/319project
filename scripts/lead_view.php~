@@ -41,6 +41,24 @@ if(isset($_GET['lid'])){
 		</div>
 		
 		<br />
+
+		<!-- For exporting existing lead to CSV -->
+		<div class="well">
+			<input type="button" class="btn btn-info btn-sm" value="Export Lead" id="export"  onclick="exportLead()">
+			<script>
+				function exportLead(){
+					var lids = ["<?php print $_SESSION['lid']; ?>"];
+					$.ajax({
+						type: "POST",
+						url: "export_handler.php",
+						data: {lids: lids},
+						success: function(result){
+							alert(result);
+						}
+					});
+				}
+			</script>
+		</div>
 		
 		<h4>Community Partner</h4>
 		<hr />
@@ -182,24 +200,7 @@ if(isset($_GET['lid'])){
 				</div>
 			</div>
 		</div>
-      <div class="row" style="padding-bottom:10px">
-			<!-- For exporting existing lead to CSV -->
-			<div class="col-md-2">
-				<input type="button" class="btn btn-info btn-sm" value="Export Lead" id="export"  onclick="exportLead()">
-				<script>
-					function exportLead(){
-						var lids = ["<?php print $_SESSION['lid']; ?>"];
-						$.ajax({
-							type: "POST",
-							url: "export_handler.php",
-							data: {lids: lids},
-							success: function(result){
-								alert(result);
-							}
-						});
-					}
-				</script>
-			</div>
+                <div class="row">
 			<div class="col-md-offset-11">
 				<a class="btn btn-success btn-sm" href="index.php?content=lead_edit&lid=<?php print $_GET['lid']; ?>">
 					Edit Lead
